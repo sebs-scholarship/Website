@@ -1717,3 +1717,7 @@ a {
   overflow: hidden; }
 
 /*# sourceMappingURL=style.css.map */
+
+p.parent {
+  margin-bottom: .5rem;
+}
