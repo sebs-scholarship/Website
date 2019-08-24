@@ -1721,3 +1721,39 @@ a {
 p.parent {
   margin-bottom: .5rem;
 }
+
+.btn-light {
+  background: rgba(255, 255, 255, 0.3)
+}
+
+.img-wrap {
+  margin: 2.75em;
+}
+
+@media (max-width: 767px) {
+  .img-wrap {
+    margin: 0;
+    margin-bottom: 1.5em;
+  }
+}
+
+.count-item {
+  margin-top: 1.25em;
+}
+.count-item > strong {
+  font-size: 250%;
+}
+
+.count-item > span {
+  font-size: 150%;
+}
+
+@media (max-width: 767px) {
+  .count-item {
+    margin-bottom: 1.25em;
+  }
+}
+
+.pb_section_nested {
+  padding-top: 3em;
+}
