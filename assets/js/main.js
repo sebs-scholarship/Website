@@ -241,6 +241,14 @@ function timeRemainingFormatter(millis) {
 function countdown(openDate, closeDate) {
 	var currentDate = new Date();
 
+	if (openDate - currentDate < 0) {
+		openDate.setFullYear(openDate.getFullYear() + 1);
+	}
+
+	if (closeDate - currentDate < 0) {
+		closeDate.setFullYear(closeDate.getFullYear() + 1);
+	}
+
 	var openDateDiff = openDate - currentDate;
 	var closeDateDiff = closeDate - currentDate;
 
@@ -280,16 +288,8 @@ function startCountdown() {
 	var currentDate = new Date();
 	var openDate = new Date("February 1, 0000 00:00:00 UTC-7:00");
 	openDate.setFullYear(currentDate.getFullYear());
-	var closeDate = new Date("March 31, 0000 00:00:00 UTC-7:00");
+	var closeDate = new Date("April 1, 0000 00:00:00 UTC-7:00");
 	closeDate.setFullYear(currentDate.getFullYear());
-
-	if (openDate - currentDate < 0) {
-		openDate.setFullYear(openDate.getFullYear() + 1);
-	}
-
-	if (closeDate - currentDate < 0) {
-		closeDate.setFullYear(closeDate.getFullYear() + 1);
-	}
 
 	setInterval(countdown, 900, openDate, closeDate);
 }
