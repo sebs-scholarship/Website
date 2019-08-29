@@ -1383,6 +1383,7 @@ textarea {
 html {
 	overflow-x: hidden;
 	font-size: 1em;
+	scroll-behavior: smooth;
 }
 
 body {
@@ -2421,3 +2422,90 @@ p.parent {
 .navbar-brand-lg {
 	font-size: 1.5em;
 }
+
+.scroller a {
+	position: absolute;
+	bottom: 20px;
+	left: 50%;
+	z-index: 2;
+	display: inline-block;
+	-webkit-transform: translate(0, -50%);
+	transform: translate(0, -50%);
+	color: #fff;
+	font : normal 400 20px/1 'Josefin Sans', sans-serif;
+	letter-spacing: .1em;
+	text-decoration: none;
+	transition: opacity .3s;
+  }
+
+@media (max-width: 767px) {
+	.scroller a {
+		position: inherit;
+	  }
+  }
+  
+
+  .scroller a:hover {
+	opacity: .5;
+  }
+  
+  #scrollDiv a {
+	padding-top: 60px;
+  }
+  #scrollDiv a span {
+	position: absolute;
+	top: 0;
+	left: 50%;
+	width: 30px;
+	height: 50px;
+	margin-left: -15px;
+	border: 2px solid #fff;
+	border-radius: 50px;
+	box-sizing: border-box;
+  }
+  #scrollDiv a span::before {
+	position: absolute;
+	top: 10px;
+	left: 50%;
+	content: '';
+	width: 6px;
+	height: 6px;
+	margin-left: -3px;
+	background-color: #fff;
+	border-radius: 100%;
+	-webkit-animation: sdb10 2s infinite;
+	animation: sdb10 2s infinite;
+	box-sizing: border-box;
+  }
+  @-webkit-keyframes sdb10 {
+	0% {
+	  -webkit-transform: translate(0, 0);
+	  opacity: 0;
+	}
+	40% {
+	  opacity: 1;
+	}
+	80% {
+	  -webkit-transform: translate(0, 20px);
+	  opacity: 0;
+	}
+	100% {
+	  opacity: 0;
+	}
+  }
+  @keyframes sdb10 {
+	0% {
+	  transform: translate(0, 0);
+	  opacity: 0;
+	}
+	40% {
+	  opacity: 1;
+	}
+	80% {
+	  transform: translate(0, 20px);
+	  opacity: 0;
+	}
+	100% {
+	  opacity: 0;
+	}
+  }
