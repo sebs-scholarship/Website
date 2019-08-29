@@ -178,9 +178,6 @@ $(document).ready(function($) {
 		  	navToggler.click();
 		  }
 		});
-		$('body').on('activate.bs.scrollspy', function () {
-		  console.log('nice');
-		})
 	};
 	OnePageNav();
 
@@ -208,12 +205,84 @@ $(document).ready(function($) {
 		if ($('.ytp_player').length > 0) { 
 			$('.ytp_player').mb_YTPlayer();	
 		}
-	}
+	};
 	ytpPlayer();
-
-
-	
-
-
 });
 
+function timeRemainingFormatter(millis) {
+	var time = {};
+
+	var days = Math.floor(millis / (24*60*60*1000));
+	time.days = days.toString().padStart(2, "0");
+	millis -= days * 24 * 60 * 60 * 1000;
+
+	var hours = Math.floor(millis / (60*60*1000));
+	time.hours = hours.toString().padStart(2, "0");
+	millis -= hours * 60 * 60 * 1000;
+
+	var minutes = Math.floor(millis / (60*1000));
+	time.minutes = minutes.toString().padStart(2, "0");
+	millis -= minutes * 60 * 1000;
+
+	var seconds = Math.floor(millis / 1000);
+	time.seconds = seconds.toString().padStart(2, "0");
+
+	return time;
+}
+
+function countdown(openDate, closeDate) {
+	var currentDate = new Date();
+
+	if (openDate - currentDate < 0) {
+		openDate.setFullYear(openDate.getFullYear() + 1);
+	}
+
+	if (closeDate - currentDate < 0) {
+		closeDate.setFullYear(closeDate.getFullYear() + 1);
+	}
+
+	var openDateDiff = openDate - currentDate;
+	var closeDateDiff = closeDate - currentDate;
+
+	var time, label;
+	if (openDateDiff < closeDateDiff) {
+		time = timeRemainingFormatter(openDateDiff);
+		label = $("#countdown_label").attr("data-closed-text");
+	} else {
+		time = timeRemainingFormatter(closeDateDiff);
+		label = $("#countdown_label").attr("data-open-text");
+	}
+	$("#countdown_label").text(label);
+	$("#countdown_value").text("{0} days, {1} hours, {2} minutes, {3} seconds".formatUnicorn(time.days, time.hours, time.minutes, time.seconds));
+}
+
+function startCountdown() {
+	String.prototype.formatUnicorn = String.prototype.formatUnicorn ||
+		function () {
+			"use strict";
+			var str = this.toString();
+			if (arguments.length) {
+				var t = typeof arguments[0];
+				var key;
+				var args = ("string" === t || "number" === t) ?
+					Array.prototype.slice.call(arguments)
+					: arguments[0];
+
+				for (key in args) {
+					str = str.replace(new RegExp("\\{" + key + "\\}", "gi"), args[key]);
+				}
+			}
+
+			return str;
+		};
+
+	var currentDate = new Date();
+	var openDate = new Date("February 1, 0000 00:00:00 UTC-7:00");
+	openDate.setFullYear(currentDate.getFullYear());
+	var closeDate = new Date("April 1, 0000 00:00:00 UTC-7:00");
+	closeDate.setFullYear(currentDate.getFullYear());
+
+	setInterval(countdown, 900, openDate, closeDate);
+}
+
+startCountdown();
