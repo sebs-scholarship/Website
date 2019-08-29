@@ -2431,7 +2431,7 @@ p.parent {
 	-webkit-transform: translate(0, -50%);
 	transform: translate(0, -50%);
 	color: #fff;
-	font : normal 400 20px/1 'Josefin Sans', sans-serif;
+	font : normal 400 20px/1 "Montserrat", Arial, sans-serif;
 	letter-spacing: .1em;
 	text-decoration: none;
 	transition: opacity .3s;
