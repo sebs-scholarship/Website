@@ -1383,7 +1383,6 @@ textarea {
 html {
 	overflow-x: hidden;
 	font-size: 1em;
-	scroll-behavior: smooth;
 }
 
 body {

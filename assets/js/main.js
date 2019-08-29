@@ -178,9 +178,6 @@ $(document).ready(function($) {
 		  	navToggler.click();
 		  }
 		});
-		$('body').on('activate.bs.scrollspy', function () {
-		  console.log('nice');
-		})
 	};
 	OnePageNav();
 
@@ -210,11 +207,6 @@ $(document).ready(function($) {
 		}
 	};
 	ytpPlayer();
-
-
-	
-
-
 });
 
 function timeRemainingFormatter(millis) {
@@ -255,14 +247,13 @@ function countdown(openDate, closeDate) {
 	var time, label;
 	if (openDateDiff < closeDateDiff) {
 		time = timeRemainingFormatter(openDateDiff);
-		label = "Application Opens February 1st";
+		label = $("#countdown_label").attr("data-closed-text");
 	} else {
 		time = timeRemainingFormatter(closeDateDiff);
-		label = "Application Closes March 31st";
+		label = $("#countdown_label").attr("data-open-text");
 	}
-
-	document.getElementById("countdown_label").innerHTML = label;
-	document.getElementById("countdown_value").innerHTML = "{0} days, {1} hours, {2} minutes, {3} seconds".formatUnicorn(time.days, time.hours, time.minutes, time.seconds);
+	$("#countdown_label").text(label);
+	$("#countdown_value").text("{0} days, {1} hours, {2} minutes, {3} seconds".formatUnicorn(time.days, time.hours, time.minutes, time.seconds));
 }
 
 function startCountdown() {
