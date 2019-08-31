@@ -230,7 +230,7 @@ function timeRemainingFormatter(millis) {
 	return time;
 }
 
-function countdown(openDate, closeDate) {
+function countdown(openDate, closeDate, countdownLabel, countdownValue) {
 	var currentDate = new Date();
 
 	if (openDate - currentDate < 0) {
@@ -247,13 +247,13 @@ function countdown(openDate, closeDate) {
 	var time, label;
 	if (openDateDiff < closeDateDiff) {
 		time = timeRemainingFormatter(openDateDiff);
-		label = $("#countdown_label").attr("data-closed-text");
+		label = countdownLabel.attr("data-closed-text");
 	} else {
 		time = timeRemainingFormatter(closeDateDiff);
-		label = $("#countdown_label").attr("data-open-text");
+		label = countdownLabel.attr("data-open-text");
 	}
-	$("#countdown_label").text(label);
-	$("#countdown_value").text("{0} days, {1} hours, {2} minutes, {3} seconds".formatUnicorn(time.days, time.hours, time.minutes, time.seconds));
+	countdownLabel.text(label);
+	countdownValue.text("{0} days, {1} hours, {2} minutes, {3} seconds".formatUnicorn(time.days, time.hours, time.minutes, time.seconds));
 }
 
 function startCountdown() {
@@ -281,8 +281,10 @@ function startCountdown() {
 	openDate.setFullYear(currentDate.getFullYear());
 	var closeDate = new Date("April 1, 0000 00:00:00 UTC-7:00");
 	closeDate.setFullYear(currentDate.getFullYear());
+	var countdownLabel = $("#countdown_label");
+	var countdownValue = $("#countdown_value");
 
-	setInterval(countdown, 900, openDate, closeDate);
+	setInterval(countdown, 900, openDate, closeDate, countdownLabel, countdownValue);
 }
 
 startCountdown();
