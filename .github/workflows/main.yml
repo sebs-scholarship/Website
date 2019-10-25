@@ -7,6 +7,7 @@ on:
 
 jobs:
   deploy:
+    if: github.head_ref == 'development'
     runs-on: ubuntu-latest
     steps:
     - name: Deploy to test site
@@ -15,5 +16,3 @@ jobs:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       run: aws ec2 run-instances --image-id ami-097ec9e3896445e02 --count 1 --instance-type t3a.nano --key-name ssh1 --security-group-ids sg-0ec8231c0259cdb15 --block-device-mappings "[{\"DeviceName\":\"/dev/sdf\",\"Ebs\":{\"VolumeSize\":5,\"DeleteOnTermination\":true}}]"
-    - name: Get referrer
-      run: echo ${{github.head_ref}}
