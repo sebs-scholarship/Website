@@ -7,7 +7,7 @@ on:
 
 jobs:
   deploy:
-    if: github.ref == 'refs/heads/development'
+    if: github.head_ref == 'refs/heads/development'
     runs-on: ubuntu-latest
     steps:
     - name: Deploy to test site
