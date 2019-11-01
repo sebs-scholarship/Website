@@ -2436,23 +2436,23 @@ p.parent {
 	letter-spacing: .1em;
 	text-decoration: none;
 	transition: opacity .3s;
-  }
+}
 
 @media (max-width: 767px) {
 	.scroller a {
 		position: inherit;
-	  }
-  }
-  
+  	}
+}
 
-  .scroller a:hover {
+
+.scroller a:hover {
 	opacity: .5;
-  }
-  
-  #scrollDiv a {
+}
+
+#scrollDiv a {
 	padding-top: 60px;
-  }
-  #scrollDiv a span {
+}
+#scrollDiv a span {
 	position: absolute;
 	top: 0;
 	left: 50%;
@@ -2462,8 +2462,8 @@ p.parent {
 	border: 2px solid #fff;
 	border-radius: 50px;
 	box-sizing: border-box;
-  }
-  #scrollDiv a span::before {
+}
+#scrollDiv a span::before {
 	position: absolute;
 	top: 10px;
 	left: 50%;
@@ -2476,8 +2476,8 @@ p.parent {
 	-webkit-animation: sdb10 2s infinite;
 	animation: sdb10 2s infinite;
 	box-sizing: border-box;
-  }
-  @-webkit-keyframes sdb10 {
+}
+@-webkit-keyframes sdb10 {
 	0% {
 	  -webkit-transform: translate(0, 0);
 	  opacity: 0;
@@ -2492,8 +2492,8 @@ p.parent {
 	100% {
 	  opacity: 0;
 	}
-  }
-  @keyframes sdb10 {
+}
+@keyframes sdb10 {
 	0% {
 	  transform: translate(0, 0);
 	  opacity: 0;
@@ -2508,4 +2508,4 @@ p.parent {
 	100% {
 	  opacity: 0;
 	}
-  }
+}
