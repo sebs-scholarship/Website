@@ -2509,3 +2509,13 @@ p.parent {
 	  opacity: 0;
 	}
 }
+
+.donation-platform {
+	max-width: 1000px;
+}
+
+@media (max-width: 991px) {
+	.donation-platform {
+		max-width: 500px;
+	}
+}

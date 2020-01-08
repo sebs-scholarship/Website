@@ -286,4 +286,10 @@ $(document).ready(function($) {
 		setInterval(countdown, 900, openDate, closeDate, countdownLabel, countdownValue);
 	}
 	startCountdown();
+
+	function updateYear() {
+		var year = $("#year");
+		year.text(new Date().getFullYear());
+	}
+	updateYear();
 });
