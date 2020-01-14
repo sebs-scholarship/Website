@@ -2,4 +2,7 @@ User-Agent: *
 Disallow: /README.md
 Disallow: /.gitignore
 Disallow: /.github/
+Disallow: /apply/
+Disallow: /donate/
+Disallow: /volunteer/
 Sitemap: https://sebsscholarship.org/sitemap.xml
