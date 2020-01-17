@@ -4,6 +4,7 @@ jobs:
     machine:
       image: ubuntu-1604:201903-01
     steps:
+      - add_ssh_keys
       - checkout
       - run:
           name: Deploy to test site (SSH)
@@ -18,5 +19,4 @@ workflows:
       deploy-test:
         filters:
           branches:
-            only:
-              - development
+            only: development
