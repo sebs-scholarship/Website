@@ -8,8 +8,8 @@ jobs:
       - run:
           name: Deploy to test site
           command: |
-            ssh $username@$hostname 'rm -rf $hostname/*'
-            scp -r * $username@$hostname:$hostname/
+            ssh $username@$hostname 'rm -rf ~/$hostname/*'
+            scp -r * $username@$hostname:~/$hostname/
 
 workflows:
   version: 2
