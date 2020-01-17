@@ -1,0 +1,22 @@
+version: 2.1
+jobs:
+  deploy-test-site:
+    machine:
+      image: ubuntu-1604:201903-01
+    steps:
+      - checkout
+      - run:
+          name: Deploy to test site
+          command: |
+            ssh $username@$hostname 'rm -rf $hostname/*'
+            scp * $username@$hostname:$hostname/
+
+workflows:
+  version: 2
+  test-site:
+    jobs:
+      - deploy-test-site:
+        filters:
+          branches:
+            only:
+              - development
