@@ -5,14 +5,14 @@ jobs:
       image: ubuntu-1604:201903-01
     steps:
       - add_ssh_keys:
-          fingerprints:
-            - 25:97:2b:e6:f5:24:8b:25:f2:49:d1:96:21:36:47:8b
+        fingerprints:
+          - "25:97:2b:e6:f5:24:8b:25:f2:49:d1:96:21:36:47:8b"
       - checkout
       - run:
-          name: Deploy to test site
-          command: |
-            ssh $username@$hostname 'rm -rf ~/$hostname/*'
-            scp -r * $username@$hostname:~/$hostname/
+        name: Deploy to test site
+        command: |
+          ssh $username@$hostname 'rm -rf ~/$hostname/*'
+          scp -r * $username@$hostname:~/$hostname/
 
 workflows:
   version: 2
