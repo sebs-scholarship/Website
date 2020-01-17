@@ -20,4 +20,4 @@ workflows:
         filters:
           branches:
             only:
-              development
+              - development
