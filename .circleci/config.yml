@@ -4,9 +4,7 @@ jobs:
     machine:
       image: ubuntu-1604:201903-01
     steps:
-      - add_ssh_keys:
-        fingerprints:
-          - "25:97:2b:e6:f5:24:8b:25:f2:49:d1:96:21:36:47:8b"
+      - add_ssh_keys
       - checkout
       - run:
         name: Deploy to test site
