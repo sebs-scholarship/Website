@@ -15,7 +15,6 @@ jobs:
           scp -r * $username@$hostname:~/$hostname/
 
 workflows:
-  version: 2
   test-site:
     jobs:
       - deploy-test-site:
