@@ -1,4 +1,4 @@
-version: 2.1
+version: 2.0
 jobs:
   deploy-test-site:
     machine:
@@ -13,6 +13,7 @@ jobs:
           scp -r * $username@$hostname:~/$hostname/
 
 workflows:
+  version: 2
   test-site:
     jobs:
       - deploy-test-site:
