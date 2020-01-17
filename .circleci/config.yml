@@ -19,5 +19,4 @@ workflows:
       - deploy-test-site:
         filters:
           branches:
-            only:
-              - development
+            only: development
