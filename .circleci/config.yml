@@ -9,8 +9,8 @@ jobs:
       - run:
           name: Deploy to Test Site (SSH)
           command: |
-            ssh ${username}@${hostname} 'rm -rf ~/${hostname}/*'
-            scp -r * ${username}@${hostname}:~/${hostname}/
+            ssh ${username}@test.sebsscholarship.org 'rm -rf ~/test.sebsscholarship.org/*'
+            scp -r * ${username}@test.sebsscholarship.org:~/test.sebsscholarship.org/
 
 workflows:
   test-development:
