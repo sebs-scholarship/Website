@@ -1,0 +1,21 @@
+version: 2.1
+jobs:
+  deploy-test:
+    machine:
+      image: ubuntu-1604:201903-01
+    steps:
+      - checkout
+      - add_ssh_keys
+      - run:
+          name: Deploy to Test Site (SSH)
+          command: |
+            ssh ${username}@test.sebsscholarship.org 'rm -rf ~/test.sebsscholarship.org/*'
+            scp -r * ${username}@test.sebsscholarship.org:~/test.sebsscholarship.org/
+
+workflows:
+  test-development:
+    jobs:
+      - deploy-test:
+        filters:
+          branches:
+            only: development
