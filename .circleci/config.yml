@@ -18,11 +18,6 @@ jobs:
       - checkout
       - add_ssh_keys
       - run:
-          name: Deploy to Test Site (SSH)
-          command: |
-            ssh ${test_username}@test.sebsscholarship.org 'rm -rf ~/test.sebsscholarship.org/*'
-            scp -r * ${test_username}@test.sebsscholarship.org:~/test.sebsscholarship.org/
-      - run:
           name: Deploy to Production Site (SSH)
           command: |
             ssh ${prod_username}@sebsscholarship.org 'rm -rf ~/sebsscholarship.org/*'
