@@ -26,12 +26,10 @@ workflows:
   deploy:
     jobs:
       - deploy-test:
-        filters:
-          branches:
-            only:
-              - development
+          filters:
+            branches:
+              only: development
       - deploy-prod:
-        filters:
-          branches:
-            only:
-              - master
+          filters:
+            branches:
+              only: master
