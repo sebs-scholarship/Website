@@ -22,18 +22,16 @@ jobs:
           command: |
             ssh ${prod_username}@sebsscholarship.org 'rm -rf ~/sebsscholarship.org/*'
             scp -r * ${prod_username}@sebsscholarship.org:~/sebsscholarship.org/
-
-
 workflows:
-  test-development:
+  deploy:
     jobs:
       - deploy-test:
         filters:
           branches:
-            only: development
-  deploy-master:
-    jobs:
+            only:
+              - development
       - deploy-prod:
         filters:
           branches:
-            only: master
+            only:
+              - master
