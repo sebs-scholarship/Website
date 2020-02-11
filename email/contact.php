@@ -13,7 +13,6 @@ $configs = include('../../config.php');
 $mail = new PHPMailer(true);                              // Passing `true` enables exceptions
 try {
     //Server settings
-    $mail->SMTPDebug = 2;                                 // Enable verbose debug output
     $mail->isSMTP();                                      // Set mailer to use SMTP
     $mail->Host = 'smtp.dreamhost.com';                   // Specify main and backup SMTP servers
     $mail->SMTPAuth = true;                               // Enable SMTP authentication
@@ -23,7 +22,7 @@ try {
     $mail->Port = 587;                                    // TCP port to connect to
 
     //Recipients
-    $mail->setFrom('contact@sebsscholarship.org', 'Contact Form');      // Send from contact email address
+    $mail->setFrom('contact@sebsscholarship.org', 'SSF Contact Form');  // Send from contact email address
     $mail->addAddress('help@sebsscholarship.org');                      // Send to help list
     $mail->addReplyTo($_POST["email"], $_POST["name"]);                 // Set reply-to to submitter's name
     $mail->addCC($_POST["email"]);                                      // Send the submitter a copy
@@ -36,6 +35,5 @@ try {
     $mail->send();
     echo 'Message has been sent!';
 } catch (Exception $e) {
-    echo 'There was an error sending your message. Please email <a href="mailto:help@sebsscholarship.org">help@sebsscholarship.org</a> directly for assistance.';
-    //echo 'Mailer Error: ' . $mail->ErrorInfo;
+    echo 'There was an error sending your message. Please try again and email <a href="mailto:help@sebsscholarship.org">help@sebsscholarship.org</a> directly if the issue persists.';
 }
