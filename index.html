@@ -511,11 +511,15 @@
 		var name = document.getElementById("name").value;
 		var email = document.getElementById("email").value;
 		var message = document.getElementById("message").value;
+		document.getElementById("status").innerHTML = "Sending...";
 
 		var xhttp = new XMLHttpRequest();
 		xhttp.onreadystatechange = function() {
 			if (this.readyState === 4) {
 				if (this.status === 200) {
+					document.getElementById("name").value = "";
+					document.getElementById("email").value = "";
+					document.getElementById("message").value = "";
 					document.getElementById("status").innerHTML = this.responseText;
 				} else {
 					document.getElementById("status").innerHTML = "There was an error sending your message. Please try again and email <a href=\"mailto:help@sebsscholarship.org\">help@sebsscholarship.org</a> directly if the issue persists.";
