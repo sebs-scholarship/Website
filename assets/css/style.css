@@ -2125,8 +2125,9 @@ a {
 }
 
 .pb_contact_details_v1 li span {
+	display: block;
 	font-size: 14px;
-	color: #adb5bd;
+	color: #5D6369
 }
 
 .slick-arrow {
