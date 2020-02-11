@@ -12,8 +12,8 @@
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Invalid Email - SEBS Scholarship</title>
-    <meta name="description" content="Invalid email address entered.">
+    <title>Subscribe - SEBS Scholarship</title>
+    <meta name="description" content="Subscribe to mailing lists.">
     <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
     <link rel="stylesheet" href="../assets/css/bootstrap/bootstrap.min.css">
     <link rel="stylesheet" href="../assets/fonts/fontawesome/css/font-awesome.min.css">
@@ -21,7 +21,7 @@
     <link rel="stylesheet" href="../assets/css/slick-theme.css">
     <link rel="stylesheet" href="../assets/css/style.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Crimson+Text:400,400i,600|Montserrat:200,300,400">
-    <link rel="canonical" href="https://sebsscholarship.org/email/invalid.html">
+    <link rel="canonical" href="https://sebsscholarship.org/email/subscribe.html">
     <link rel="icon" type="image/png" sizes="32x32" href="../assets/images/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="../assets/images/favicon-16x16.png">
     <link rel="shortcut icon" href="../assets/images/favicon.ico">
@@ -53,8 +53,36 @@
         <div class="row justify-content-md-center text-center mb-5">
 
             <div class="col-lg-7">
-                <h1 class="title font-weight-normal mb-3">Invalid Email Address!</h1>
-                <p>The email address you entered is invalid. If you believe this is in error, please try again and contact <a href="mailto:help@sebsscholarship.org">help@sebsscholarship.org</a> if the error persists.</p>
+                <h1 class="title font-weight-normal mb-3">Subscribe to Our Newsletter</h1>
+                <p>Use the form below to sign up for our newsletter! We will never share your email address, and you can always unsubscribe <a href="unsubscribe.html">here</a>.</p>
+            </div>
+        </div>
+        <div class="row justify-content-md-center">
+            <div class="col-md-7 mb-4">
+                <form method="post" action="https://scripts.dreamhost.com/add_list.cgi">
+                    <input type="hidden" name="list" value="news@sebsscholarship.org">
+                    <input type="hidden" name="domain" value="sebsscholarship.org">
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="name">Name</label>
+                                <input type="text" class="form-control p-3 rounded-0 form-input" id="name" name="name">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="email" class="form-control p-3 rounded-0 form-input" id="email" name="email" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <input type="submit" class="btn pb_outline-dark pb_font-13 pb_letter-spacing-2 p-3 rounded-0" name="sub" value="Subscribe">
+                    </div>
+                </form>
             </div>
         </div>
     </div>
