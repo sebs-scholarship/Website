@@ -8,7 +8,7 @@ require '../../PHPMailer/src/Exception.php';
 require '../../PHPMailer/src/PHPMailer.php';
 require '../../PHPMailer/src/SMTP.php';
 
-$configs = include('../../config.php');
+$config = include('../../config.php');
 
 $mail = new PHPMailer(true);                              // Passing `true` enables exceptions
 try {
@@ -17,7 +17,7 @@ try {
     $mail->Host = 'smtp.dreamhost.com';                   // Specify main and backup SMTP servers
     $mail->SMTPAuth = true;                               // Enable SMTP authentication
     $mail->Username = 'contact@sebsscholarship.org';      // SMTP username
-    $mail->Password = $configs["password"];               // SMTP password
+    $mail->Password = $config["smtpPassword"];            // SMTP password
     $mail->SMTPSecure = 'tls';                            // Enable TLS encryption, `ssl` also accepted
     $mail->Port = 587;                                    // TCP port to connect to
 
