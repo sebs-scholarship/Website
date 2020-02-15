@@ -88,4 +88,7 @@ if (isset($_POST["sub"]) && isset($_POST["name"]) && isset($_POST["email"])) {
     } else {
         echo '<META HTTP-EQUIV="refresh" content="0;URL=not-subscribed.html">';
     }
+} else {
+    http_response_code(400);
+    echo "<h1>Bad Request</h1>";
 }
