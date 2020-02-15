@@ -19,7 +19,7 @@ function userExists($userHash) {
     $response = curl_exec($ch);
 
     if (!curl_errno($ch) && curl_getinfo($ch, CURLINFO_RESPONSE_CODE) === 200) {
-        $status = json_decode($response)["status"];
+        $status = json_decode($response, true)["status"];
         if ($status === "subscribed" || $status === "pending") {
             curl_close($ch);
             return STATUS::SUBSCRIBED;
