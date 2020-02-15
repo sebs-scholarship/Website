@@ -1127,9 +1127,13 @@ textarea {
 .pb_outline-dark:active,
 .pb_outline-dark:focus {
 	outline: none;
-	background: #000 !important;
+	background: #800000 !important;
 	border: 1px solid black;
 	color: #fff;
+}
+
+.form-input:focus {
+	border: 1px solid #800000 !important;
 }
 
 .pb_signle-item {
@@ -1387,7 +1391,7 @@ html {
 
 body {
 	font-family: "Montserrat", Arial, sans-serif;
-    color: #5D6369;
+	color: #5D6369;
 }
 
 input,
@@ -1463,6 +1467,33 @@ a {
 	z-index: 100;
 	width: 100%;
 	font-family: "Montserrat", Arial, sans-serif;
+}
+
+.pb_navbar.light .navbar-toggler {
+	border: none;
+	color: rgba(0, 0, 0, 0.5);
+	border-color: white;
+	cursor: pointer;
+	padding-right: 0;
+}
+
+@media (max-width: 991px) {
+	.pb_navbar.light .navbar-nav{
+		background: #FFFFFF;
+	}
+}
+
+.pb_navbar.light ul>li>a {
+	color: #212529 !important;
+}
+
+.pb_navbar.light ul>li>a:hover,
+.pb_navbar.light ul>li>a:focus {
+	color: #868e96 !important;
+}
+
+.pb_navbar.light .navbar-brand {
+	color: #800000;
 }
 
 .pb_navbar .navbar-toggler:active,
@@ -2088,8 +2119,9 @@ a {
 }
 
 .pb_contact_details_v1 li span {
+	display: block;
 	font-size: 14px;
-	color: #adb5bd;
+	color: #5D6369
 }
 
 .slick-arrow {
@@ -2440,7 +2472,7 @@ p.parent {
 @media (max-width: 767px) {
 	.scroller a {
 		position: inherit;
-  	}
+	}
 }
 
 
@@ -2478,34 +2510,34 @@ p.parent {
 }
 @-webkit-keyframes sdb10 {
 	0% {
-	  -webkit-transform: translate(0, 0);
-	  opacity: 0;
+		-webkit-transform: translate(0, 0);
+		opacity: 0;
 	}
 	40% {
-	  opacity: 1;
+		opacity: 1;
 	}
 	80% {
-	  -webkit-transform: translate(0, 20px);
-	  opacity: 0;
+		-webkit-transform: translate(0, 20px);
+		opacity: 0;
 	}
 	100% {
-	  opacity: 0;
+		opacity: 0;
 	}
 }
 @keyframes sdb10 {
 	0% {
-	  transform: translate(0, 0);
-	  opacity: 0;
+		transform: translate(0, 0);
+		opacity: 0;
 	}
 	40% {
-	  opacity: 1;
+		opacity: 1;
 	}
 	80% {
-	  transform: translate(0, 20px);
-	  opacity: 0;
+		transform: translate(0, 20px);
+		opacity: 0;
 	}
 	100% {
-	  opacity: 0;
+		opacity: 0;
 	}
 }
 
@@ -2516,5 +2548,15 @@ p.parent {
 @media (max-width: 991px) {
 	.donation-platform {
 		max-width: 500px;
+	}
+}
+
+.title {
+	font-size: 2rem;
+}
+
+@media (max-width: 991px) {
+	.title {
+		margin: 1em 0 0 0;
 	}
 }
