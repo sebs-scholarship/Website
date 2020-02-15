@@ -1478,12 +1478,6 @@ a {
 }
 
 @media (max-width: 991px) {
-	.pb_navbar.light{
-
-	}
-}
-
-@media (max-width: 991px) {
 	.pb_navbar.light .navbar-nav{
 		background: #FFFFFF;
 	}
