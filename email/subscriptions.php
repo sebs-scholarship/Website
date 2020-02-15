@@ -103,32 +103,8 @@ if (isset($_POST["sub"]) && isset($_POST["name"]) && isset($_POST["email"])) {
     $userHash = md5($_POST["email"]);
     $status = userExists($userHash);
 
-    if ($status === STATUS::SUBSCRIBED) {
-        $data = array(
-            'status' => 'unsubscribed'
-        );
-
-        $jsonData = json_encode($data);
-
-        $ch = curl_init($urlBase . $userHash);
-        curl_setopt($ch, CURLOPT_MUTE, 1);
-        curl_setopt($ch, CURLOPT_USERPWD, "user:" . $config["key"]);
-        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PATCH");
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonData);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-                'Content-Type: application/json',
-                'Content-Length: ' . strlen($jsonData))
-        );
-
-        curl_exec($ch);
-
-        if (!curl_errno($ch) && curl_getinfo($ch, CURLINFO_RESPONSE_CODE) === 200) {
-            echo '<META HTTP-EQUIV="refresh" content="0;URL=unsubscribed.html">';
-        } else {
-            echo '<META HTTP-EQUIV="refresh" content="0;URL=not-subscribed.html">';
-        }
-
-        curl_close($ch);
+    if ($status === STATUS::SUBSCRIBED && updateUserStatus($userHash, "unsubscribed")) {
+        echo '<META HTTP-EQUIV="refresh" content="0;URL=unsubscribed.html">';
     } else {
         echo '<META HTTP-EQUIV="refresh" content="0;URL=not-subscribed.html">';
     }
