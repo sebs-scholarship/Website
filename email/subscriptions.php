@@ -7,9 +7,8 @@ function userExists($userHash) {
     global $config, $urlBase;
 
     $ch = curl_init($urlBase . $userHash);
+    curl_setopt($ch, CURLOPT_MUTE, 1);
     curl_setopt($ch, CURLOPT_USERPWD, "user:" . $config["key"]);
-    curl_setopt($ch, CURLOPT_HEADER, true);
-    curl_setopt($ch, CURLOPT_NOBODY, true);
     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
     curl_exec($ch);
 
@@ -33,9 +32,8 @@ if (isset($_POST["sub"]) && isset($_POST["name"]) && isset($_POST["email"])) {
         $jsonData = json_encode($data);
 
         $ch = curl_init($urlBase);
+        curl_setopt($ch, CURLOPT_MUTE, 1);
         curl_setopt($ch, CURLOPT_USERPWD, "user:" . $config["key"]);
-        curl_setopt($ch, CURLOPT_HEADER, true);
-        curl_setopt($ch, CURLOPT_NOBODY, true);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
         curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonData);
         curl_setopt($ch, CURLOPT_HTTPHEADER, array(
@@ -66,9 +64,8 @@ if (isset($_POST["sub"]) && isset($_POST["name"]) && isset($_POST["email"])) {
         $jsonData = json_encode($data);
 
         $ch = curl_init($urlBase . $userHash);
+        curl_setopt($ch, CURLOPT_MUTE, 1);
         curl_setopt($ch, CURLOPT_USERPWD, "user:" . $config["key"]);
-        curl_setopt($ch, CURLOPT_HEADER, true);
-        curl_setopt($ch, CURLOPT_NOBODY, true);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PATCH");
         curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonData);
         curl_setopt($ch, CURLOPT_HTTPHEADER, array(
