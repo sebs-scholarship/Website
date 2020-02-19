@@ -10,6 +10,11 @@ require '../../PHPMailer/src/SMTP.php';
 
 $config = include('../../config.php');
 
+if (!isset($_POST["name"]) || strlen($_POST["name"]) == 0 || !isset($_POST["email"]) || strlen($_POST["email"]) == 0
+    || !isset($_POST["message"]) || strlen($_POST["message"]) == 0) {
+    exit('There was an error sending your message. Please try again and email <a href="mailto:help@sebsscholarship.org">help@sebsscholarship.org</a> directly if the issue persists.');
+}
+
 $mail = new PHPMailer(true);                              // Passing `true` enables exceptions
 try {
     //Server settings

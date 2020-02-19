@@ -326,23 +326,23 @@
 						<div class="col-md">
 							<div class="form-group">
 								<label for="name">Name</label>
-								<input type="text" class="form-control p-3 rounded-0 form-input" id="name">
+								<input type="text" class="form-control p-3 rounded-0 form-input" id="name" required>
 							</div>
 						</div>
 						<div class="col-md">
 							<div class="form-group">
 								<label for="email">Email</label>
-								<input type="email" class="form-control p-3 rounded-0 form-input" id="email">
+								<input type="email" class="form-control p-3 rounded-0 form-input" id="email" required>
 							</div>
 						</div>
 					</div>
 
 					<div class="form-group">
 						<label for="message">Message</label>
-						<textarea cols="30" rows="10" class="form-control p-3 rounded-0 form-input" id="message"></textarea>
+						<textarea cols="30" rows="10" class="form-control p-3 rounded-0 form-input" id="message" required></textarea>
 					</div>
 					<div class="form-group">
-						<input type="submit" class="btn pb_outline-dark pb_font-13 pb_letter-spacing-2 p-3 rounded-0" value="Send Message">
+						<input type="submit" id="send" class="btn pb_outline-dark pb_font-13 pb_letter-spacing-2 p-3 rounded-0" value="Send Message">
 					</div>
 					<p id="status"></p>
 				</form>
@@ -511,7 +511,10 @@
 		var name = document.getElementById("name").value;
 		var email = document.getElementById("email").value;
 		var message = document.getElementById("message").value;
-		document.getElementById("status").innerHTML = "Sending...";
+		document.getElementById("status").innerHTML = "";
+		var send = document.getElementById("send");
+		send.value = "Sending...";
+		send.disabled = true;
 
 		var xhttp = new XMLHttpRequest();
 		xhttp.onreadystatechange = function() {
@@ -524,6 +527,10 @@
 				} else {
 					document.getElementById("status").innerHTML = "There was an error sending your message. Please try again and email <a href=\"mailto:help@sebsscholarship.org\">help@sebsscholarship.org</a> directly if the issue persists.";
 				}
+
+				var send = document.getElementById("send");
+				send.value = "Send Message";
+				send.disabled = false;
 			}
 		};
 		xhttp.open("POST", "email/contact.php", true);
