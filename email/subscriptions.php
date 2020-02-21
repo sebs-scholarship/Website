@@ -61,7 +61,7 @@ function updateUserStatus($userHash, $status) {
     }
 }
 
-if (isset($_POST["sub"]) && isset($_POST["name"]) && isset($_POST["email"])) {
+if (isset($_POST["sub"]) && isset($_POST["name"]) && strlen($_POST["name"]) > 0 && isset($_POST["email"]) && strlen($_POST["email"]) > 0) {
     $userHash = md5($_POST["email"]);
     $status = userExists($userHash);
     if ($status === STATUS::MISSING) {
@@ -98,7 +98,7 @@ if (isset($_POST["sub"]) && isset($_POST["name"]) && isset($_POST["email"])) {
     } else {
         echo '<META HTTP-EQUIV="refresh" content="0;URL=subscribed.html">';
     }
-} else if (isset($_POST["unsub"]) && isset($_POST["email"])) {
+} else if (isset($_POST["unsub"]) && isset($_POST["email"]) && strlen($_POST["email"]) > 0) {
     $userHash = md5($_POST["email"]);
     $status = userExists($userHash);
 
