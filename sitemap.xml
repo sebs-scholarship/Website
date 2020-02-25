@@ -2,19 +2,31 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 	<url>
 		<loc>https://sebsscholarship.org/</loc>
-		<lastmod>2019-12-06T00:00:00+00:00</lastmod>
+		<lastmod>2020-02-24T00:00:00+00:00</lastmod>
 		<changefreq>weekly</changefreq>
 		<priority>1.00</priority>
 	</url>
 	<url>
 		<loc>https://sebsscholarship.org/privacy_policy.html</loc>
-		<lastmod>2019-12-06T00:00:00+00:00</lastmod>
+		<lastmod>2020-02-24T00:00:00+00:00</lastmod>
+		<changefreq>monthly</changefreq>
+		<priority>0.20</priority>
+	</url>
+	<url>
+		<loc>https://sebsscholarship.org/tax_documents.html</loc>
+		<lastmod>2020-02-24T00:00:00+00:00</lastmod>
+		<changefreq>monthly</changefreq>
+		<priority>0.20</priority>
+	</url>
+	<url>
+		<loc>https://sebsscholarship.org/email/subscribe.html</loc>
+		<lastmod>2020-02-24T00:00:00+00:00</lastmod>
 		<changefreq>monthly</changefreq>
 		<priority>0.10</priority>
 	</url>
 	<url>
-		<loc>https://sebsscholarship.org/tax_documents.html</loc>
-		<lastmod>2019-12-06T00:00:00+00:00</lastmod>
+		<loc>https://sebsscholarship.org/email/unsubscribe.html</loc>
+		<lastmod>2020-02-24T00:00:00+00:00</lastmod>
 		<changefreq>monthly</changefreq>
 		<priority>0.10</priority>
 	</url>
