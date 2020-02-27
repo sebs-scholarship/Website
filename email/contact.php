@@ -24,6 +24,8 @@ curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
 $response = curl_exec($ch);
+curl_close($ch);
+
 if (!curl_errno($ch) && curl_getinfo($ch, CURLINFO_RESPONSE_CODE) === 200) {
     if (json_decode($response, true)["success"] === false) {
         http_response_code(401);
@@ -33,8 +35,6 @@ if (!curl_errno($ch) && curl_getinfo($ch, CURLINFO_RESPONSE_CODE) === 200) {
     http_response_code(500);
     exit('There was an error verifying your request.');
 }
-
-curl_close($ch);
 
 $mail = new PHPMailer(true);                              // Passing `true` enables exceptions
 try {

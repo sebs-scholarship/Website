@@ -16,19 +16,18 @@ function userExists($userHash) {
     curl_setopt($ch, CURLOPT_USERPWD, "user:" . $config["mc-key"]);
     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
     $response = curl_exec($ch);
+    curl_close($ch);
 
     if (!curl_errno($ch) && curl_getinfo($ch, CURLINFO_RESPONSE_CODE) === 200) {
         $status = json_decode($response, true)["status"];
         if ($status === "subscribed" || $status === "pending") {
-            curl_close($ch);
             return STATUS::SUBSCRIBED;
         } else {
-            curl_close($ch);
             return STATUS::NOT_SUBSCRIBED;
         }
     } else {
-        curl_close($ch);
         return STATUS::MISSING;
     }
 }
@@ -50,18 +49,43 @@ function updateUserStatus($userHash, $status) {
             'Content-Type: application/json',
             'Content-Length: ' . strlen($jsonData))
     );
-    curl_exec($ch);
 
+    curl_exec($ch);
+    curl_close($ch);
     if (!curl_errno($ch) && curl_getinfo($ch, CURLINFO_RESPONSE_CODE) === 200) {
-        curl_close($ch);
         return true;
     } else {
-        curl_close($ch);
         return false;
     }
 }
 
-if (isset($_POST["sub"]) && isset($_POST["name"]) && strlen($_POST["name"]) > 0 && isset($_POST["email"]) && strlen($_POST["email"]) > 0) {
+if (isset($_POST["g-recaptcha-response"]) && strlen($_POST["g-recaptcha-response"]) > 0) {
+    $data = "secret=" . $config["rc-key"] . "&response=" . $_POST["g-recaptcha-response"];
+
+    $rcConn = curl_init("https://www.google.com/recaptcha/api/siteverify");
+    curl_setopt($rcConn, CURLOPT_POST, 1);
+    curl_setopt($rcConn, CURLOPT_POSTFIELDS, $data);
+    curl_setopt($rcConn, CURLOPT_RETURNTRANSFER, true);
+
+    $response = curl_exec($rcConn);
+    curl_close($rcConn);
+
+    if (!curl_errno($rcConn) && curl_getinfo($rcConn, CURLINFO_RESPONSE_CODE) === 200) {
+        if (json_decode($response, true)["success"] === false) {
+            http_response_code(401);
+            exit('reCAPTCHA verification failed.');
+        }
+    } else {
+        http_response_code(500);
+        exit('There was an error verifying your request.');
+    }
+} else {
+    http_response_code(400);
+    exit("<h1>Bad Request</h1>");
+}
+
+if (isset($_POST["sub"]) && isset($_POST["name"]) && strlen($_POST["name"]) > 0 && isset($_POST["email"])
+    && strlen($_POST["email"]) > 0) {
     $userHash = md5($_POST["email"]);
     $status = userExists($userHash);
     if ($status === STATUS::MISSING) {
@@ -73,25 +97,25 @@ if (isset($_POST["sub"]) && isset($_POST["name"]) && strlen($_POST["name"]) > 0 
 
         $jsonData = json_encode($data);
 
-        $ch = curl_init($urlBase);
-        curl_setopt($ch, CURLOPT_USERPWD, "user:" . $config["key"]);
-        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonData);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+        $mcConn = curl_init($urlBase);
+        curl_setopt($mcConn, CURLOPT_USERPWD, "user:" . $config["key"]);
+        curl_setopt($mcConn, CURLOPT_CUSTOMREQUEST, "POST");
+        curl_setopt($mcConn, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($mcConn, CURLOPT_POSTFIELDS, $jsonData);
+        curl_setopt($mcConn, CURLOPT_HTTPHEADER, array(
                 'Content-Type: application/json',
                 'Content-Length: ' . strlen($jsonData))
         );
 
-        curl_exec($ch);
+        curl_exec($mcConn);
 
-        if (!curl_errno($ch) && curl_getinfo($ch, CURLINFO_RESPONSE_CODE) === 200) {
+        if (!curl_errno($mcConn) && curl_getinfo($mcConn, CURLINFO_RESPONSE_CODE) === 200) {
             echo '<META HTTP-EQUIV="refresh" content="0;URL=confirm.html">';
         } else {
             echo '<META HTTP-EQUIV="refresh" content="0;URL=invalid.html">';
         }
 
-        curl_close($ch);
+        curl_close($mcConn);
     } else if ($status === STATUS::NOT_SUBSCRIBED) {
         updateUserStatus($userHash, "pending");
         echo '<META HTTP-EQUIV="refresh" content="0;URL=confirm.html">';
@@ -109,5 +133,5 @@ if (isset($_POST["sub"]) && isset($_POST["name"]) && strlen($_POST["name"]) > 0 
     }
 } else {
     http_response_code(400);
-    echo "<h1>Bad Request</h1>";
+    exit("<h1>Bad Request</h1>");
 }
