@@ -24,14 +24,15 @@ curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
 $response = curl_exec($ch);
-curl_close($ch);
 
 if (!curl_errno($ch) && curl_getinfo($ch, CURLINFO_RESPONSE_CODE) === 200) {
+    curl_close($ch);
     if (json_decode($response, true)["success"] === false) {
         http_response_code(401);
         exit('reCAPTCHA verification failed.');
     }
 } else {
+    curl_close($ch);
     http_response_code(500);
     exit('There was an error verifying your request.');
 }

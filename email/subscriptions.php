@@ -21,9 +21,9 @@ function userExists($userHash) {
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
     $response = curl_exec($ch);
-    curl_close($ch);
 
     if (!curl_errno($ch) && curl_getinfo($ch, CURLINFO_RESPONSE_CODE) === 200) {
+        curl_close($ch);
         $status = json_decode($response, true)["status"];
         if ($status === "subscribed" || $status === "pending") {
             return STATUS::SUBSCRIBED;
@@ -31,6 +31,7 @@ function userExists($userHash) {
             return STATUS::NOT_SUBSCRIBED;
         }
     } else {
+        curl_close($ch);
         return STATUS::MISSING;
     }
 }
@@ -54,10 +55,12 @@ function updateUserStatus($userHash, $status) {
     );
 
     curl_exec($ch);
-    curl_close($ch);
+
     if (!curl_errno($ch) && curl_getinfo($ch, CURLINFO_RESPONSE_CODE) === 200) {
+        curl_close($ch);
         return true;
     } else {
+        curl_close($ch);
         return false;
     }
 }
@@ -71,14 +74,15 @@ if (isset($_POST["g-recaptcha-response"]) && strlen($_POST["g-recaptcha-response
     curl_setopt($rcConn, CURLOPT_RETURNTRANSFER, true);
 
     $response = curl_exec($rcConn);
-    curl_close($rcConn);
 
     if (!curl_errno($rcConn) && curl_getinfo($rcConn, CURLINFO_RESPONSE_CODE) === 200) {
+        curl_close($rcConn);
         if (json_decode($response, true)["success"] === false) {
             http_response_code(401);
             exit('reCAPTCHA verification failed.');
         }
     } else {
+        curl_close($rcConn);
         http_response_code(500);
         exit('There was an error verifying your request.');
     }
