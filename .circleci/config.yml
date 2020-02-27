@@ -10,7 +10,7 @@ jobs:
           name: Deploy to Test Site (SSH)
           command: |
             scp -r * ${test_username}@test.sebsscholarship.org:~/staging/
-            ssh ${test_username}@test.sebsscholarship.org 'rsync -av ~/staging/* ~/test.sebsscholarship.org/ && rm -rf ~/staging/*'
+            ssh ${test_username}@test.sebsscholarship.org 'rm -rf ~/test.sebsscholarship.org/* && mv ~/staging/* ~/test.sebsscholarship.org/'
   deploy-prod:
     machine:
       image: ubuntu-1604:201903-01
@@ -21,7 +21,7 @@ jobs:
           name: Deploy to Production Site (SSH)
           command: |
             scp -r * ${prod_username}@sebsscholarship.org:~/staging/
-            ssh ${prod_username}@sebsscholarship.org 'rsync -av ~/staging/* ~/sebsscholarship.org/ && rm -rf ~/staging/*'
+            ssh ${prod_username}@sebsscholarship.org 'rm -rf ~/sebsscholarship.org/* && mv ~/staging/* ~/sebsscholarship.org/'
 workflows:
   deploy:
     jobs:
