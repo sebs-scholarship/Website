@@ -23,7 +23,7 @@ $data = array(
 
 $jsonData = json_encode($data);
 
-$ch = curl_init($urlBase);
+$ch = curl_init("https://www.google.com/recaptcha/api/siteverify");
 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonData);
