@@ -85,7 +85,7 @@ if (isset($_POST["g-recaptcha-response"]) && strlen($_POST["g-recaptcha-response
     }
 } else {
     http_response_code(400);
-    exit("<h1>Bad Request 1</h1>");
+    exit("<h1>Bad Request</h1>");
 }
 
 if (isset($_POST["sub"]) && isset($_POST["name"]) && strlen($_POST["name"]) > 0 && isset($_POST["email"])
@@ -137,5 +137,5 @@ if (isset($_POST["sub"]) && isset($_POST["name"]) && strlen($_POST["name"]) > 0 
     }
 } else {
     http_response_code(400);
-    exit("<h1>Bad Request 2</h1>");
+    exit("<h1>Bad Request</h1>");
 }
