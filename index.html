@@ -354,7 +354,7 @@
 		</div>
 		<div class="row">
 			<div class="col-md-8 pr-md-5 pr-sm-0 mb-4">
-				<form>
+				<form action="javascript:" onsubmit="contactSubmit()">
 					<div class="row">
 						<div class="col-md">
 							<div class="form-group">
@@ -369,12 +369,11 @@
 							</div>
 						</div>
 					</div>
-
 					<div class="form-group">
 						<label for="message">Message</label>
 						<textarea cols="30" rows="10" class="form-control p-3 rounded-0 form-input" id="message" required></textarea>
 					</div>
-					<div id='recaptcha' class="g-recaptcha" data-sitekey="6LdjYNwUAAAAAMFxSuVRyqUdg2ZqVQu1CYDCBljg" data-callback="contactSubmit" data-size="invisible"></div>
+					<div id='recaptcha' class="g-recaptcha" data-sitekey="6LdjYNwUAAAAAMFxSuVRyqUdg2ZqVQu1CYDCBljg" data-callback="contact" data-size="invisible"></div>
 					<div class="form-group">
 						<input type="submit" id="send" class="btn pb_outline-dark pb_font-13 pb_letter-spacing-2 p-3 rounded-0" value="Send Message">
 					</div>
