@@ -1,5 +1,8 @@
 <?php
 
+ini_set('display_errors', 'On');
+error_reporting(E_ALL);
+
 abstract class STATUS {
     const SUBSCRIBED = "subscribed";
     const NOT_SUBSCRIBED = "unsubscribed";
