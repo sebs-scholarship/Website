@@ -49,7 +49,7 @@ try {
 
     //Recipients
     $mail->setFrom('contact@sebsscholarship.org', 'SSF Contact Form');  // Send from contact email address
-    $mail->addAddress('levi@sebsscholarship.org');                      // Send to help list
+    $mail->addAddress('help@sebsscholarship.org');                      // Send to help list
     $mail->addReplyTo($_POST["email"], $_POST["name"]);                 // Set reply-to to submitter's name
     $mail->addCC($_POST["email"]);                                      // Send the submitter a copy
 
