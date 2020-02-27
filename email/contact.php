@@ -19,17 +19,13 @@ if (!isset($_POST["name"]) || strlen($_POST["name"]) == 0 || !isset($_POST["emai
 $data = "secret=" . $config["rc-key"] . "&response=" . $_POST["token"];
 
 $ch = curl_init("https://www.google.com/recaptcha/api/siteverify");
-curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_POST, 1);
 curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-        'Content-Type: text/plain',
-        'Content-Length: ' . strlen($data))
-);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
 $response = curl_exec($ch);
 if (!curl_errno($ch) && curl_getinfo($ch, CURLINFO_RESPONSE_CODE) === 200) {
-    if (!json_decode($response, true)["success"]) {
+    if (json_decode($response, true)["success"] === false) {
         http_response_code(401);
         exit('reCAPTCHA verification failed.');
     }
