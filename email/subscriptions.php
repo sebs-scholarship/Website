@@ -13,7 +13,7 @@ function userExists($userHash) {
     global $config, $urlBase;
 
     $ch = curl_init($urlBase . $userHash);
-    curl_setopt($ch, CURLOPT_USERPWD, "user:" . $config["key"]);
+    curl_setopt($ch, CURLOPT_USERPWD, "user:" . $config["mc-key"]);
     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     $response = curl_exec($ch);
@@ -42,7 +42,7 @@ function updateUserStatus($userHash, $status) {
     $jsonData = json_encode($data);
 
     $ch = curl_init($urlBase . $userHash);
-    curl_setopt($ch, CURLOPT_USERPWD, "user:" . $config["key"]);
+    curl_setopt($ch, CURLOPT_USERPWD, "user:" . $config["mc-key"]);
     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PATCH");
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonData);

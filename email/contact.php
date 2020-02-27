@@ -11,10 +11,39 @@ require '../../PHPMailer/src/SMTP.php';
 $config = include('../../config.php');
 
 if (!isset($_POST["name"]) || strlen($_POST["name"]) == 0 || !isset($_POST["email"]) || strlen($_POST["email"]) == 0
-    || !isset($_POST["message"]) || strlen($_POST["message"]) == 0) {
+    || !isset($_POST["message"]) || strlen($_POST["message"]) == 0 || !isset($_POST["token"]) || strlen($_POST["token"]) == 0) {
     http_response_code(400);
     exit('There was an error sending your message. Please try again and email <a href="mailto:help@sebsscholarship.org">help@sebsscholarship.org</a> directly if the issue persists.');
 }
+
+$data = array(
+    'secret' => $config["rc-key"],
+    'response' => $_POST["token"],
+);
+
+$jsonData = json_encode($data);
+
+$ch = curl_init($urlBase);
+curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonData);
+curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+        'Content-Type: application/json',
+        'Content-Length: ' . strlen($jsonData))
+);
+
+$response = curl_exec($ch);
+if (!curl_errno($ch) && curl_getinfo($ch, CURLINFO_RESPONSE_CODE) === 200) {
+    if (!json_decode($response, true)["success"]) {
+        http_response_code(401);
+        exit('reCAPTCHA verification failed.');
+    }
+} else {
+    http_response_code(500);
+    exit('There was an error verifying your request.');
+}
+
+curl_close($ch);
 
 $mail = new PHPMailer(true);                              // Passing `true` enables exceptions
 try {
@@ -29,7 +58,7 @@ try {
 
     //Recipients
     $mail->setFrom('contact@sebsscholarship.org', 'SSF Contact Form');  // Send from contact email address
-    $mail->addAddress('help@sebsscholarship.org');                      // Send to help list
+    $mail->addAddress('levi@sebsscholarship.org');                      // Send to help list
     $mail->addReplyTo($_POST["email"], $_POST["name"]);                 // Set reply-to to submitter's name
     $mail->addCC($_POST["email"]);                                      // Send the submitter a copy
 

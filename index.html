@@ -354,7 +354,7 @@
 		</div>
 		<div class="row">
 			<div class="col-md-8 pr-md-5 pr-sm-0 mb-4">
-				<form action="javascript:" onsubmit="contact()">
+				<form>
 					<div class="row">
 						<div class="col-md">
 							<div class="form-group">
@@ -375,7 +375,7 @@
 						<textarea cols="30" rows="10" class="form-control p-3 rounded-0 form-input" id="message" required></textarea>
 					</div>
 					<div class="form-group">
-						<input type="submit" id="send" class="btn pb_outline-dark pb_font-13 pb_letter-spacing-2 p-3 rounded-0" value="Send Message">
+						<input type="button" id="send" class="g-recaptcha btn pb_outline-dark pb_font-13 pb_letter-spacing-2 p-3 rounded-0" data-sitekey="6LdjYNwUAAAAAMFxSuVRyqUdg2ZqVQu1CYDCBljg" data-callback='contact' value="Send Message">
 					</div>
 					<p id="status"></p>
 				</form>
@@ -461,6 +461,7 @@
 <script src="assets/js/jquery.easing.1.3.js"></script>
 <script src="assets/js/main.js"></script>
 <script src="https://donorbox.org/widget.js" paypalExpress="false"></script>
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 <script>
 	$(document).ready(function($) {
 		function timeRemainingFormatter(millis) {
@@ -543,7 +544,7 @@
 		startCountdown();
 	});
 
-	function contact() {
+	function contact(token) {
 		var name = document.getElementById("name").value;
 		var email = document.getElementById("email").value;
 		var message = document.getElementById("message").value;
@@ -571,7 +572,7 @@
 		};
 		xhttp.open("POST", "email/contact.php", true);
 		xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-		xhttp.send("name=" + name + "&email=" + email + "&message=" + message);
+		xhttp.send("name=" + name + "&email=" + email + "&message=" + message + "&token=" + token);
 	}
 </script>
 </body>
