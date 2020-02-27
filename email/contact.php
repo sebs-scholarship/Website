@@ -16,20 +16,15 @@ if (!isset($_POST["name"]) || strlen($_POST["name"]) == 0 || !isset($_POST["emai
     exit('There was an error sending your message. Please try again and email <a href="mailto:help@sebsscholarship.org">help@sebsscholarship.org</a> directly if the issue persists.');
 }
 
-$data = array(
-    'secret' => $config["rc-key"],
-    'response' => $_POST["token"],
-);
-
-$jsonData = json_encode($data);
+$data = "secret=" . $config["rc-key"] . "&response=" . $_POST["token"];
 
 $ch = curl_init("https://www.google.com/recaptcha/api/siteverify");
 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonData);
+curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
 curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-        'Content-Type: application/json',
-        'Content-Length: ' . strlen($jsonData))
+        'Content-Type: text/plain',
+        'Content-Length: ' . strlen($data))
 );
 
 $response = curl_exec($ch);
