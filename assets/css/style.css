@@ -2598,3 +2598,7 @@ p.parent {
 	transform: translate(-50%, -50%);
 	text-align: center;
 }
+
+.grecaptcha-badge {
+	z-index: 99;
+}
