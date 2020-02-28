@@ -293,7 +293,39 @@
 		<div class="row justify-content-md-center text-center mb-5">
 			<div class="col">
 				<h2 class="mt-0 heading-border-top font-weight-normal mb-5">Donate</h2>
-				<iframe class="donation-platform" allowpaymentrequest="" frameborder="0" height="900px" name="donorbox" scrolling="no" seamless="seamless" src="https://donorbox.org/embed/sebs-scholarship-2021?show_content=true" style="min-width: 310px; max-height:none!important;" width="100%"></iframe>
+			</div>
+		</div>
+		<div class="row justify-content-md-center text-center mb-5">
+			<div class="col-md">
+				<iframe allowpaymentrequest="" frameborder="0" name="donorbox" scrolling="no" seamless="seamless" src="https://donorbox.org/embed/sebs-scholarship-2021?show_content=true" style="min-width: 310px; max-height:none!important;" width="100%"></iframe>
+				<iframe class="mb-5" frameborder="0" name="donorbox" scrolling="no" seamless="seamless" src="https://donorbox.org/embed/sebs-scholarship-2021?only_donor_wall=true" style="width: 100%; max-width:500px; min-width:310px; max-height: none !important"></iframe>
+			</div>
+		</div>
+		<div class="row justify-content-md-center text-center mb-5">
+			<div class="col">
+				<h2 class="mt-0 heading-border-top font-weight-normal mb-5">Business Supporters</h2>
+			</div>
+		</div>
+		<div class="row justify-content-md-center text-center mb-5">
+			<div class="col-sm justify-content-center d-flex mb-5">
+				<div class="donor-logo">
+					<a href="https://www.ent.com/about-us/why-we-serve/philanthropy/" target="_blank" rel="noopener">
+						<img src="assets/images/ent.png" alt="Ent">
+						<div class="donor-logo-cover">
+							<span class="donor-name" style="font-size: .8rem;">Ent Credit Union Community Fund of Pikes Peak Community Foundation</span>
+						</div>
+					</a>
+				</div>
+			</div>
+			<div class="col-sm justify-content-center d-flex mb-5">
+				<div class="donor-logo">
+					<a href="https://hitekcomputing.net/" target="_blank" rel="noopener">
+						<img src="assets/images/hitek.png" alt="HiTek Computing">
+						<div class="donor-logo-cover">
+							<span class="donor-name">HiTek Computing</span>
+						</div>
+					</a>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -322,7 +354,7 @@
 		</div>
 		<div class="row">
 			<div class="col-md-8 pr-md-5 pr-sm-0 mb-4">
-				<form action="javascript:" onsubmit="contact()">
+				<form action="javascript:" onsubmit="contactSubmit()">
 					<div class="row">
 						<div class="col-md">
 							<div class="form-group">
@@ -337,11 +369,11 @@
 							</div>
 						</div>
 					</div>
-
 					<div class="form-group">
 						<label for="message">Message</label>
 						<textarea cols="30" rows="10" class="form-control p-3 rounded-0 form-input" id="message" required></textarea>
 					</div>
+					<div id='recaptcha' class="g-recaptcha" data-sitekey="6LdjYNwUAAAAAMFxSuVRyqUdg2ZqVQu1CYDCBljg" data-callback="contact" data-size="invisible"></div>
 					<div class="form-group">
 						<input type="submit" id="send" class="btn pb_outline-dark pb_font-13 pb_letter-spacing-2 p-3 rounded-0" value="Send Message">
 					</div>
@@ -511,7 +543,11 @@
 		startCountdown();
 	});
 
-	function contact() {
+	function contactSubmit() {
+		grecaptcha.execute();
+	}
+
+	function contact(token) {
 		var name = document.getElementById("name").value;
 		var email = document.getElementById("email").value;
 		var message = document.getElementById("message").value;
@@ -539,8 +575,9 @@
 		};
 		xhttp.open("POST", "email/contact.php", true);
 		xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-		xhttp.send("name=" + name + "&email=" + email + "&message=" + message);
+		xhttp.send("name=" + name + "&email=" + email + "&message=" + message + "&token=" + token);
 	}
 </script>
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </body>
 </html>

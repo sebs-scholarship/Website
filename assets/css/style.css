@@ -2560,3 +2560,45 @@ p.parent {
 		margin: 1em 0 0 0;
 	}
 }
+
+.donor-logo {
+	position: relative;
+	background: rgba(0, 0, 0, 0);
+	max-width: 200px;
+	display: inline-block;
+}
+
+.donor-logo:hover .donor-logo-cover{
+	background-color: rgba(128, 0, 0, .8);
+	color: rgba(255, 255, 255, 1);
+}
+
+.donor-logo-cover {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	height: 100%;
+	width: 100%;
+	text-align: center;
+	transition: .3s ease-in;
+	background-color: rgba(128, 0, 0, 0);
+	color: rgba(255, 255, 255, 0);
+	display: block;
+}
+
+.donor-name {
+	display: block;
+	position: relative;
+	top: 50%;
+	left: 50%;
+	-webkit-transform: translate(-50%, -50%);
+	-ms-transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%);
+	text-align: center;
+}
+
+.grecaptcha-badge {
+	z-index: 99;
+}

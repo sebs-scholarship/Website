@@ -58,7 +58,8 @@
         </div>
         <div class="row justify-content-md-center">
             <div class="col-md-7 mb-4">
-                <form method="post" action="subscriptions.php">
+                <form id="unsub-form" method="post" action="subscriptions.php">
+                    <input type="hidden" name="unsub" value="true">
                     <div class="row">
                         <div class="col">
                             <div class="form-group">
@@ -68,7 +69,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <input type="submit" class="btn pb_outline-dark pb_font-13 pb_letter-spacing-2 p-3 rounded-0" name="unsub" value="Unsubscribe">
+                        <input type="button" class="g-recaptcha btn pb_outline-dark pb_font-13 pb_letter-spacing-2 p-3 rounded-0" data-sitekey="6LdjYNwUAAAAAMFxSuVRyqUdg2ZqVQu1CYDCBljg" data-callback="onSubmit" value="Unsubscribe">
                     </div>
                 </form>
             </div>
@@ -137,5 +138,11 @@
 <script src="../assets/js/bootstrap.min.js"></script>
 <script src="../assets/js/slick.min.js"></script>
 <script src="../assets/js/main.js"></script>
+<script>
+    function onSubmit() {
+        document.getElementById("unsub-form").submit();
+    }
+</script>
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </body>
 </html>
