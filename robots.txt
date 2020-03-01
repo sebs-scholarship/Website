@@ -5,5 +5,4 @@ Disallow: /.github/
 Disallow: /apply/
 Disallow: /donate/
 Disallow: /volunteer/
-Disallow: /email/
 Sitemap: https://sebsscholarship.org/sitemap.xml
