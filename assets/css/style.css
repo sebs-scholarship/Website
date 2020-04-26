@@ -1121,6 +1121,7 @@ textarea {
 	text-transform: uppercase;
 	color: black;
 	background: none;
+	cursor: pointer;
 }
 
 .pb_outline-dark:hover,
