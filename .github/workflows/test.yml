@@ -25,7 +25,7 @@ jobs:
       - uses: webfactory/ssh-agent@v0.2.0
         with:
           ssh-private-key: ${{ secrets.TEST_SSH_KEY }}
-      - run: ssh-keyscan test.blog.sebsscholarship.org > ~/.ssh/known_hosts
+      - run: ssh-keyscan test.sebsscholarship.org > ~/.ssh/known_hosts
 
       - name: Deploy
         run: |
