@@ -32,4 +32,4 @@ jobs:
           chmod 777 ${{ github.workspace }}
           echo \"User-agent: * Disallow: /\" > ${{ github.workspace }}/robots.txt
           scp -r ${{ github.workspace }}/* ${{ secrets.TEST_SSH_USER }}@test.sebsscholarship.org:~/staging/
-          ssh ${ secrets.TEST_SSH_USER }@test.sebsscholarship.org 'rm -rf ~/test.sebsscholarship.org/* && mv ~/staging/* ~/test.sebsscholarship.org/'
+          ssh ${{ secrets.TEST_SSH_USER }}@test.sebsscholarship.org 'rm -rf ~/test.sebsscholarship.org/* && mv ~/staging/* ~/test.sebsscholarship.org/'
