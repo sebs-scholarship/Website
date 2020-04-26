@@ -20,11 +20,13 @@ jobs:
     needs: [check-syntax]
     runs-on: ubuntu-latest
     steps:
-      - uses: action/checkout@v2
+      - uses: actions/checkout@v2
+
       - uses: webfactory/ssh-agent@v0.2.0
         with:
           ssh-private-key: ${{ secrets.TEST_SSH_KEY }}
       - run: ssh-keyscan test.blog.sebsscholarship.org > ~/.ssh/known_hosts
+
       - name: Deploy
         run: |
           chmod 777 ${{ github.workspace }}
