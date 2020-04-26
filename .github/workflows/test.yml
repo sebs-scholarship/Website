@@ -1,0 +1,32 @@
+name: Deploy to Test Site
+
+on:
+  push:
+    branches: [ development ]
+
+jobs:
+  check-syntax:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Check PHP
+        run: |
+          sudo apt update
+          sudo apt install -y php-cli
+          sudo apt install -f
+          find . -name \*.php -type f -print0 | xargs -0 -I {} php -l {}
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: action/checkout@v2
+      - uses: webfactory/ssh-agent@v0.2.0
+        with:
+          ssh-private-key: ${{ secrets.TEST_SSH_KEY }}
+      - run: ssh-keyscan test.blog.sebsscholarship.org > ~/.ssh/known_hosts
+      - name: Deploy
+        run: |
+          chmod 777 ${{ github.workspace }}
+          echo \"User-agent: * Disallow: /\" > ${{ github.workspace }}/robots.txt
+          scp -r * ${{ secrets.TEST_SSH_USER }}@test.sebsscholarship.org:~/staging/
+          ssh ${ secrets.TEST_SSH_USER }@test.sebsscholarship.org 'rm -rf ~/test.sebsscholarship.org/* && mv ~/staging/* ~/test.sebsscholarship.org/'
