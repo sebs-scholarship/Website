@@ -1,0 +1,34 @@
+name: Deploy to Production Site
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  check-syntax:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Check PHP
+        run: |
+          sudo apt update
+          sudo apt install -y php-cli
+          sudo apt install -f
+          find . -name \*.php -type f -print0 | xargs -0 -I {} php -l {}
+  deploy:
+    needs: [check-syntax]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: webfactory/ssh-agent@v0.2.0
+        with:
+          ssh-private-key: ${{ secrets.PROD_SSH_KEY }}
+      - run: ssh-keyscan sebsscholarship.org > ~/.ssh/known_hosts
+
+      - name: Deploy
+        run: |
+          chmod 777 ${{ github.workspace }}
+          scp -r ${{ github.workspace }}/* ${{ secrets.PROD_SSH_USER }}@sebsscholarship.org:~/staging/
+          ssh ${{ secrets.PROD_SSH_USER }}@sebsscholarship.org 'rm -rf ~/sebsscholarship.org/* && mv ~/staging/* ~/sebsscholarship.org/'
