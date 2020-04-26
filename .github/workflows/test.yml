@@ -17,6 +17,7 @@ jobs:
           sudo apt install -f
           find . -name \*.php -type f -print0 | xargs -0 -I {} php -l {}
   deploy:
+    needs: [check-syntax]
     runs-on: ubuntu-latest
     steps:
       - uses: action/checkout@v2
@@ -28,5 +29,5 @@ jobs:
         run: |
           chmod 777 ${{ github.workspace }}
           echo \"User-agent: * Disallow: /\" > ${{ github.workspace }}/robots.txt
-          scp -r * ${{ secrets.TEST_SSH_USER }}@test.sebsscholarship.org:~/staging/
+          scp -r ${{ github.workspace }}/* ${{ secrets.TEST_SSH_USER }}@test.sebsscholarship.org:~/staging/
           ssh ${ secrets.TEST_SSH_USER }@test.sebsscholarship.org 'rm -rf ~/test.sebsscholarship.org/* && mv ~/staging/* ~/test.sebsscholarship.org/'
