@@ -1,8 +1,8 @@
-name: Deploy to Test Site
+name: Deploy to Production Site
 
 on:
   push:
-    branches: [ development ]
+    branches: [ master ]
 
 jobs:
   check-syntax:
@@ -24,12 +24,11 @@ jobs:
 
       - uses: webfactory/ssh-agent@v0.2.0
         with:
-          ssh-private-key: ${{ secrets.TEST_SSH_KEY }}
-      - run: ssh-keyscan test.sebsscholarship.org > ~/.ssh/known_hosts
+          ssh-private-key: ${{ secrets.PROD_SSH_KEY }}
+      - run: ssh-keyscan sebsscholarship.org > ~/.ssh/known_hosts
 
       - name: Deploy
         run: |
           chmod 777 ${{ github.workspace }}
-          echo 'User-agent: * Disallow: /' > ${{ github.workspace }}/robots.txt
-          scp -r ${{ github.workspace }}/* ${{ secrets.TEST_SSH_USER }}@test.sebsscholarship.org:~/staging/
-          ssh ${{ secrets.TEST_SSH_USER }}@test.sebsscholarship.org 'rm -rf ~/test.sebsscholarship.org/* && mv ~/staging/* ~/test.sebsscholarship.org/'
+          scp -r ${{ github.workspace }}/* ${{ secrets.PROD_SSH_USER }}@sebsscholarship.org:~/staging/
+          ssh ${{ secrets.PROD_SSH_USER }}@sebsscholarship.org 'rm -rf ~/sebsscholarship.org/* && mv ~/staging/* ~/sebsscholarship.org/'
