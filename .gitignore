@@ -1,2 +1,5 @@
-
 .idea/
+.jekyll-cache/
+tests/
+_site/
+Gemfile.lock
