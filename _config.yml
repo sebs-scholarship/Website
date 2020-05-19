@@ -1,0 +1,33 @@
+title: SEBS Scholarship
+
+description: >-
+  The SEBS Scholarship is open to all seniors graduating from SEBS at Pueblo County High School.
+  The SEBS Scholarship Foundation is a non-profit public charity dedicated to helping SEBS students afford to further
+  their education by providing yearly scholarships to graduating SEBS seniors who demonstrate characteristics that align
+  with our core values.
+
+url: "https://sebsscholarship.org"
+
+baseurl: ""
+
+plugins:
+  - jekyll-sitemap
+
+defaults:
+  -
+    scope:
+      path: ""
+    values:
+      layout: default
+      isHome: false
+  -
+    scope:
+      path: "assets"
+    values:
+      sitemap: false
+
+
+theme: null
+
+exclude:
+  - tests/
