@@ -8,7 +8,7 @@
 				<div class="sub-heading" style="float: none;">
 					<p id="countdown_label" data-open-text="Application Closes March 31st" data-closed-text="Application Opens February 1st">Application Opens February 1st</p>
 					<p class="mb-5" id="countdown_value"></p>
-					<a href="#section-details" role="button" class="btn btn-light smoothscroll pb_outline-light btn-xl pb_font-13 p-4 rounded-0 pb_letter-spacing-2 d-inline-block mb-1 no-nav-expand">Learn More</a>
+					<a href="#section-details" role="button" class="btn btn-light smoothscroll pb_outline-light btn-xl pb_font-13 p-4 rounded-0 pb_letter-spacing-2 d-inline-block mb-1 no-nav-expand" id="actionButton">Learn More</a>
 					<a href="/email/subscribe.html" role="button" class="btn btn-light smoothscroll pb_outline-light btn-xl pb_font-13 p-4 rounded-0 pb_letter-spacing-2 d-inline-block mb-1">Join Our Newsletter</a>
 				</div>
 			</div>
@@ -327,89 +327,50 @@
 </section>
 <script>
 	$(document).ready(function($) {
-		function timeRemainingFormatter(millis) {
-			var time = {};
+     function countdown() {
+ var today = new Date();
+  var openDate = new Date(today.getFullYear(), 1, 1);
+  if (today.getMonth() >= 1 && today.getDate() >= 1) {
+  }
+  var closeDate = new Date(today.getFullYear(), 3, 1);
+  if (today.getMonth() >= 3 && today.getDate() >= 1) {
+      openDate.setFullYear(openDate.getFullYear() + 1);
+  }
+  var delta = Math.abs(openDate - today) / 1000;
+if (today.getTime() >= openDate.getTime() && today.getTime() < closeDate.getTime()) {
+    delta = Math.abs(closeDate - today) / 1000;
+  }
+         
+         
+ var days = Math.floor(delta / (3600*24));
+var hours = Math.floor(delta % (3600*24) / 3600);
+var minutes = Math.floor(delta % 3600 / 60);
+var seconds = Math.floor(delta % 60);
+ 
+  document.getElementById("countdown_value").innerHTML=(days + " days, " + hours + " hours, " + minutes + " minutes, " + seconds + " seconds ");
+         
+ if ((today.getTime() <= closeDate.getTime() && today.getTime() >= openDate.getTime())) {
+    document.getElementById("actionButton").innerHTML="Apply";
+     
+  }        
+         else{
+              document.getElementById("actionButton").innerHTML="Learn More";
+             
+         }
 
-			var days = Math.floor(millis / (24*60*60*1000));
-			time.days = days.toString().padStart(2, "0");
-			millis -= days * 24 * 60 * 60 * 1000;
+}
+     
+setInterval(countdown, 1000);
 
-			var hours = Math.floor(millis / (60*60*1000));
-			time.hours = hours.toString().padStart(2, "0");
-			millis -= hours * 60 * 60 * 1000;
-
-			var minutes = Math.floor(millis / (60*1000));
-			time.minutes = minutes.toString().padStart(2, "0");
-			millis -= minutes * 60 * 1000;
-
-			var seconds = Math.floor(millis / 1000);
-			time.seconds = seconds.toString().padStart(2, "0");
-
-			return time;
-		}
-
-		function countdown(openDate, closeDate, countdownLabel, countdownValue) {
-			var currentDate = new Date();
-
-			if (openDate - currentDate < 0) {
-				openDate.setFullYear(openDate.getFullYear() + 1);
-			}
-
-			if (closeDate - currentDate < 0) {
-				closeDate.setFullYear(closeDate.getFullYear() + 1);
-			}
-
-			var openDateDiff = openDate - currentDate;
-			var closeDateDiff = closeDate - currentDate;
-
-			var time, label;
-			if (openDateDiff < closeDateDiff) {
-				time = timeRemainingFormatter(openDateDiff);
-				label = countdownLabel.attr("data-closed-text");
-			} else {
-				time = timeRemainingFormatter(closeDateDiff);
-				label = countdownLabel.attr("data-open-text");
-			}
-			countdownLabel.text(label);
-			countdownValue.text("{0} days, {1} hours, {2} minutes, {3} seconds".formatUnicorn(time.days, time.hours, time.minutes, time.seconds));
-		}
-
-		function startCountdown() {
-			String.prototype.formatUnicorn = String.prototype.formatUnicorn ||
-					function () {
-						"use strict";
-						var str = this.toString();
-						if (arguments.length) {
-							var t = typeof arguments[0];
-							var key;
-							var args = ("string" === t || "number" === t) ?
-									Array.prototype.slice.call(arguments)
-									: arguments[0];
-
-							for (key in args) {
-								str = str.replace(new RegExp("\\{" + key + "\\}", "gi"), args[key]);
-							}
-						}
-
-						return str;
-					};
-
-			var currentDate = new Date();
-			var openDate = new Date("February 1, 0000 00:00:00 UTC-7:00");
-			openDate.setFullYear(currentDate.getFullYear());
-			var closeDate = new Date("April 1, 0000 00:00:00 UTC-7:00");
-			closeDate.setFullYear(currentDate.getFullYear());
-			var countdownLabel = $("#countdown_label");
-			var countdownValue = $("#countdown_value");
-
-			setInterval(countdown, 900, openDate, closeDate, countdownLabel, countdownValue);
-		}
-		startCountdown();
-
+        
+        
 		console.log("Are you a SEBS graduate interested in helping work on our website? Please visit the link below to fill out our interest form!")
 		console.log("https://docs.google.com/forms/d/e/1FAIpQLSdpJSvf3N5r6sGOeiVdel_S46YssOkhNlx5TdHAEkq2KNHaMw/viewform?usp=pp_url&entry.388731389=__other_option__&entry.388731389.other_option_response=Website&entry.229487069=Website&entry.2045281682=WebDev17")
-	});
 
+	});
+    
+    
+    
 	function contactSubmit() {
 		grecaptcha.execute();
 	}
