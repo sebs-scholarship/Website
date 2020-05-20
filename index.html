@@ -451,85 +451,97 @@
 <script src="assets/js/main.js"></script>
 <script src="https://donorbox.org/widget.js" paypalExpress="false"></script>
 <script>
-	$(document).ready(function($) {
-     function countdown() {
- var today = new Date();
-  var openDate = new Date(today.getFullYear(), 1, 1);
-  if (today.getMonth() >= 1 && today.getDate() >= 1) {
-  }
-  var closeDate = new Date(today.getFullYear(), 3, 1);
-  if (today.getMonth() >= 3 && today.getDate() >= 1) {
-      openDate.setFullYear(openDate.getFullYear() + 1);
-  }
-  var delta = Math.abs(openDate - today) / 1000;
-if (today.getTime() >= openDate.getTime() && today.getTime() < closeDate.getTime()) {
-    delta = Math.abs(closeDate - today) / 1000;
-  }
-         
-         
- var days = Math.floor(delta / (3600*24));
-var hours = Math.floor(delta % (3600*24) / 3600);
-var minutes = Math.floor(delta % 3600 / 60);
-var seconds = Math.floor(delta % 60);
- 
-  document.getElementById("countdown_value").innerHTML=(days + " days, " + hours + " hours, " + minutes + " minutes, " + seconds + " seconds ");
-         
- if ((today.getTime() <= closeDate.getTime() && today.getTime() >= openDate.getTime())) {
-    document.getElementById("actionButton").innerHTML="Apply";
-     
-  }        
-         else{
-              document.getElementById("actionButton").innerHTML="Learn More";
-             
-         }
+    $(document).ready(function ($) {
+        var button = document.getElementById("actionButton");
+		String.prototype.formatUnicorn = String.prototype.formatUnicorn ||
+				function () {
+					"use strict";
+					var str = this.toString();
+					if (arguments.length) {
+						var t = typeof arguments[0];
+						var key;
+						var args = ("string" === t || "number" === t) ?
+								Array.prototype.slice.call(arguments)
+								: arguments[0];
 
-}
-     
-setInterval(countdown, 1000);
+						for (key in args) {
+							str = str.replace(new RegExp("\\{" + key + "\\}", "gi"), args[key]);
+						}
+					}
 
-        
-        
-		console.log("Are you a SEBS graduate interested in helping work on our website? Please visit the link below to fill out our interest form!")
-		console.log("https://docs.google.com/forms/d/e/1FAIpQLSdpJSvf3N5r6sGOeiVdel_S46YssOkhNlx5TdHAEkq2KNHaMw/viewform?usp=pp_url&entry.388731389=__other_option__&entry.388731389.other_option_response=Website&entry.229487069=Website&entry.2045281682=WebDev17")
+					return str;
+				};
 
-	});
-    
-    
-    
-	function contactSubmit() {
-		grecaptcha.execute();
-	}
+        function countdown() {
+            var today = new Date();
 
-	function contact(token) {
-		var name = document.getElementById("name").value;
-		var email = document.getElementById("email").value;
-		var message = document.getElementById("message").value;
-		document.getElementById("status").innerHTML = "";
-		var send = document.getElementById("send");
-		send.value = "Sending...";
-		send.disabled = true;
+            var openDate = new Date(today.getFullYear(), 1, 1);	//Feb 1
+            if (openDate < today) openDate.setFullYear(openDate.getFullYear() + 1); // Make sure people loading the page in December looking at next year's dates
 
-		var xhttp = new XMLHttpRequest();
-		xhttp.onreadystatechange = function() {
-			if (this.readyState === 4) {
-				if (this.status === 200) {
-					document.getElementById("name").value = "";
-					document.getElementById("email").value = "";
-					document.getElementById("message").value = "";
-					document.getElementById("status").innerHTML = "Message has been sent!";
-				} else {
-					document.getElementById("status").innerHTML = "There was an error sending your message. Please try again and email <a href=\"mailto:help@sebsscholarship.org\">help@sebsscholarship.org</a> directly if the issue persists.";
-				}
+            var closeDate = new Date(today.getFullYear(), 3, 1); //EOD Mar 31
+			if (closeDate < today) closeDate.setFullYear(closeDate.getFullYear() + 1);
 
-				var send = document.getElementById("send");
-				send.value = "Send Message";
-				send.disabled = false;
+			//TODO: Make this not be set every execution
+			var delta;
+			if (openDate > closeDate) { // A bit counter intuitive
+				button.innerHTML = "Apply Now";
+				button.href = "https://forms.gle/D3TewSSBQVLfFUvNA";
+				delta = (openDate.getTime() - today.getTime()) / 1000;
+				//TODO: Fix removed "Application opens/closes" text
+			} else {
+				button.innerHTML = "Learn More";
+				button.href = "#section-details";
+				delta = (closeDate.getTime() - today.getTime()) / 1000
 			}
-		};
-		xhttp.open("POST", "email/contact.php", true);
-		xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-		xhttp.send("name=" + name + "&email=" + email + "&message=" + message + "&token=" + token);
-	}
+
+            var days = Math.floor(delta / (3600 * 24));
+            var hours = Math.floor(delta % (3600 * 24) / 3600);
+            var minutes = Math.floor(delta % 3600 / 60);
+            var seconds = Math.floor(delta % 60);
+
+            document.getElementById("countdown_value").innerHTML = "{0} days, {1} hours, {2} minutes, {3} seconds".formatUnicorn(days, hours, minutes, seconds);
+        }
+        setInterval(countdown, 100);
+
+        console.log("Are you a SEBS graduate interested in helping work on our website? Please visit the link below to fill out our interest form!");
+        console.log("https://docs.google.com/forms/d/e/1FAIpQLSdpJSvf3N5r6sGOeiVdel_S46YssOkhNlx5TdHAEkq2KNHaMw/viewform?usp=pp_url&entry.388731389=__other_option__&entry.388731389.other_option_response=Website&entry.229487069=Website&entry.2045281682=WebDev17");
+    });
+
+
+    function contactSubmit() {
+        grecaptcha.execute();
+    }
+
+    function contact(token) {
+        var name = document.getElementById("name").value;
+        var email = document.getElementById("email").value;
+        var message = document.getElementById("message").value;
+        document.getElementById("status").innerHTML = "";
+        var send = document.getElementById("send");
+        send.value = "Sending...";
+        send.disabled = true;
+
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState === 4) {
+                if (this.status === 200) {
+                    document.getElementById("name").value = "";
+                    document.getElementById("email").value = "";
+                    document.getElementById("message").value = "";
+                    document.getElementById("status").innerHTML = "Message has been sent!";
+                } else {
+                    document.getElementById("status").innerHTML = "There was an error sending your message. Please try again and email <a href=\"mailto:help@sebsscholarship.org\">help@sebsscholarship.org</a> directly if the issue persists.";
+                }
+
+                var send = document.getElementById("send");
+                send.value = "Send Message";
+                send.disabled = false;
+            }
+        };
+        xhttp.open("POST", "email/contact.php", true);
+        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhttp.send("name=" + name + "&email=" + email + "&message=" + message + "&token=" + token);
+    }
 </script>
 <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </body>
