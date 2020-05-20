@@ -48,7 +48,11 @@
         <circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#800000"/>
     </svg>
 </div>
+{% if page.title %}
+<nav class="navbar navbar-expand-lg navbar-light pb_navbar light pb_scrolled-light" id="pb-navbar">
+{% else %}
 <nav class="navbar navbar-expand-lg navbar-dark pb_navbar pb_scrolled-light" id="pb-navbar">
+{% endif %}
     <div class="container">
         <a class="navbar-brand navbar-brand-lg smoothscroll no-nav-expand" href="{{ prefix | append: "#section-home" }}"><img src="/assets/images/logo-min.png" alt=""></a>
         <a class="navbar-brand navbar-brand-lg smoothscroll no-nav-expand" href="{{ prefix | append: "#section-home" }}">SEBS Scholarship</a>
