@@ -19,7 +19,6 @@ defaults:
       path: ""
     values:
       layout: default
-      isHome: false
   -
     scope:
       path: "assets"
