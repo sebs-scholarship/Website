@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% include analytics.html %}
+    <!-- HTML meta refresh URL redirection -->
+    <meta http-equiv="refresh" content="0; url={{ site.url | append: page.location }}">
+    <title>{{ page.title }} - {{ site.title }}</title>
+    <meta name="description" content="{{ page.description }}">
+    <meta property="og:title" content="{{ page.title }}" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="{{ site.url | append: page.url }}" />
+    <meta property="og:image" content="{{ site.url | append: "/assets/images/logo-large-min.png" }}" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/favicon-16x16.png">
+    <link rel="shortcut icon" href="/assets/images/favicon.ico">
+</head>
+</html>
