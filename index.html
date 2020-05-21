@@ -358,15 +358,15 @@
 
 			//TODO: Make this not be set every execution
 			var delta;
-			if (openDate > closeDate) { // A bit counter intuitive
+			if (openDate > closeDate) {
 				button.innerHTML = "Apply Now";
 				button.href = "https://forms.gle/D3TewSSBQVLfFUvNA";
-				delta = (openDate.getTime() - today.getTime()) / 1000;
+				delta = (closeDate.getTime() - today.getTime()) / 1000;
 				//TODO: Fix removed "Application opens/closes" text
 			} else {
 				button.innerHTML = "Learn More";
 				button.href = "#section-details";
-				delta = (closeDate.getTime() - today.getTime()) / 1000
+				delta = (openDate.getTime() - today.getTime()) / 1000;
 			}
 
             var days = Math.floor(delta / (3600 * 24));
