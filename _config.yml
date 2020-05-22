@@ -25,8 +25,7 @@ defaults:
     values:
       sitemap: false
 
-
 theme: null
 
 exclude:
-  - tests/
+  - README.md
