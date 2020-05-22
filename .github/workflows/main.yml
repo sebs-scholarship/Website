@@ -20,20 +20,20 @@ jobs:
   build:
     needs: [check-syntax]
     runs-on: ubuntu-latest
-      steps:
-        - uses: actions/checkout@v2
+    steps:
+      - uses: actions/checkout@v2
 
-        - name: Build the site
-          run: |
-            docker run \
-            -v ${{ github.workspace }}:/srv/jekyll -v ${{ github.workspace }}/_site:/srv/jekyll/_site \
-            jekyll/builder:3.8 /bin/bash -c "chmod 777 /srv/jekyll && jekyll build --future --drafts"
+      - name: Build the site
+        run: |
+          docker run \
+          -v ${{ github.workspace }}:/srv/jekyll -v ${{ github.workspace }}/_site:/srv/jekyll/_site \
+          jekyll/builder:3.8 /bin/bash -c "chmod 777 /srv/jekyll && jekyll build --future --drafts"
 
-        - name: Upload artifact
-          uses: actions/upload-artifact@v1.0.0
-          with:
-            name: Built Site
-            path: ${{ github.workspace }}/_site/
+      - name: Upload artifact
+        uses: actions/upload-artifact@v1.0.0
+        with:
+          name: Built Site
+          path: ${{ github.workspace }}/_site/
 
   deploy:
     needs: [build]

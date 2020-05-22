@@ -20,7 +20,7 @@ jobs:
   build:
     needs: [check-syntax]
     runs-on: ubuntu-latest
-      steps:
+    steps:
       - uses: actions/checkout@v2
 
       - name: Set test config
