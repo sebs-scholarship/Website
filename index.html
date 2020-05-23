@@ -25,7 +25,7 @@
 			<div class="col-lg-12 pr-sm-0">
 				<h2 class="mt-0 heading-border-top mb-3 font-weight-normal">Who We Are</h2>
 				<p>Founded by the SEBS class of 2017, the SEBS Scholarship Foundation is a non-profit public charity dedicated to helping SEBS students afford to further their education. We do this by providing yearly scholarships to graduating SEBS seniors who demonstrate characteristics that align with our core values.</p>
-				<img class="img1 img-fluid pull-right img-wrap" src="/assets/images/2017-min.jpg" alt="Class of 2017">
+				<img class="img1 img-fluid pull-right img-wrap" src="/assets/images/2017-min.jpg" alt="Class of 2017" id="about-image" data-default-img="/assets/images/2017-min.jpg" data-silly-img="/assets/images/2017-alt-min.jpg">
 				<p>We aim to benefit students who demonstrate the following characteristics:</p>
 				<ul>
 					<li>Persist in the face of challenges, both academic and personal.</li>
@@ -327,7 +327,34 @@
 </section>
 <script>
     $(document).ready(function ($) {
-        var button = document.getElementById("actionButton");
+        var button = $("#actionButton");
+		var countdownValue = $("#countdown_value");
+		var countdownLabel = $("#countdown_label");
+		var aboutImage = $("#about-image");
+		var today = new Date();
+		var openDate = new Date(today.getFullYear(), 1, 1);	//Feb 1
+		var closeDate = new Date(today.getFullYear(), 3, 1); //EOD Mar 31
+		var april2 = new Date(today.getFullYear(), 3, 2);
+		var nextSeason = getNextSeason();
+
+		function getNextSeason() {
+			if (openDate < today) openDate.setFullYear(openDate.getFullYear() + 1);	//Yes, I can avoid some lines, but this needs to be done anyways
+			if (closeDate < today) closeDate.setFullYear(closeDate.getFullYear() + 1);
+			if (april2 < today) april2.setFullYear(april2.getFullYear() + 1);
+
+			if (openDate < closeDate && openDate < april2) {
+				setClosed();
+				return 0;
+			} else if (closeDate < openDate && closeDate < april2) {
+				setOpen();
+				return 1;
+			} else {
+				setClosed();
+				setFunnyImg();
+				return 2;
+			}
+		}
+
 		String.prototype.formatUnicorn = String.prototype.formatUnicorn ||
 				function () {
 					"use strict";
@@ -347,30 +374,47 @@
 					return str;
 				};
 
+		function setOpen() {
+			button.html("Apply Now");
+			button.attr("href", "https://forms.gle/D3TewSSBQVLfFUvNA");
+			countdownLabel.text(countdownLabel.attr("data-open-text"));
+		}
+
+		function setClosed() {
+			button.html("Learn More");
+			button.attr("href", "#section-details");
+			countdownLabel.text(countdownLabel.attr("data-closed-text"));
+			aboutImage.attr("src", aboutImage.attr("data-default-img"));
+		}
+
+		function setFunnyImg() {
+			aboutImage.attr("src", aboutImage.attr("data-silly-img"));
+		}
+
         function countdown() {
-            var today = new Date();
+            today = new Date();
 
-            var openDate = new Date(today.getFullYear(), 1, 1);	//Feb 1
-            if (openDate < today) openDate.setFullYear(openDate.getFullYear() + 1); // Make sure people loading the page in December looking at next year's dates
+			if (nextSeason === 0 && openDate < today) {
+				setOpen();
+				nextSeason = 1;
+			} else if (nextSeason === 1 && closeDate < today) {
+				setClosed();
+				setFunnyImg();
+				nextSeason = 2;
+			} else if (nextSeason === 2 && april2 < today) {
+				setClosed();
+				nextSeason = 0;
+			}
 
-            var closeDate = new Date(today.getFullYear(), 3, 1); //EOD Mar 31
+			if (openDate < today) openDate.setFullYear(openDate.getFullYear() + 1); // Make sure people loading the page in December looking at next year's dates
 			if (closeDate < today) closeDate.setFullYear(closeDate.getFullYear() + 1);
+			if (april2 < today) april2.setFullYear(april2.getFullYear() + 1);
 
-			//TODO: Make this not be set every execution
 			var delta;
-            var label;
-            var countdownLabel = $("#countdown_label");
-            
-			if (openDate > closeDate) {
-				button.innerHTML = "Apply Now";
-				button.href = "https://forms.gle/D3TewSSBQVLfFUvNA";
-                label = countdownLabel.attr("data-open-text");
-				delta = (closeDate.getTime() - today.getTime()) / 1000;
-			} else {
-				button.innerHTML = "Learn More";
-				button.href = "#section-details";
-                label = countdownLabel.attr("data-closed-text");
+			if (openDate < closeDate) {
 				delta = (openDate.getTime() - today.getTime()) / 1000;
+			} else {
+				delta = (closeDate.getTime() - today.getTime()) / 1000;
 			}
 
             var days = Math.floor(delta / (3600 * 24));
@@ -378,8 +422,7 @@
             var minutes = Math.floor(delta % 3600 / 60);
             var seconds = Math.floor(delta % 60);
 
-            document.getElementById("countdown_value").innerHTML = "{0} days, {1} hours, {2} minutes, {3} seconds".formatUnicorn(days, hours, minutes, seconds);
-            countdownLabel.text(label);
+			countdownValue.html("{0} days, {1} hours, {2} minutes, {3} seconds".formatUnicorn(days, hours, minutes, seconds));
         }
         setInterval(countdown, 100);
 
