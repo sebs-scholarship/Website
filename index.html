@@ -8,7 +8,7 @@
 				<div class="sub-heading" style="float: none;">
 					<p id="countdown_label" data-open-text="Application Closes March 31st" data-closed-text="Application Opens February 1st">Application Opens February 1st</p>
 					<p class="mb-5" id="countdown_value"></p>
-					<a href="#section-details" role="button" class="btn btn-light smoothscroll pb_outline-light btn-xl pb_font-13 p-4 rounded-0 pb_letter-spacing-2 d-inline-block mb-1 no-nav-expand">Learn More</a>
+					<a href="#section-details" role="button" class="btn btn-light smoothscroll pb_outline-light btn-xl pb_font-13 p-4 rounded-0 pb_letter-spacing-2 d-inline-block mb-1 no-nav-expand" id="actionButton">Learn More</a>
 					<a href="/email/subscribe.html" role="button" class="btn btn-light smoothscroll pb_outline-light btn-xl pb_font-13 p-4 rounded-0 pb_letter-spacing-2 d-inline-block mb-1">Join Our Newsletter</a>
 				</div>
 			</div>
@@ -25,7 +25,7 @@
 			<div class="col-lg-12 pr-sm-0">
 				<h2 class="mt-0 heading-border-top mb-3 font-weight-normal">Who We Are</h2>
 				<p>Founded by the SEBS class of 2017, the SEBS Scholarship Foundation is a non-profit public charity dedicated to helping SEBS students afford to further their education. We do this by providing yearly scholarships to graduating SEBS seniors who demonstrate characteristics that align with our core values.</p>
-				<img class="img1 img-fluid pull-right img-wrap" src="/assets/images/2017-min.jpg" alt="Class of 2017">
+				<img class="img1 img-fluid pull-right img-wrap" src="/assets/images/2017-min.jpg" alt="Class of 2017" id="about-image" data-default-img="/assets/images/2017-min.jpg" data-silly-img="/assets/images/2017-alt-min.jpg">
 				<p>We aim to benefit students who demonstrate the following characteristics:</p>
 				<ul>
 					<li>Persist in the face of challenges, both academic and personal.</li>
@@ -326,124 +326,145 @@
 	</div>
 </section>
 <script>
-	$(document).ready(function($) {
-		function timeRemainingFormatter(millis) {
-			var time = {};
+    $(document).ready(function ($) {
+        var button = $("#actionButton");
+		var countdownValue = $("#countdown_value");
+		var countdownLabel = $("#countdown_label");
+		var aboutImage = $("#about-image");
+		var today = new Date();
+		var openDate = new Date(today.getFullYear(), 1, 1);	//Feb 1
+		var closeDate = new Date(today.getFullYear(), 3, 1); //EOD Mar 31
+		var april2 = new Date(today.getFullYear(), 3, 2);
+		var nextSeason = getNextSeason();
 
-			var days = Math.floor(millis / (24*60*60*1000));
-			time.days = days.toString().padStart(2, "0");
-			millis -= days * 24 * 60 * 60 * 1000;
+		function getNextSeason() {
+			if (openDate < today) openDate.setFullYear(openDate.getFullYear() + 1);	//Yes, I can avoid some lines, but this needs to be done anyways
+			if (closeDate < today) closeDate.setFullYear(closeDate.getFullYear() + 1);
+			if (april2 < today) april2.setFullYear(april2.getFullYear() + 1);
 
-			var hours = Math.floor(millis / (60*60*1000));
-			time.hours = hours.toString().padStart(2, "0");
-			millis -= hours * 60 * 60 * 1000;
-
-			var minutes = Math.floor(millis / (60*1000));
-			time.minutes = minutes.toString().padStart(2, "0");
-			millis -= minutes * 60 * 1000;
-
-			var seconds = Math.floor(millis / 1000);
-			time.seconds = seconds.toString().padStart(2, "0");
-
-			return time;
-		}
-
-		function countdown(openDate, closeDate, countdownLabel, countdownValue) {
-			var currentDate = new Date();
-
-			if (openDate - currentDate < 0) {
-				openDate.setFullYear(openDate.getFullYear() + 1);
-			}
-
-			if (closeDate - currentDate < 0) {
-				closeDate.setFullYear(closeDate.getFullYear() + 1);
-			}
-
-			var openDateDiff = openDate - currentDate;
-			var closeDateDiff = closeDate - currentDate;
-
-			var time, label;
-			if (openDateDiff < closeDateDiff) {
-				time = timeRemainingFormatter(openDateDiff);
-				label = countdownLabel.attr("data-closed-text");
+			if (openDate < closeDate && openDate < april2) {
+				setClosed();
+				return 0;
+			} else if (closeDate < openDate && closeDate < april2) {
+				setOpen();
+				return 1;
 			} else {
-				time = timeRemainingFormatter(closeDateDiff);
-				label = countdownLabel.attr("data-open-text");
+				setClosed();
+				setFunnyImg();
+				return 2;
 			}
-			countdownLabel.text(label);
-			countdownValue.text("{0} days, {1} hours, {2} minutes, {3} seconds".formatUnicorn(time.days, time.hours, time.minutes, time.seconds));
 		}
 
-		function startCountdown() {
-			String.prototype.formatUnicorn = String.prototype.formatUnicorn ||
-					function () {
-						"use strict";
-						var str = this.toString();
-						if (arguments.length) {
-							var t = typeof arguments[0];
-							var key;
-							var args = ("string" === t || "number" === t) ?
-									Array.prototype.slice.call(arguments)
-									: arguments[0];
+		String.prototype.formatUnicorn = String.prototype.formatUnicorn ||
+				function () {
+					"use strict";
+					var str = this.toString();
+					if (arguments.length) {
+						var t = typeof arguments[0];
+						var key;
+						var args = ("string" === t || "number" === t) ?
+								Array.prototype.slice.call(arguments)
+								: arguments[0];
 
-							for (key in args) {
-								str = str.replace(new RegExp("\\{" + key + "\\}", "gi"), args[key]);
-							}
+						for (key in args) {
+							str = str.replace(new RegExp("\\{" + key + "\\}", "gi"), args[key]);
 						}
+					}
 
-						return str;
-					};
+					return str;
+				};
 
-			var currentDate = new Date();
-			var openDate = new Date("February 1, 0000 00:00:00 UTC-7:00");
-			openDate.setFullYear(currentDate.getFullYear());
-			var closeDate = new Date("April 1, 0000 00:00:00 UTC-7:00");
-			closeDate.setFullYear(currentDate.getFullYear());
-			var countdownLabel = $("#countdown_label");
-			var countdownValue = $("#countdown_value");
-
-			setInterval(countdown, 900, openDate, closeDate, countdownLabel, countdownValue);
+		function setOpen() {
+			button.html("Apply Now");
+			button.attr("href", "https://forms.gle/D3TewSSBQVLfFUvNA");
+			countdownLabel.text(countdownLabel.attr("data-open-text"));
 		}
-		startCountdown();
 
-		console.log("Are you a SEBS graduate interested in helping work on our website? Please visit the link below to fill out our interest form!")
-		console.log("https://docs.google.com/forms/d/e/1FAIpQLSdpJSvf3N5r6sGOeiVdel_S46YssOkhNlx5TdHAEkq2KNHaMw/viewform?usp=pp_url&entry.388731389=__other_option__&entry.388731389.other_option_response=Website&entry.229487069=Website&entry.2045281682=WebDev17")
-	});
+		function setClosed() {
+			button.html("Learn More");
+			button.attr("href", "#section-details");
+			countdownLabel.text(countdownLabel.attr("data-closed-text"));
+			aboutImage.attr("src", aboutImage.attr("data-default-img"));
+		}
 
-	function contactSubmit() {
-		grecaptcha.execute();
-	}
+		function setFunnyImg() {
+			aboutImage.attr("src", aboutImage.attr("data-silly-img"));
+		}
 
-	function contact(token) {
-		var name = document.getElementById("name").value;
-		var email = document.getElementById("email").value;
-		var message = document.getElementById("message").value;
-		document.getElementById("status").innerHTML = "";
-		var send = document.getElementById("send");
-		send.value = "Sending...";
-		send.disabled = true;
+        function countdown() {
+            today = new Date();
 
-		var xhttp = new XMLHttpRequest();
-		xhttp.onreadystatechange = function() {
-			if (this.readyState === 4) {
-				if (this.status === 200) {
-					document.getElementById("name").value = "";
-					document.getElementById("email").value = "";
-					document.getElementById("message").value = "";
-					document.getElementById("status").innerHTML = "Message has been sent!";
-				} else {
-					document.getElementById("status").innerHTML = "There was an error sending your message. Please try again and email <a href=\"mailto:help@sebsscholarship.org\">help@sebsscholarship.org</a> directly if the issue persists.";
-				}
-
-				var send = document.getElementById("send");
-				send.value = "Send Message";
-				send.disabled = false;
+			if (nextSeason === 0 && openDate < today) {
+				setOpen();
+				nextSeason = 1;
+			} else if (nextSeason === 1 && closeDate < today) {
+				setClosed();
+				setFunnyImg();
+				nextSeason = 2;
+			} else if (nextSeason === 2 && april2 < today) {
+				setClosed();
+				nextSeason = 0;
 			}
-		};
+
+			if (openDate < today) openDate.setFullYear(openDate.getFullYear() + 1); // Make sure people loading the page in December looking at next year's dates
+			if (closeDate < today) closeDate.setFullYear(closeDate.getFullYear() + 1);
+			if (april2 < today) april2.setFullYear(april2.getFullYear() + 1);
+
+			var delta;
+			if (openDate < closeDate) {
+				delta = (openDate.getTime() - today.getTime()) / 1000;
+			} else {
+				delta = (closeDate.getTime() - today.getTime()) / 1000;
+			}
+
+            var days = Math.floor(delta / (3600 * 24));
+            var hours = Math.floor(delta % (3600 * 24) / 3600);
+            var minutes = Math.floor(delta % 3600 / 60);
+            var seconds = Math.floor(delta % 60);
+
+			countdownValue.html("{0} days, {1} hours, {2} minutes, {3} seconds".formatUnicorn(days, hours, minutes, seconds));
+        }
+        setInterval(countdown, 100);
+
+        console.log("Are you a SEBS graduate interested in helping work on our website? Please visit the link below to fill out our interest form!");
+        console.log("https://docs.google.com/forms/d/e/1FAIpQLSdpJSvf3N5r6sGOeiVdel_S46YssOkhNlx5TdHAEkq2KNHaMw/viewform?usp=pp_url&entry.388731389=__other_option__&entry.388731389.other_option_response=Website&entry.229487069=Website&entry.2045281682=WebDev17");
+    });
+
+
+    function contactSubmit() {
+        grecaptcha.execute();
+    }
+
+    function contact(token) {
+        var name = document.getElementById("name").value;
+        var email = document.getElementById("email").value;
+        var message = document.getElementById("message").value;
+        document.getElementById("status").innerHTML = "";
+        var send = document.getElementById("send");
+        send.value = "Sending...";
+        send.disabled = true;
+
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState === 4) {
+                if (this.status === 200) {
+                    document.getElementById("name").value = "";
+                    document.getElementById("email").value = "";
+                    document.getElementById("message").value = "";
+                    document.getElementById("status").innerHTML = "Message has been sent!";
+                } else {
+                    document.getElementById("status").innerHTML = "There was an error sending your message. Please try again and email <a href=\"mailto:help@sebsscholarship.org\">help@sebsscholarship.org</a> directly if the issue persists.";
+                }
+
+                var send = document.getElementById("send");
+                send.value = "Send Message";
+                send.disabled = false;
+            }
+        };
 		xhttp.open("POST", "/email/contact.php", true);
-		xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-		xhttp.send("name=" + name + "&email=" + email + "&message=" + message + "&token=" + token);
-	}
+        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhttp.send("name=" + name + "&email=" + email + "&message=" + message + "&token=" + token);
+    }
 </script>
 <script src="https://donorbox.org/widget.js" paypalExpress="false"></script>
 <script src="https://www.google.com/recaptcha/api.js" async defer></script>
