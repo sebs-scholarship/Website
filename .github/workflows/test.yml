@@ -16,20 +16,46 @@ jobs:
           sudo apt install -y php-cli
           sudo apt install -f
           find . -name \*.php -type f -print0 | xargs -0 -I {} php -l {}
-  deploy:
+
+  build:
     needs: [check-syntax]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
 
-      - uses: webfactory/ssh-agent@v0.2.0
-        with:
-          ssh-private-key: ${{ secrets.TEST_SSH_KEY }}
-      - run: ssh-keyscan test.sebsscholarship.org > ~/.ssh/known_hosts
-
-      - name: Deploy
+      - name: Set test config
         run: |
           chmod 777 ${{ github.workspace }}
           echo 'User-agent: * Disallow: /' > ${{ github.workspace }}/robots.txt
-          scp -r ${{ github.workspace }}/* ${{ secrets.TEST_SSH_USER }}@test.sebsscholarship.org:~/staging/
+          sed -i 's_https://sebsscholarship.org_https://test.sebsscholarship.org_g' ${{ github.workspace }}/_config.yml
+
+      - name: Build the site
+        run: |
+          docker run \
+          -v ${{ github.workspace }}:/srv/jekyll -v ${{ github.workspace }}/_site:/srv/jekyll/_site \
+          jekyll/builder:3.8 /bin/bash -c "chmod 777 /srv/jekyll && jekyll build --future --drafts"
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v1.0.0
+        with:
+          name: Built Site
+          path: ${{ github.workspace }}/_site/
+
+  deploy:
+    needs: [build]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: webfactory/ssh-agent@v0.2.0
+        with:
+          ssh-private-key: ${{ secrets.TEST_SSH_KEY }}
+
+      - run: ssh-keyscan test.sebsscholarship.org > ~/.ssh/known_hosts
+
+      - uses: actions/download-artifact@v1.0.0
+        with:
+          name: Built Site
+
+      - name: Deploy
+        run: |
+          scp -r Built\ Site/* ${{ secrets.TEST_SSH_USER }}@test.sebsscholarship.org:~/staging/
           ssh ${{ secrets.TEST_SSH_USER }}@test.sebsscholarship.org 'rm -rf ~/test.sebsscholarship.org/* && mv ~/staging/* ~/test.sebsscholarship.org/'
