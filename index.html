@@ -424,7 +424,8 @@
 
 			countdownValue.html("{0} days, {1} hours, {2} minutes, {3} seconds".formatUnicorn(days, hours, minutes, seconds));
         }
-        setInterval(countdown, 100);
+        countdown(); //Display immediately, then schedule
+        setInterval(countdown, 1000);
 
         console.log("Are you a SEBS graduate interested in helping work on our website? Please visit the link below to fill out our interest form!");
         console.log("https://docs.google.com/forms/d/e/1FAIpQLSdpJSvf3N5r6sGOeiVdel_S46YssOkhNlx5TdHAEkq2KNHaMw/viewform?usp=pp_url&entry.388731389=__other_option__&entry.388731389.other_option_response=Website&entry.229487069=Website&entry.2045281682=WebDev17");
