@@ -1,9 +1,9 @@
 a {
-	color: #800000;
+	color: #aa0000;
 }
 
 a:hover {
-	color: #500000;
+	color: #800000;
 }
 
 .mouse-wrap,
@@ -1117,9 +1117,9 @@ textarea {
 }
 
 .pb_outline-dark {
-	border: 1px solid rgba(0, 0, 0, 0.2);
+	border: 1px solid rgba(255, 255, 255, 0.2);
 	text-transform: uppercase;
-	color: black;
+	color: white;
 	background: none;
 	cursor: pointer;
 }
@@ -1392,7 +1392,8 @@ html {
 
 body {
 	font-family: "Montserrat", Arial, sans-serif;
-	color: #5D6369;
+	color: #c6c8ca;
+	background-color: #16181b;
 }
 
 input,
@@ -1423,6 +1424,7 @@ h4,
 h5,
 h6 {
 	font-weight: 300 !important;
+	color: #fff;
 }
 
 a {
@@ -1472,7 +1474,7 @@ a {
 
 .pb_navbar.light .navbar-toggler {
 	border: none;
-	color: rgba(0, 0, 0, 0.5);
+	color: rgba(255, 255, 255, 0.5);
 	border-color: white;
 	cursor: pointer;
 	padding-right: 0;
@@ -1485,12 +1487,12 @@ a {
 }
 
 .pb_navbar.light ul>li>a {
-	color: #212529 !important;
+	color: white !important;
 }
 
 .pb_navbar.light ul>li>a:hover,
 .pb_navbar.light ul>li>a:focus {
-	color: #868e96 !important;
+	color: rgba(255, 255, 255, 0.5) !important;
 }
 
 .pb_navbar.light .navbar-brand {
@@ -1619,14 +1621,14 @@ a {
 }
 
 .pb_navbar.scrolled.pb_scrolled-light {
-	background: #fff !important;
+	background: #2e3133!important;
 	-webkit-box-shadow: 0px 1px 10px -2px rgba(0, 0, 0, 0.15);
 	-moz-box-shadow: 0px 1px 10px -2px rgba(0, 0, 0, 0.15);
 	box-shadow: 0px 1px 10px -2px rgba(0, 0, 0, 0.15);
 }
 
 .pb_navbar.scrolled.pb_scrolled-light .navbar-brand {
-	color: #800000;
+	color: #aa0000;
 }
 
 @media (max-width: 991px) {
@@ -1639,17 +1641,17 @@ a {
 }
 
 .pb_navbar.scrolled.pb_scrolled-light ul li a {
-	color: #212529 !important;
+	color: #fff !important;
 }
 
 .pb_navbar.scrolled.pb_scrolled-light ul li a:hover,
 .pb_navbar.scrolled.pb_scrolled-light ul li a:active,
 .pb_navbar.scrolled.pb_scrolled-light ul li a:focus {
-	color: #868e96 !important;
+	color: #c6c8ca !important;
 }
 
 .pb_navbar.scrolled.pb_scrolled-light ul li a.active {
-	color: #800000 !important;
+	color: #aa0000 !important;
 }
 
 .pb_navbar.scrolled.pb_scrolled-light ul li.cta-btn>a>span {
@@ -2265,7 +2267,7 @@ a {
 
 .pb_media_v1 h3,
 .pb_media_v2 h3 {
-	color: #212529;
+	color: #fff;
 }
 
 .pb_icon_v1 i.flaticon:before {
@@ -2606,4 +2608,16 @@ p.parent {
 
 .grecaptcha-badge {
 	z-index: 99;
+}
+
+.bg-light {
+	background-color: #2e3133!important;
+}
+
+.form-control {
+	background-color: #2e3133!important;
+	color: white;
+}
+.form-control:focus {
+	color: white;
 }
