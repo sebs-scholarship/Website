@@ -33,12 +33,12 @@ if (!curl_errno($ch) && curl_getinfo($ch, CURLINFO_RESPONSE_CODE) === 200) {
 $config = include('../../config.php');  // Get config from on-server file
 $urlBase = "https://sebsscholarship.freshdesk.com/api/v2/tickets"; // API endpoint for our org
 
-$data = array(  // Build ticket payload
+$tData = array(  // Build ticket payload
     'email' => $_POST["email"],
     'name' => $_POST["name"],
     'description' => $_POST["message"]
 );
-$jsonData = json_encode($data); // Convert to JSON string
+$jsonData = json_encode($tData); // Convert to JSON string
 
 $fdConn = curl_init($urlBase);  // The url to connect to
 curl_setopt($fdConn, CURLOPT_USERPWD, $config["fd-key"] . ":X");    // Authentication
@@ -46,7 +46,7 @@ curl_setopt($fdConn, CURLOPT_HTTPHEADER, array(                     // Necessary
         'Content-Type: application/json',
         'Content-Length: ' . strlen($jsonData))
 );
-curl_setopt($ch, CURLOPT_POST, 1);                                  // POST
+curl_setopt($fdConn, CURLOPT_POST, 1);                              // POST
 curl_setopt($fdConn, CURLOPT_POSTFIELDS, $jsonData);                // Attach POST payload
 curl_setopt($fdConn, CURLOPT_RETURNTRANSFER, true);                 // Return response instead of printing
 
@@ -56,7 +56,7 @@ if (!curl_errno($fdConn) && curl_getinfo($fdConn, CURLINFO_RESPONSE_CODE) === 20
     curl_close($fdConn);
     echo 'Message has been sent!';
 } else {
-    curl_close($ch);
+    curl_close($fdConn);
     http_response_code(400);
     echo 'There was an error sending your message. Please try again and email <a href="mailto:help@sebsscholarship.org">help@sebsscholarship.org</a> directly if the issue persists.';
 }
