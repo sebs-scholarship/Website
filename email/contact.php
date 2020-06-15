@@ -56,7 +56,9 @@ if (!curl_errno($fdConn) && curl_getinfo($fdConn, CURLINFO_RESPONSE_CODE) === 20
     curl_close($fdConn);
     echo 'Message has been sent!';
 } else {
+    $errno = curl_getinfo($fdConn, CURLINFO_RESPONSE_CODE);
     curl_close($fdConn);
     http_response_code(400);
     echo 'There was an error sending your message. Please try again and email <a href="mailto:help@sebsscholarship.org">help@sebsscholarship.org</a> directly if the issue persists.';
+    echo 'Error Code: (' . $errno . ')';
 }
