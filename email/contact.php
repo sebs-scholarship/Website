@@ -30,13 +30,15 @@ if (!curl_errno($ch) && curl_getinfo($ch, CURLINFO_RESPONSE_CODE) === 200) {
     exit('There was an error verifying your request.');
 }
 
-$config = include('../../config.php');  // Get config from on-server file
 $urlBase = "https://sebsscholarship.freshdesk.com/api/v2/tickets"; // API endpoint for our org
 
 $tData = array(  // Build ticket payload
     'email' => $_POST["email"],
     'name' => $_POST["name"],
-    'description' => $_POST["message"]
+    'description' => $_POST["message"],
+    'subject' => "Contact Form Submission",
+    'status' => 2,
+    'priority' => 1
 );
 $jsonData = json_encode($tData); // Convert to JSON string
 
@@ -56,9 +58,7 @@ if (!curl_errno($fdConn) && curl_getinfo($fdConn, CURLINFO_RESPONSE_CODE) === 20
     curl_close($fdConn);
     echo 'Message has been sent!';
 } else {
-    $errno = curl_getinfo($fdConn, CURLINFO_RESPONSE_CODE);
     curl_close($fdConn);
     http_response_code(400);
     echo 'There was an error sending your message. Please try again and email <a href="mailto:help@sebsscholarship.org">help@sebsscholarship.org</a> directly if the issue persists.';
-    echo 'Error Code: (' . $errno . ')';
 }
