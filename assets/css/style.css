@@ -1,10 +1,118 @@
-a {
+@media (prefers-color-scheme: dark) {
+	a {
+		color: #aa0000;
+	}
+	a:hover {
+		color: #800000;
+	}
+	.pb_outline-dark {
+		border: 1px solid rgba(255, 255, 255, 0.2);
+		color: white;
+	}
+	body {
+		color: #c6c8ca;
+		background-color: #16181b;
+	}
+	h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	color: #fff;
+}
+.pb_navbar.light .navbar-toggler {
+	color: rgba(255, 255, 255, 0.5);
+}
+.pb_navbar.light ul>li>a {
+	color: white !important;
+}
+.pb_navbar.light ul>li>a:hover,
+.pb_navbar.light ul>li>a:focus {
+	color: rgba(255, 255, 255, 0.5) !important;
+}
+.pb_navbar.scrolled.pb_scrolled-light {
+	background: #2e3133!important;
+}
+.pb_navbar.scrolled.pb_scrolled-light .navbar-brand {
 	color: #aa0000;
 }
+.pb_navbar.scrolled.pb_scrolled-light ul li a {
+	color: #fff !important;
+}
+.pb_navbar.scrolled.pb_scrolled-light ul li a:hover,
+.pb_navbar.scrolled.pb_scrolled-light ul li a:active,
+.pb_navbar.scrolled.pb_scrolled-light ul li a:focus {
+	color: #c6c8ca !important;
+}
+.pb_navbar.scrolled.pb_scrolled-light ul li a.active {
+	color: #aa0000 !important;
+}
+.pb_media_v1 h3,
+.pb_media_v2 h3 {
+	color: #fff;
+}
+.bg-light {
+	background-color: #2e3133!important;
+}
 
-a:hover {
+.form-control {
+	background-color: #2e3133!important;
+	color: white;
+}
+.form-control:focus {
+	color: white;
+} 
+
+  }
+  
+  @media (prefers-color-scheme: light) {
+	a {
+		color: #800000;
+	}
+	a:hover {
+		color: #500000;
+	}
+	.pb_outline-dark {
+		border: 1px solid rgba(0, 0, 0, 0.2);
+		color: black;
+	}
+	body {
+		color: #5D6369;
+	}
+	.pb_navbar.light .navbar-toggler {
+		color: rgba(0, 0, 0, 0.5);
+	}
+	.pb_navbar.light ul>li>a {
+		color: #212529 !important;
+	}
+	.pb_navbar.light ul>li>a:hover,
+.pb_navbar.light ul>li>a:focus {
+	color: #868e96 !important;
+}
+.pb_navbar.scrolled.pb_scrolled-light {
+	background: #fff!important;
+}
+.pb_navbar.scrolled.pb_scrolled-light .navbar-brand {
 	color: #800000;
 }
+.pb_navbar.scrolled.pb_scrolled-light ul li a {
+	color: #212529 !important;
+}
+.pb_navbar.scrolled.pb_scrolled-light ul li a:hover,
+.pb_navbar.scrolled.pb_scrolled-light ul li a:active,
+.pb_navbar.scrolled.pb_scrolled-light ul li a:focus {
+	color: #868e96 !important;
+}
+.pb_navbar.scrolled.pb_scrolled-light ul li a.active {
+	color: #800000 !important;
+}
+.pb_media_v1 h3,
+.pb_media_v2 h3 {
+	color: #212529;
+}
+
+  }
 
 .mouse-wrap,
 .scroll-wrap {
@@ -1117,9 +1225,7 @@ textarea {
 }
 
 .pb_outline-dark {
-	border: 1px solid rgba(255, 255, 255, 0.2);
 	text-transform: uppercase;
-	color: white;
 	background: none;
 	cursor: pointer;
 }
@@ -1392,8 +1498,6 @@ html {
 
 body {
 	font-family: "Montserrat", Arial, sans-serif;
-	color: #c6c8ca;
-	background-color: #16181b;
 }
 
 input,
@@ -1424,7 +1528,6 @@ h4,
 h5,
 h6 {
 	font-weight: 300 !important;
-	color: #fff;
 }
 
 a {
@@ -1474,7 +1577,6 @@ a {
 
 .pb_navbar.light .navbar-toggler {
 	border: none;
-	color: rgba(255, 255, 255, 0.5);
 	border-color: white;
 	cursor: pointer;
 	padding-right: 0;
@@ -1486,14 +1588,9 @@ a {
 	}
 }
 
-.pb_navbar.light ul>li>a {
-	color: white !important;
-}
 
-.pb_navbar.light ul>li>a:hover,
-.pb_navbar.light ul>li>a:focus {
-	color: rgba(255, 255, 255, 0.5) !important;
-}
+
+
 
 .pb_navbar.light .navbar-brand {
 	color: #800000;
@@ -1621,14 +1718,9 @@ a {
 }
 
 .pb_navbar.scrolled.pb_scrolled-light {
-	background: #2e3133!important;
 	-webkit-box-shadow: 0px 1px 10px -2px rgba(0, 0, 0, 0.15);
 	-moz-box-shadow: 0px 1px 10px -2px rgba(0, 0, 0, 0.15);
 	box-shadow: 0px 1px 10px -2px rgba(0, 0, 0, 0.15);
-}
-
-.pb_navbar.scrolled.pb_scrolled-light .navbar-brand {
-	color: #aa0000;
 }
 
 @media (max-width: 991px) {
@@ -1640,18 +1732,12 @@ a {
 	}
 }
 
-.pb_navbar.scrolled.pb_scrolled-light ul li a {
-	color: #fff !important;
-}
+
 
 .pb_navbar.scrolled.pb_scrolled-light ul li a:hover,
 .pb_navbar.scrolled.pb_scrolled-light ul li a:active,
 .pb_navbar.scrolled.pb_scrolled-light ul li a:focus {
 	color: #c6c8ca !important;
-}
-
-.pb_navbar.scrolled.pb_scrolled-light ul li a.active {
-	color: #aa0000 !important;
 }
 
 .pb_navbar.scrolled.pb_scrolled-light ul li.cta-btn>a>span {
@@ -2265,11 +2351,6 @@ a {
 	padding: 0;
 }
 
-.pb_media_v1 h3,
-.pb_media_v2 h3 {
-	color: #fff;
-}
-
 .pb_icon_v1 i.flaticon:before {
 	font-size: 80px;
 	margin: 0;
@@ -2608,16 +2689,4 @@ p.parent {
 
 .grecaptcha-badge {
 	z-index: 99;
-}
-
-.bg-light {
-	background-color: #2e3133!important;
-}
-
-.form-control {
-	background-color: #2e3133!important;
-	color: white;
-}
-.form-control:focus {
-	color: white;
 }
