@@ -41,8 +41,8 @@ $data = array(  // Build ticket payload
 $jsonData = json_encode($data); // Convert to JSON string
 
 $fdConn = curl_init($urlBase);  // The url to connect to
-curl_setopt($mcConn, CURLOPT_USERPWD, $config["fd-key"] . ":X");    // Authentication
-curl_setopt($mcConn, CURLOPT_HTTPHEADER, array(                     // Necessary HTTP header info
+curl_setopt($fdConn, CURLOPT_USERPWD, $config["fd-key"] . ":X");    // Authentication
+curl_setopt($fdConn, CURLOPT_HTTPHEADER, array(                     // Necessary HTTP header info
         'Content-Type: application/json',
         'Content-Length: ' . strlen($jsonData))
 );
