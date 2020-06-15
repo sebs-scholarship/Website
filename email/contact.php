@@ -54,7 +54,7 @@ curl_setopt($fdConn, CURLOPT_RETURNTRANSFER, true);                 // Return re
 
 curl_exec($fdConn);
 
-if (!curl_errno($fdConn) && curl_getinfo($fdConn, CURLINFO_RESPONSE_CODE) === 200) {
+if (!curl_errno($fdConn) && curl_getinfo($fdConn, CURLINFO_RESPONSE_CODE) === 201) {    // 201 CREATED response
     curl_close($fdConn);
     echo 'Message has been sent!';
 } else {
