@@ -1,9 +1,1 @@
-User-Agent: *
-Disallow: /README.md
-Disallow: /.gitignore
-Disallow: /.github/
-Disallow: /apply/
-Disallow: /donate/
-Disallow: /volunteer/
-Disallow: /selection-process/
-Sitemap: https://sebsscholarship.org/sitemap.xml
+Sitemap: {{ "sitemap.xml" | absolute_url }}
