@@ -1,12 +1,5 @@
 <?php
-// Import PHPMailer classes into the global namespace
-// These must be at the top of your script, not inside a function
-use PHPMailer\PHPMailer\Exception;
-use PHPMailer\PHPMailer\PHPMailer;
-
-require '../../PHPMailer/src/Exception.php';
-require '../../PHPMailer/src/PHPMailer.php';
-require '../../PHPMailer/src/SMTP.php';
+// Freshdesk API: https://developers.freshdesk.com/api/
 
 $config = include('../../config.php');
 
@@ -37,29 +30,35 @@ if (!curl_errno($ch) && curl_getinfo($ch, CURLINFO_RESPONSE_CODE) === 200) {
     exit('There was an error verifying your request.');
 }
 
-$mail = new PHPMailer(true);                              // Passing `true` enables exceptions
-try {
-    //Server settings
-    $mail->isSMTP();                                      // Set mailer to use SMTP
-    $mail->Host = 'smtp.gmail.com';                       // Specify SMTP server
-    $mail->SMTPAuth = true;                               // Enable SMTP authentication
-    $mail->Username = 'botnao@sebsscholarship.org';       // SMTP username
-    $mail->Password = $config["smtpPassword"];            // SMTP password
-    $mail->SMTPSecure = 'tls';                            // Enable TLS encryption, `ssl` also accepted
-    $mail->Port = 587;                                    // TCP port to connect to
+$urlBase = "https://sebsscholarship.freshdesk.com/api/v2/tickets"; // API endpoint for our org
 
-    //Recipients
-    $mail->setFrom($_POST["email"], $_POST["name"]);      // Send from submitter email address
-    $mail->addAddress('help@sebsscholarship.org');        // Send to help list
+$tData = array(  // Build ticket payload
+    'email' => $_POST["email"],
+    'name' => $_POST["name"],
+    'description' => $_POST["message"],
+    'subject' => "Contact Form Submission",
+    'status' => 2,
+    'priority' => 1
+);
+$jsonData = json_encode($tData); // Convert to JSON string
 
-    //Content
-    $mail->isHTML(false);                                               // Make sure plain-text is on
-    $mail->Subject = 'SEBS Scholarship Contact Form Submission';
-    $mail->Body = $_POST["message"];                                    // Message from form
+$fdConn = curl_init($urlBase);  // The url to connect to
+curl_setopt($fdConn, CURLOPT_USERPWD, $config["fd-key"] . ":X");    // Authentication
+curl_setopt($fdConn, CURLOPT_HTTPHEADER, array(                     // Necessary HTTP header info
+        'Content-Type: application/json',
+        'Content-Length: ' . strlen($jsonData))
+);
+curl_setopt($fdConn, CURLOPT_POST, 1);                              // POST
+curl_setopt($fdConn, CURLOPT_POSTFIELDS, $jsonData);                // Attach POST payload
+curl_setopt($fdConn, CURLOPT_RETURNTRANSFER, true);                 // Return response instead of printing
 
-    $mail->send();
+curl_exec($fdConn);
+
+if (!curl_errno($fdConn) && curl_getinfo($fdConn, CURLINFO_RESPONSE_CODE) === 201) {    // 201 CREATED response
+    curl_close($fdConn);
     echo 'Message has been sent!';
-} catch (Exception $e) {
+} else {
+    curl_close($fdConn);
     http_response_code(400);
     echo 'There was an error sending your message. Please try again and email <a href="mailto:help@sebsscholarship.org">help@sebsscholarship.org</a> directly if the issue persists.';
 }
