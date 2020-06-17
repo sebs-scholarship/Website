@@ -24,8 +24,14 @@ defaults:
       path: "assets"
     values:
       sitemap: false
-
+  -
+    scope:
+      path: "admin"
+    values:
+      sitemap: false
 theme: null
 
 exclude:
   - README.md
+  - Gemfile
+  - Gemfile.lock
