@@ -57,6 +57,7 @@ h6 {
 }
 
 .form-control {
+	border: 1px solid rgba(0,0,0,.15);
 	background-color: #2e3133!important;
 	color: white;
 }
