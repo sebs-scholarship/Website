@@ -80,6 +80,14 @@ h6 {
 	body {
 		color: #5D6369;
 	}
+	h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	color: #212529;
+}
 	.pb_navbar.light .navbar-toggler {
 		color: rgba(0, 0, 0, 0.5);
 	}
@@ -2691,4 +2699,34 @@ p.parent {
 
 .grecaptcha-badge {
 	z-index: 99;
+}
+
+.h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
+    margin-bottom: .5rem;
+    font-family: inherit;
+	line-height: 1.1;
+}
+.font-weight-normal {
+    font-weight: 300!important;
+}
+
+.btn{
+	font-weight: 300!important;
+}
+textarea:hover, 
+input:hover, 
+textarea:active, 
+input:active, 
+textarea:focus, 
+input:focus,
+button:focus,
+button:active,
+button:hover,
+label:focus,
+.btn:active,
+.btn.active
+{
+    outline:0px !important;
+    -webkit-appearance:none;
+    box-shadow: none !important;
 }
