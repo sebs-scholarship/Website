@@ -105,7 +105,7 @@ $config = include('../../config.php');
 
 $recaptchaEndpoint = "https://www.google.com/recaptcha/api/siteverify";                 // reCAPTCHA API
 $oauthEndpoint = "https://login.salesforce.com/services/oauth2/token";                  // OAuth 2.0 Token API
-$caseEndpoint = "https://na111.salesforce.com/services/data/v49.0/sobjects/Case";       // Org Case API
+$caseEndpoint = "https://na111.salesforce.com/services/data/v49.0/sobjects/Case/";       // Org Case API
 
 if (!validate()) {                                              // Check if request had all required info
     http_response_code(400);
