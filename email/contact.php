@@ -47,7 +47,7 @@ function getToken($endpoint, $config) {
     )));
 
     $message = $jsonH . "." . $payload;
-    $jwt = $message . "." . JWT::encode($message, $privateKey, 'RS256');
+    $jwt = $message . "." . base64_encode(JWT::encode($message, $privateKey, 'RS256'));
 
     $data = array(
         'grant_type' => 'urn:ietf:params:oauth:grant-type:jwt-bearer',
@@ -61,7 +61,6 @@ function getToken($endpoint, $config) {
     $response = curl_exec($ch);
     $token = null;
 
-    exit("response: " . curl_getinfo($ch, CURLINFO_RESPONSE_CODE) . " " . $response);
     if (!curl_errno($ch) && curl_getinfo($ch, CURLINFO_RESPONSE_CODE) === 200) {
         $token = json_decode($response, true)["access_token"];
     }
