@@ -6,7 +6,7 @@
 
 use \Firebase\JWT\JWT;
 
-include('../../php-jwt/src/JWT.php');
+require('../../php-jwt/src/JWT.php');
 
 function validate() {
     return isset($_POST["name"]) && strlen($_POST["name"]) > 0 && isset($_POST["email"])
@@ -14,10 +14,10 @@ function validate() {
         && isset($_POST["token"]) && strlen($_POST["token"]) > 0;
 }
 
-function verifyRecaptcha($config) {
+function verifyRecaptcha($endpoint, $config) {
     $data = "secret=" . $config["rc-key"] . "&response=" . $_POST["token"];
 
-    $ch = curl_init("https://www.google.com/recaptcha/api/siteverify");
+    $ch = curl_init($endpoint);
     curl_setopt($ch, CURLOPT_POST, 1);
     curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -61,7 +61,6 @@ function getToken($endpoint, $config) {
     $response = curl_exec($ch);
     $token = null;
 
-    exit("response: " . curl_getinfo($ch, CURLINFO_RESPONSE_CODE) . " " . $response);
     if (!curl_errno($ch) && curl_getinfo($ch, CURLINFO_RESPONSE_CODE) === 200) {
         $token = json_decode($response, true)["access_token"];
     }
@@ -101,16 +100,16 @@ function createCase($token, $endpoint) {
 
 $config = include('../../config.php');
 
-$urlBase = "https://sebsscholarship.salesforce.com/services";   // Base endpoint for our org
-$oauthEndpoint = $urlBase . "/oauth2/token";                    // OAuth 2.0 Token API
-$caseEndpoint = $urlBase . "/data/v49.0/sobjects/Case";         // Case API
+$recaptchaEndpoint = "https://www.google.com/recaptcha/api/siteverify";                     // reCAPTCHA API
+$oauthEndpoint = "https://login.salesforce.com/services/oauth2/token";                      // OAuth 2.0 Token API
+$caseEndpoint = "https://sebsscholarship.salesforce.com/services/data/v49.0/sobjects/Case"; // Org Case API
 
 if (!validate()) {                                              // Check if request had all required info
     http_response_code(400);
     exit('We\'re missing some required information! Please fill out all fields and email <a href="mailto:help@sebsscholarship.org">help@sebsscholarship.org</a> directly if the issue persists.');
 }
 
-$recaptcha = verifyRecaptcha($config);                          // Check if reCAPTCHA verification passed
+$recaptcha = verifyRecaptcha($recaptchaEndpoint, $config);      // Check if reCAPTCHA verification passed
 if ($recaptcha === 1) {
     http_response_code(500);
     exit('There was an error verifying your request.');
