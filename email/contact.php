@@ -64,16 +64,13 @@ function getToken($endpoint, $config) {
 
     if (!curl_errno($ch) && curl_getinfo($ch, CURLINFO_RESPONSE_CODE) === 200) {
         $token = json_decode($response, true)["access_token"];
-    } else {
-        http_response_code(500);
-        exit("response: " . $response . "\nmessage: " . $jwt);
     }
 
     curl_close($ch);
     return $token;
 }
 
-function createCase($token, $endpoint) {
+function createCase($endpoint, $token) {
     $data = json_encode(array(
         'SuppliedName' => $_POST["name"],
         'SuppliedEmail' => $_POST["email"],
@@ -91,11 +88,13 @@ function createCase($token, $endpoint) {
             'Content-Type: application/json',
             'Content-Length: ' . strlen($data))
     );
-    curl_exec($ch);
+    $response = curl_exec($ch);
 
     $status = true;
     if (curl_errno($ch) || curl_getinfo($ch, CURLINFO_RESPONSE_CODE) !== 201) {
         $status = false;
+        http_response_code(500);
+        exit("response: " . $response);
     }
 
     curl_close($ch);
@@ -128,9 +127,9 @@ if (is_null($token)) {
     exit('There was an error authenticating your request.');
 }
 
-if (createCase($token, $caseEndpoint)) {                        // Submit the case to Salesforce
+if (createCase($caseEndpoint, $token)) {                        // Submit the case to Salesforce
     exit('Message has been sent!');
 } else {
-    http_response_code(400);
+    http_response_code(500);
     exit('There was an error sending your message. Please try again and email <a href="mailto:help@sebsscholarship.org">help@sebsscholarship.org</a> directly if the issue persists.');
 }
