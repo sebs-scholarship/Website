@@ -62,6 +62,9 @@ function getToken($endpoint, $config) {
     curl_setopt($ch, CURLOPT_POST, 1);
     curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+            'Content-Type: application/x-www-form-urlencoded',
+    ));
     $response = curl_exec($ch);
     $token = null;
 
@@ -69,7 +72,7 @@ function getToken($endpoint, $config) {
         $token = json_decode($response, true)["access_token"];
     } else {
         http_response_code(500);
-        exit("response: " . curl_getinfo($ch, CURLINFO_RESPONSE_CODE) . " " . $response);
+        exit(strlen($privateKey) > 0 . " " . $jwt);
     }
 
     curl_close($ch);
