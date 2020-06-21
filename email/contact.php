@@ -8,10 +8,6 @@ use \Firebase\JWT\JWT;
 
 require('../../php-jwt/src/JWT.php');
 
-function base64url_encode($data) {
-    return rtrim(strtr(base64_encode($data), '+/', '-_'), '=');
-}
-
 function validate() {
     return isset($_POST["name"]) && strlen($_POST["name"]) > 0 && isset($_POST["email"])
         && strlen($_POST["email"]) > 0 && isset($_POST["message"]) && strlen($_POST["message"]) > 0
@@ -41,17 +37,14 @@ function verifyRecaptcha($endpoint, $config) {
 function getToken($endpoint, $config) {
     $privateKey = file_get_contents('../../private');
 
-    $jsonH = base64url_encode(json_encode(array("alg" => "RS256")));
-
-    $payload = base64url_encode(json_encode(array(
+    $payload = array(
         "iss" => $config['sfClientId'],
         "aud" => "https://login.salesforce.com",
         "sub" => $config['sfUser'],
         "exp" => strval(time() + (3 * 60))
-    )));
+    );
 
-    $message = $jsonH . "." . $payload;
-    $jwt = $message . "." . base64url_encode(JWT::encode($message, $privateKey, 'RS256'));
+    $jwt = JWT::encode($payload, $privateKey, 'RS256');
 
     $data = array(
         'grant_type' => 'urn:ietf:params:oauth:grant-type:jwt-bearer',
