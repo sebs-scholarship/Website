@@ -72,7 +72,7 @@ function getToken($endpoint, $config) {
         $token = json_decode($response, true)["access_token"];
     } else {
         http_response_code(500);
-        exit(strlen($privateKey) > 0 . " " . $jwt);
+        exit("message: " . $jwt);
     }
 
     curl_close($ch);
