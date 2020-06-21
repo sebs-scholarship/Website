@@ -44,7 +44,7 @@ function getToken($endpoint, $config) {
         "exp" => strval(time() + (3 * 60))
     );
 
-    $jwt = JWT::encode($payload, $privateKey, 'RS256');
+    $jwt = JWT::encode($payload, $privateKey, 'RS256', null, null, false);
 
     $data = array(
         'grant_type' => 'urn:ietf:params:oauth:grant-type:jwt-bearer',
@@ -65,7 +65,7 @@ function getToken($endpoint, $config) {
         $token = json_decode($response, true)["access_token"];
     } else {
         http_response_code(500);
-        exit("message: " . $jwt);
+        exit("response: " . $response . "\nmessage: " . $jwt);
     }
 
     curl_close($ch);
