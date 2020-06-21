@@ -94,7 +94,7 @@ function createCase($endpoint, $token) {
     if (curl_errno($ch) || curl_getinfo($ch, CURLINFO_RESPONSE_CODE) !== 201) {
         $status = false;
         http_response_code(500);
-        exit("response: " . $response);
+        exit("code: " . curl_getinfo($ch, CURLINFO_RESPONSE_CODE));
     }
 
     curl_close($ch);
@@ -103,9 +103,9 @@ function createCase($endpoint, $token) {
 
 $config = include('../../config.php');
 
-$recaptchaEndpoint = "https://www.google.com/recaptcha/api/siteverify";                     // reCAPTCHA API
-$oauthEndpoint = "https://login.salesforce.com/services/oauth2/token";                      // OAuth 2.0 Token API
-$caseEndpoint = "https://sebsscholarship.salesforce.com/services/data/v49.0/sobjects/Case"; // Org Case API
+$recaptchaEndpoint = "https://www.google.com/recaptcha/api/siteverify";                 // reCAPTCHA API
+$oauthEndpoint = "https://login.salesforce.com/services/oauth2/token";                  // OAuth 2.0 Token API
+$caseEndpoint = "https://na111.salesforce.com/services/data/v49.0/sobjects/Case";       // Org Case API
 
 if (!validate()) {                                              // Check if request had all required info
     http_response_code(400);
