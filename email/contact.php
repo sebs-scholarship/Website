@@ -44,12 +44,12 @@ function getToken($endpoint, $config) {
         "exp" => strval(time() + (3 * 60))
     );
 
-    $jwt = JWT::encode($payload, $privateKey, 'RS256', null, null, false);
+    $jwt = JWT::encode($payload, $privateKey, 'RS256');
 
-    $data = array(
+    $data = http_build_query(array(
         'grant_type' => 'urn:ietf:params:oauth:grant-type:jwt-bearer',
         'assertion' => $jwt
-    );
+    ));
 
     $ch = curl_init($endpoint);
     curl_setopt($ch, CURLOPT_POST, 1);
@@ -57,6 +57,7 @@ function getToken($endpoint, $config) {
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_HTTPHEADER, array(
             'Content-Type: application/x-www-form-urlencoded',
+            'Content-Length: ' . strlen($data)
     ));
     $response = curl_exec($ch);
     $token = null;
