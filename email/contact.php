@@ -61,7 +61,7 @@ function getToken($endpoint, $config) {
     $response = curl_exec($ch);
     $token = null;
 
-    echo $response;
+    exit("response: " . curl_getinfo($ch, CURLINFO_RESPONSE_CODE) . " " . $response);
     if (!curl_errno($ch) && curl_getinfo($ch, CURLINFO_RESPONSE_CODE) === 200) {
         $token = json_decode($response, true)["access_token"];
     }
