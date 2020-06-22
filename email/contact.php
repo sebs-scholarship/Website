@@ -34,9 +34,7 @@ function verifyRecaptcha($endpoint, $config) {
     return $code;
 }
 
-function getToken($endpoint, $config) {
-    $privateKey = file_get_contents('../../private');
-
+function getToken($endpoint, $config, $privateKey) {
     $payload = array(
         "iss" => $config['sfClientId'],
         "aud" => "https://login.salesforce.com",
@@ -63,7 +61,7 @@ function getToken($endpoint, $config) {
     $token = null;
 
     if (!curl_errno($ch) && curl_getinfo($ch, CURLINFO_RESPONSE_CODE) === 200) {
-        $token = json_decode($response, true)["access_token"];
+        $token = json_decode($response, true);
     }
 
     curl_close($ch);
@@ -86,15 +84,13 @@ function createCase($endpoint, $token) {
     curl_setopt($ch, CURLOPT_HTTPHEADER, array(
             'Authorization: Bearer ' . $token,
             'Content-Type: application/json',
-            'Content-Length: ' . strlen($data))
-    );
-    $response = curl_exec($ch);
+            'Content-Length: ' . strlen($data)
+    ));
+    curl_exec($ch);
 
     $status = true;
     if (curl_errno($ch) || curl_getinfo($ch, CURLINFO_RESPONSE_CODE) !== 201) {
         $status = false;
-        http_response_code(500);
-        exit("code: " . curl_getinfo($ch, CURLINFO_RESPONSE_CODE));
     }
 
     curl_close($ch);
@@ -105,7 +101,6 @@ $config = include('../../config.php');
 
 $recaptchaEndpoint = "https://www.google.com/recaptcha/api/siteverify";                 // reCAPTCHA API
 $oauthEndpoint = "https://login.salesforce.com/services/oauth2/token";                  // OAuth 2.0 Token API
-$caseEndpoint = "https://na111.salesforce.com/services/data/v49.0/sobjects/Case/";       // Org Case API
 
 if (!validate()) {                                              // Check if request had all required info
     http_response_code(400);
@@ -121,13 +116,14 @@ if ($recaptcha === 1) {
     exit('reCAPTCHA verification failed. Are you a robot?');
 }
 
-$token = getToken($oauthEndpoint, $config);                     // Check if application is OAuth authenticated
-if (is_null($token)) {
+$response = getToken($oauthEndpoint, $config, file_get_contents('../../private'));
+if (is_null($response)) {                      // Check if application is OAuth authenticated
     http_response_code(500);
     exit('There was an error authenticating your request.');
 }
 
-if (createCase($caseEndpoint, $token)) {                        // Submit the case to Salesforce
+$caseEndpoint = $response["instance_url"] . "/services/data/v48.0/sobjects/Case/"; // Authenticated Case API
+if (createCase($caseEndpoint, $response["access_token"])) {                        // Submit the case to Salesforce
     exit('Message has been sent!');
 } else {
     http_response_code(500);
