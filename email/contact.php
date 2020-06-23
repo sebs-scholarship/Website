@@ -3,6 +3,7 @@
 // Salesforce Cases API: https://developer.salesforce.com/docs/atlas.en-us.226.0.object_reference.meta/object_reference/sforce_api_objects_case.htm
 // Salesforce JWT OAuth: https://help.salesforce.com/articleView?id=remoteaccess_oauth_jwt_flow.htm&type=5
 // Firebase JWT: https://github.com/firebase/php-jwt
+// OAuth Authorization: https://login.salesforce.com/services/oauth2/authorize?response_type=token&client_id=3MVG9Kip4IKAZQEXRsS0YD5c1R6FtIVV6IrGlckdJRiGd.B0bIIxaFZ7m9BzSGlkpdTWKLeAz4fIkAlXM4bV7&redirect_uri=https://login.salesforce.com/services/oauth2/success
 
 use \Firebase\JWT\JWT;
 
@@ -71,6 +72,7 @@ function getToken($endpoint, $config, $privateKey) {
 function createCase($endpoint, $token) {
     $data = json_encode(array(
         'SuppliedName' => $_POST["name"],
+        'ContactEmail' => $_POST["email"],
         'SuppliedEmail' => $_POST["email"],
         'Subject' => "Contact Form Submission",
         'Description' => $_POST["message"],
