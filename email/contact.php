@@ -72,7 +72,6 @@ function getToken($endpoint, $config, $privateKey) {
 function createCase($endpoint, $token) {
     $data = json_encode(array(
         'SuppliedName' => $_POST["name"],
-        'ContactEmail' => $_POST["email"],
         'SuppliedEmail' => $_POST["email"],
         'Subject' => "Contact Form Submission",
         'Description' => $_POST["message"],
