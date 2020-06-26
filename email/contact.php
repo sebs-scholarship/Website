@@ -87,11 +87,38 @@ function createCase($endpoint, $token) {
             'Content-Type: application/json',
             'Content-Length: ' . strlen($data)
     ));
+    $response = curl_exec($ch);
+
+    $id = null;
+    if (!curl_errno($ch) && curl_getinfo($ch, CURLINFO_RESPONSE_CODE) == 201) {
+        $id = json_decode($response, true)["id"];
+    }
+
+    curl_close($ch);
+    return $id;
+}
+
+function notifyRecipient($endpoint, $token, $id) {
+    $data = json_encode(array(
+        'inputs' => array(
+            array('SObjectRowId' => $id)
+        )
+    ));
+
+    $ch = curl_init($endpoint);
+    curl_setopt($ch, CURLOPT_POST, 1);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+        'Authorization: Bearer ' . $token,
+        'Content-Type: application/json',
+        'Content-Length: ' . strlen($data)
+    ));
     curl_exec($ch);
 
-    $status = true;
-    if (curl_errno($ch) || curl_getinfo($ch, CURLINFO_RESPONSE_CODE) !== 201) {
-        $status = false;
+    $status = false;
+    if (!curl_errno($ch) && curl_getinfo($ch, CURLINFO_RESPONSE_CODE) == 200) {
+        $status = true;
     }
 
     curl_close($ch);
@@ -123,10 +150,21 @@ if (is_null($response)) {                      // Check if application is OAuth 
     exit('There was an error authenticating your request.');
 }
 
+$token = $response["access_token"];
 $caseEndpoint = $response["instance_url"] . "/services/data/v48.0/sobjects/Case/"; // Authenticated Case API
-if (createCase($caseEndpoint, $response["access_token"])) {                        // Submit the case to Salesforce
-    exit('Message has been sent!');
-} else {
+$notifyEndpoint = $response["instance_url"] . "/services/data/v48.0/actions/custom/emailAlert/Case/Auto_Response/";
+
+$id = createCase($caseEndpoint, $token);     // Submit the case to Salesforce
+if (is_null($id)) {
     http_response_code(500);
-    exit('There was an error sending your message. Please try again and email <a href="mailto:help@sebsscholarship.org">help@sebsscholarship.org</a> directly if the issue persists.');
+    exit('There was an error submitting your message.');
 }
+
+if (!notifyRecipient($notifyEndpoint, $token, $id)) {
+    http_response_code(500);
+    exit('There was an error sending your confirmation message.');
+}
+
+exit('Message has been sent!');
+
+
