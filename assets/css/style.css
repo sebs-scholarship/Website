@@ -57,8 +57,10 @@ h6 {
 }
 
 .form-control {
+	border: 1px solid rgba(0,0,0,.15);
 	background-color: #2e3133!important;
 	color: white;
+	font-weight: 300;
 }
 .form-control:focus {
 	color: white;
@@ -80,6 +82,17 @@ h6 {
 	body {
 		color: #5D6369;
 	}
+	h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	margin-bottom: .5rem;
+	font-family: inherit;
+	line-height: 1.1;
+	color: #212529;
+}
 	.pb_navbar.light .navbar-toggler {
 		color: rgba(0, 0, 0, 0.5);
 	}
@@ -1498,6 +1511,8 @@ html {
 
 body {
 	font-family: "Montserrat", Arial, sans-serif;
+	font-weight: 300;
+	line-height: 1.8;
 }
 
 input,
@@ -2689,4 +2704,21 @@ p.parent {
 
 .grecaptcha-badge {
 	z-index: 99;
+}
+
+.font-weight-normal {
+    font-weight: 300!important;
+}
+
+.btn{
+	font-weight: 300!important;
+}
+
+textarea:focus,
+input:focus
+{
+    outline:0px !important;
+    -webkit-appearance:none;
+	box-shadow: none !important;
+	font-weight: 300;
 }
