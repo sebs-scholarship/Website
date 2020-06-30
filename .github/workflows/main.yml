@@ -48,6 +48,7 @@ jobs:
       - uses: actions/download-artifact@v2
         with:
           name: Built Site
+          path: Built Site
 
       - name: Deploy
         run: |
