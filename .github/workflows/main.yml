@@ -39,7 +39,7 @@ jobs:
     needs: [build]
     runs-on: ubuntu-latest
     steps:
-      - uses: webfactory/ssh-agent@v0.2.0
+      - uses: webfactory/ssh-agent@v0.4.0
         with:
           ssh-private-key: ${{ secrets.PROD_SSH_KEY }}
 
