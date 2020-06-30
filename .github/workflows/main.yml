@@ -45,7 +45,7 @@ jobs:
 
       - run: ssh-keyscan sebsscholarship.org > ~/.ssh/known_hosts
 
-      - uses: actions/download-artifact@v1.0.0
+      - uses: actions/download-artifact@v2
         with:
           name: Built Site
 
