@@ -42,6 +42,7 @@
     <link rel="stylesheet" href="/assets/css/slick-theme.css">
     <link rel="stylesheet" href="/assets/css/style.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Crimson+Text:400,400i,600|Montserrat:200,300,400">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.css" />
 </head>
 <body data-spy="scroll" data-target="#pb-navbar" data-offset="200">
 <!-- loader -->
@@ -138,5 +139,22 @@
     <script src="/assets/js/slick.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" crossorigin="anonymous"></script>
     <script src="/assets/js/main.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.js" data-cfasync="false"></script>
+    <script>
+        window.cookieconsent.initialise({
+            "palette": {
+                "popup": {
+                    "background": "#000"
+                },
+                "button": {
+                    "background": "#800000"
+                }
+            },
+            "theme": "edgeless",
+            "content": {
+                "href": "https://sebsscholarship.org/privacy_policy.html"
+            }
+        });
+    </script>
 </body>
 </html>
