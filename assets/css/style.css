@@ -66,6 +66,9 @@
 		color: white;
 	}
 
+	.d-wall {
+		background-color: white;
+	}
 }
   
 @media (prefers-color-scheme: light) {
@@ -125,6 +128,9 @@
 		color: #212529;
 	}
 
+	.d-wall {
+		background-color: rgba(0, 0, 0, 0);
+	}
 }
 
 .mouse-wrap,
