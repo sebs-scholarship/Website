@@ -29,7 +29,7 @@ defaults:
       path: "admin"
     values:
       sitemap: false
-theme: null
+remote_theme: sebsscholarship/SSF-Theme
 
 exclude:
   - README.md
