@@ -4,9 +4,11 @@ on: push
 
 jobs:
   lint:
-    - uses: actions/checkout@v2
-    - name: Lint Code Base
-      uses: docker://github/super-linter:v3
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Lint Code Base
+        uses: docker://github/super-linter:v3
 
   build:
     needs: [lint]
