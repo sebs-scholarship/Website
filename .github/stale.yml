@@ -2,6 +2,6 @@ daysUntilStale: 14
 daysUntilClose: false
 staleLabel: overdue
 markComment: >
-  This issue has been automatically marked as stale because it has not had
+  This issue has been automatically marked as overdue because it has not had
   recent activity. Thank you for your contributions.
 closeComment: false

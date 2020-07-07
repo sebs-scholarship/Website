@@ -1,27 +1,28 @@
-name: Deploy to Production Site
+name: Push
 
-on:
-  push:
-    branches: [ master ]
+on: push
 
 jobs:
-  check-syntax:
+  lint:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-
-      - name: Check PHP
-        run: |
-          sudo apt update
-          sudo apt install -y php-cli
-          sudo apt install -f
-          find . -name \*.php -type f -print0 | xargs -0 -I {} php -l {}
+      - name: Lint Code Base
+        uses: docker://github/super-linter:v3
 
   build:
-    needs: [check-syntax]
+    needs: [lint]
+    if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/development'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+
+      - name: Set test config
+        if: github.ref == 'refs/heads/development'
+        run: |
+          chmod 777 ${{ github.workspace }}
+          echo 'User-agent: * Disallow: /' > ${{ github.workspace }}/robots.txt
+          sed -i 's_https://sebsscholarship.org_https://test.sebsscholarship.org_g' ${{ github.workspace }}/_config.yml
 
       - name: Build the site
         run: |
@@ -40,8 +41,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: webfactory/ssh-agent@v0.4.0
+        if: github.ref == 'refs/heads/master'
         with:
           ssh-private-key: ${{ secrets.PROD_SSH_KEY }}
+      - uses: webfactory/ssh-agent@v0.4.0
+        if: github.ref == 'refs/heads/development'
+        with:
+          ssh-private-key: ${{ secrets.TEST_SSH_KEY }}
 
       - run: ssh-keyscan sebsscholarship.org > ~/.ssh/known_hosts
 
@@ -51,6 +57,12 @@ jobs:
           path: Built Site
 
       - name: Deploy
+        if: github.ref == 'refs/heads/master'
         run: |
           scp -r Built\ Site/* ${{ secrets.PROD_SSH_USER }}@sebsscholarship.org:~/staging/
           ssh ${{ secrets.PROD_SSH_USER }}@sebsscholarship.org 'rm -rf ~/sebsscholarship.org/* && mv ~/staging/* ~/sebsscholarship.org/'
+      - name: Deploy
+        if: github.ref == 'refs/heads/development'
+        run: |
+          scp -r Built\ Site/* ${{ secrets.TEST_SSH_USER }}@sebsscholarship.org:~/staging/
+          ssh ${{ secrets.TEST_SSH_USER }}@sebsscholarship.org 'rm -rf ~/test.sebsscholarship.org/* && mv ~/staging/* ~/test.sebsscholarship.org/'
