@@ -39,7 +39,7 @@ jobs:
           jekyll/builder:4 /bin/bash -c "chmod 777 /srv/jekyll && jekyll build --future --drafts"
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v2.1.2
+        uses: actions/upload-artifact@v2.1.3
         with:
           name: Built Site
           path: ${{ github.workspace }}/_site/
