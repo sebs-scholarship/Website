@@ -8,7 +8,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Lint Code Base
-        uses: github/super-linter@v3.3.2
+        uses: github/super-linter@v3.6.0
         env:
           VALIDATE_YAML: true
           VALIDATE_XML: true
