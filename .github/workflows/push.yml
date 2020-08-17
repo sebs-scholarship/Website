@@ -20,7 +20,7 @@ jobs:
 
   build:
     needs: [lint]
-    if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/development'
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/development'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -49,7 +49,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: webfactory/ssh-agent@v0.4.0
-        if: github.ref == 'refs/heads/master'
+        if: github.ref == 'refs/heads/main'
         with:
           ssh-private-key: ${{ secrets.PROD_SSH_KEY }}
       - uses: webfactory/ssh-agent@v0.4.0
@@ -65,7 +65,7 @@ jobs:
           path: Built Site
 
       - name: Deploy
-        if: github.ref == 'refs/heads/master'
+        if: github.ref == 'refs/heads/main'
         run: |
           scp -r Built\ Site/* ${{ secrets.PROD_SSH_USER }}@sebsscholarship.org:~/staging/
           ssh ${{ secrets.PROD_SSH_USER }}@sebsscholarship.org 'rm -rf ~/sebsscholarship.org/* && mv ~/staging/* ~/sebsscholarship.org/'

@@ -5,8 +5,12 @@ updates:
     schedule:
       interval: "daily"
     target-branch: "development"
+    reviewers:
+      - "leviem1"
   - package-ecosystem: "bundler"
     directory: "/"
     schedule:
       interval: "daily"
     target-branch: "development"
+    reviewers:
+      - "leviem1"
