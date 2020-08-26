@@ -33,5 +33,4 @@ jobs:
         run: |
           docker run \
           -v ${{ github.workspace }}:/srv/jekyll -v ${{ github.workspace }}/_site:/srv/jekyll/_site \
-          jekyll/builder:4 /bin/bash -c "chmod 777 /srv/jekyll && gem install --user-install bundler:1.17.3 \
-          && jekyll build --future --drafts"
+          jekyll/builder:4 /bin/bash -c "chmod 777 /srv/jekyll && jekyll build --future --drafts"
