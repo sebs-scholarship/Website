@@ -1,15 +1,19 @@
-name: Push
+name: Build and Deploy Staging
 
-on: push
+on:
+  push:
+    branches:
+      - 'staging'
 
 jobs:
   lint:
+    name: Lint for errors
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
       - name: Lint Code Base
-        uses: github/super-linter@v3.3.2
+        uses: docker://github/super-linter:v3
         env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           VALIDATE_YAML: true
           VALIDATE_XML: true
           VALIDATE_MD: true
@@ -19,20 +23,18 @@ jobs:
           VALIDATE_CSS: true
 
   build:
+    name: Build the site
     needs: [lint]
-    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/development'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
 
-      - name: Set test config
-        if: github.ref == 'refs/heads/development'
+      - name: Staging site configuration
         run: |
-          chmod 777 ${{ github.workspace }}
           echo 'User-agent: * Disallow: /' > ${{ github.workspace }}/robots.txt
           sed -i 's_https://sebsscholarship.org_https://test.sebsscholarship.org_g' ${{ github.workspace }}/_config.yml
 
-      - name: Build the site
+      - name: Build staging site
         run: |
           docker run \
           -v ${{ github.workspace }}:/srv/jekyll -v ${{ github.workspace }}/_site:/srv/jekyll/_site \
@@ -44,33 +46,26 @@ jobs:
           name: Built Site
           path: ${{ github.workspace }}/_site/
 
-  deploy:
+  deploy_staging:
+    name: Deploy to staging server
     needs: [build]
     runs-on: ubuntu-latest
     steps:
-      - uses: webfactory/ssh-agent@v0.4.0
-        if: github.ref == 'refs/heads/main'
-        with:
-          ssh-private-key: ${{ secrets.PROD_SSH_KEY }}
-      - uses: webfactory/ssh-agent@v0.4.0
-        if: github.ref == 'refs/heads/development'
-        with:
-          ssh-private-key: ${{ secrets.TEST_SSH_KEY }}
-
-      - run: ssh-keyscan sebsscholarship.org > ~/.ssh/known_hosts
-
       - uses: actions/download-artifact@v2
         with:
           name: Built Site
           path: Built Site
 
+      - name: Install SSH key
+        uses: webfactory/ssh-agent@v0.4.0
+        with:
+          ssh-private-key: ${{ secrets.TEST_SSH_KEY }}
+
+      - name: Trust SSH key
+        run: ssh-keyscan sebsscholarship.org > ~/.ssh/known_hosts
+
       - name: Deploy
-        if: github.ref == 'refs/heads/main'
-        run: |
-          scp -r Built\ Site/* ${{ secrets.PROD_SSH_USER }}@sebsscholarship.org:~/staging/
-          ssh ${{ secrets.PROD_SSH_USER }}@sebsscholarship.org 'rm -rf ~/sebsscholarship.org/* && mv ~/staging/* ~/sebsscholarship.org/'
-      - name: Deploy
-        if: github.ref == 'refs/heads/development'
         run: |
           scp -r Built\ Site/* ${{ secrets.TEST_SSH_USER }}@sebsscholarship.org:~/staging/
-          ssh ${{ secrets.TEST_SSH_USER }}@sebsscholarship.org 'rm -rf ~/test.sebsscholarship.org/* && mv ~/staging/* ~/test.sebsscholarship.org/'
+          ssh ${{ secrets.TEST_SSH_USER }}@sebsscholarship.org 'rm -rf ~/test.sebsscholarship.org/* \
+          && mv ~/staging/* ~/test.sebsscholarship.org/'

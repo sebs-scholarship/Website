@@ -1,0 +1,66 @@
+name: Build and Deploy Production
+
+on:
+  push:
+    branches:
+      - 'main'
+
+jobs:
+  lint:
+    name: Lint for errors
+    runs-on: ubuntu-latest
+    steps:
+      - name: Lint Code Base
+        uses: docker://github/super-linter:v3
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VALIDATE_YAML: true
+          VALIDATE_XML: true
+          VALIDATE_MD: true
+          VALIDATE_BASH: true
+          VALIDATE_PHP: true
+          VALIDATE_JAVASCRIPT_STANDARD: true
+          VALIDATE_CSS: true
+
+  build:
+    name: Build the site
+    needs: [lint]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Build production site
+        run: |
+          docker run \
+          -v ${{ github.workspace }}:/srv/jekyll -v ${{ github.workspace }}/_site:/srv/jekyll/_site \
+          jekyll/builder:4 /bin/bash -c "chmod 777 /srv/jekyll && jekyll build --future"
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2.1.3
+        with:
+          name: Built Site
+          path: ${{ github.workspace }}/_site/
+
+  deploy_production:
+    name: Deploy to production server
+    needs: [build]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v2
+        with:
+          name: Built Site
+          path: Built Site
+
+      - name: Install SSH key
+        uses: webfactory/ssh-agent@v0.4.0
+        with:
+          ssh-private-key: ${{ secrets.PROD_SSH_KEY }}
+
+      - name: Trust SSH key
+        run: ssh-keyscan sebsscholarship.org > ~/.ssh/known_hosts
+
+      - name: Deploy
+        run: |
+          scp -r Built\ Site/* ${{ secrets.PROD_SSH_USER }}@sebsscholarship.org:~/staging/
+          ssh ${{ secrets.PROD_SSH_USER }}@sebsscholarship.org 'rm -rf ~/sebsscholarship.org/* \
+          && mv ~/staging/* ~/sebsscholarship.org/'
