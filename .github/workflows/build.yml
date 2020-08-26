@@ -56,7 +56,7 @@ jobs:
     name: Deploy to Staging Server
     needs: [build]
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/development'
+    if: github.ref == 'refs/heads/staging'
     steps:
       - uses: actions/download-artifact@v2
         with:
