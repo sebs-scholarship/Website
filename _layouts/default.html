@@ -140,21 +140,19 @@
     <script src="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.js" data-cfasync="false"></script>
     <script src="/assets/js/main.js"></script>
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            window.cookieconsent.initialise({
-                "palette": {
-                    "popup": {
-                        "background": "#000"
-                    },
-                    "button": {
-                        "background": "#800000"
-                    }
+        window.cookieconsent.initialise({
+            "palette": {
+                "popup": {
+                    "background": "#000"
                 },
-                "theme": "edgeless",
-                "content": {
-                    "href": "https://sebsscholarship.org/privacy_policy.html"
+                "button": {
+                    "background": "#800000"
                 }
-            });
+            },
+            "theme": "edgeless",
+            "content": {
+                "href": "https://sebsscholarship.org/privacy_policy.html"
+            }
         });
     </script>
 </body>
