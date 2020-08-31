@@ -4,13 +4,9 @@ updates:
     directory: "/"
     schedule:
       interval: "daily"
-    target-branch: "development"
-    reviewers:
-      - "leviem1"
+    target-branch: "staging"
   - package-ecosystem: "bundler"
     directory: "/"
     schedule:
       interval: "daily"
-    target-branch: "development"
-    reviewers:
-      - "leviem1"
+    target-branch: "staging"
