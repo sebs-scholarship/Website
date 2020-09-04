@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Lint Code Base
-        uses: docker://github/super-linter:v3
+        uses: docker://ghcr.io/github/super-linter:v3
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           VALIDATE_YAML: true
