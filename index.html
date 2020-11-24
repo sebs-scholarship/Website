@@ -420,27 +420,27 @@
 			if (nextSeason === 0 && jan1 < today) {	// merry-go-round of dates to prevent re-rendering too much
 				setDefaultImg();
 				jan1.setFullYear(jan1.getFullYear() + 1);
-				nextSeason = (nextSeason + 1) % 5;
+				nextSeason = (nextSeason + 1) % 6;
 			} else if (nextSeason === 1 && openDate < today) {
 				setOpen();
 				openDate.setFullYear(openDate.getFullYear() + 1);
-				nextSeason = (nextSeason + 1) % 5;
+				nextSeason = (nextSeason + 1) % 6;
 			} else if (nextSeason === 2 && closeDate < today) {
 				setClosed();
 				closeDate.setFullYear(closeDate.getFullYear() + 1);
-				nextSeason = (nextSeason + 1) % 5;
+				nextSeason = (nextSeason + 1) % 6;
 			} else if (nextSeason === 3 && apr1 < today) {
 				setFunnyImg();
 				apr1.setFullYear(apr1.getFullYear() + 1);
-				nextSeason = (nextSeason + 1) % 5;
+				nextSeason = (nextSeason + 1) % 6;
 			} else if (nextSeason === 4 && apr2 < today) {
 				setDefaultImg();
 				apr2.setFullYear(apr2.getFullYear() + 1);
-				nextSeason = (nextSeason + 1) % 5;
+				nextSeason = (nextSeason + 1) % 6;
 			} else if (nextSeason === 5 && dec1 < today) {
 				setHolidayImg();
 				dec1.setFullYear(dec1.getFullYear() + 1);
-				nextSeason = (nextSeason + 1) % 5;
+				nextSeason = (nextSeason + 1) % 6;
 			}
 
 			var delta;
