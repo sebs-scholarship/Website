@@ -6,7 +6,7 @@
 			<div class="col-md-9  order-md-1">
 				<h1 class="heading mb-3">SEBS Scholarship</h1>
 				<div class="sub-heading" style="float: none;">
-					<p id="countdown_label" data-open-text="Application Closes March 31st" data-closed-text="Application Opens February 1st">Application Opens February 1st</p>
+					<p id="countdown_label" data-open-text="Application Closes February 28th" data-closed-text="Application Opens February 1st">Application Opens February 1st</p>
 					<p class="mb-5" id="countdown_value"></p>
 					<a href="#section-details" role="button" class="btn btn-light smoothscroll pb_outline-light btn-xl pb_font-13 p-4 rounded-0 pb_letter-spacing-2 d-inline-block mb-1 no-nav-expand" id="actionButton">Learn More</a>
 					<a href="/email/subscribe.html" role="button" class="btn btn-light smoothscroll pb_outline-light btn-xl pb_font-13 p-4 rounded-0 pb_letter-spacing-2 d-inline-block mb-1">Join Our Newsletter</a>
@@ -25,7 +25,7 @@
 			<div class="col-lg-12 pr-sm-0">
 				<h2 class="mt-0 heading-border-top mb-3 font-weight-normal">Who We Are</h2>
 				<p>Founded by the SEBS class of 2017, the SEBS Scholarship Foundation is a non-profit public charity dedicated to helping SEBS students afford to further their education. We do this by providing yearly scholarships to graduating SEBS seniors who demonstrate characteristics that align with our core values.</p>
-				<img class="img1 img-fluid float-right img-wrap" src="/assets/images/2017-min.jpg" alt="Class of 2017" id="about-image" data-default-img="/assets/images/2017-min.jpg" data-silly-img="/assets/images/2017-alt-min.jpg">
+				<img class="img1 img-fluid float-right img-wrap" src="/assets/images/2017-min.jpg" alt="Class of 2017" id="about-image" data-default-img="/assets/images/2017-min.jpg" data-silly-img="/assets/images/2017-alt-min.jpg" data-holiday-img="/assets/images/holiday-min.jpg">
 				<p>We aim to benefit students who demonstrate the following characteristics:</p>
 				<ul>
 					<li>Persist in the face of challenges, both academic and personal.</li>
@@ -35,7 +35,6 @@
 					<li>Pursue a well-rounded personality with broad interests.</li>
 				</ul>
 				<p>We believe that the education earned at SEBS prepares students for a lifetime of success, should they choose to apply all they’ve learned. However, soon after graduation we learned just how expensive higher education is, yet we recognize its importance for those wanting to take the next step towards their career. Because of this, we decided to start the SEBS Scholarship, with the intention of lessening the financial burden on the students and families of those graduating from SEBS.</p>
-				<hr>
 				<p><i><b>To the graduating seniors at SEBS &#8212;</b><br>If you believe you possess the above characteristics, we strongly encourage you to apply to our scholarship. We look forward to learning more about you and wish you all the best in your college endeavors.</i></p>
 			</div>
 		</div>
@@ -82,7 +81,7 @@
 					<div class="icon d-block mr-3 display-4 mx-auto mb-4"><i class="fa fa-star"></i></div>
 					<div class="media-body">
 						<h3 class="mt-0 pb_font-20">Scholarship<br>Award</h3>
-						<p>One-time, merit-based scholarship of <b>$1000</b>.</p>
+						<p>One-time, merit-based scholarship and prizes worth <b>$1000</b>.</p>
 					</div>
 				</div>
 			</div>
@@ -100,7 +99,7 @@
 					<div class="icon d-flex mr-3 display-4 mx-auto mb-4"><i class="fa fa-hourglass-end"></i></div>
 					<div class="media-body">
 						<h3 class="mt-0 pb_font-20">Application<br>Deadline</h3>
-						<p>The application will close at end of day March 31st.</p>
+						<p>The application will close at end of day February 28th.</p>
 					</div>
 				</div>
 			</div>
@@ -109,7 +108,7 @@
 					<div class="icon d-flex mr-3 display-4 mx-auto mb-4"><i class="fa fa-trophy"></i></div>
 					<div class="media-body">
 						<h3 class="mt-0 pb_font-20">Recipient<br>Decision</h3>
-						<p>A recipient will be chosen by SEBS Senior Night.</p>
+						<p>The recipient will be announced by SEBS Senior Night.</p>
 					</div>
 				</div>
 			</div>
@@ -313,7 +312,7 @@
 					</li>
 					<li>
 						<span class="text-uppercase">Phone</span>
-						<a href="tel:719-582-8713">‪(719) 582-8713‬</a>
+						<a href="tel:719-582-8713">(719) 582-8713</a>
 					</li>
 				</ul>
 			</div>
@@ -322,52 +321,19 @@
 </section>
 <script>
     $(document).ready(function ($) {
-        var button = $("#actionButton");
+		var jan1;
+		var openDate;
+		var closeDate;
+		var apr1;
+		var apr2;
+		var dec1;
+		var today;
+		var nextSeason;
+
+		var button = $("#actionButton");
 		var countdownValue = $("#countdown_value");
 		var countdownLabel = $("#countdown_label");
 		var aboutImage = $("#about-image");
-		var today = new Date();
-		var openDate = new Date(Date.UTC(today.getFullYear(), 1, 1, 7));	//Feb 1 UTC-7
-		var closeDate = new Date(Date.UTC(today.getFullYear(), 3, 1, 6));	//Mar 31 EOD/Apr 1 UTC-6
-		var april2 = new Date(Date.UTC(today.getFullYear(), 3, 2, 6));		//Apr 1 EOD/Apr 2 UTC-6
-		var nextSeason = getNextSeason();
-
-		function getNextSeason() {
-			if (openDate < today) openDate.setFullYear(openDate.getFullYear() + 1);	//Yes, I can avoid some lines, but this needs to be done anyways
-			if (closeDate < today) closeDate.setFullYear(closeDate.getFullYear() + 1);
-			if (april2 < today) april2.setFullYear(april2.getFullYear() + 1);
-
-			if (openDate < closeDate && openDate < april2) {
-				setClosed();
-				return 0;
-			} else if (closeDate < openDate && closeDate < april2) {
-				setOpen();
-				return 1;
-			} else {
-				setClosed();
-				setFunnyImg();
-				return 2;
-			}
-		}
-
-		String.prototype.formatUnicorn = String.prototype.formatUnicorn ||
-				function () {
-					"use strict";
-					var str = this.toString();
-					if (arguments.length) {
-						var t = typeof arguments[0];
-						var key;
-						var args = ("string" === t || "number" === t) ?
-								Array.prototype.slice.call(arguments)
-								: arguments[0];
-
-						for (key in args) {
-							str = str.replace(new RegExp("\\{" + key + "\\}", "gi"), args[key]);
-						}
-					}
-
-					return str;
-				};
 
 		function setOpen() {
 			button.html("Apply Now");
@@ -379,6 +345,9 @@
 			button.html("Learn More");
 			button.attr("href", "#section-details");
 			countdownLabel.text(countdownLabel.attr("data-closed-text"));
+		}
+
+		function setDefaultImg() {
 			aboutImage.attr("src", aboutImage.attr("data-default-img"));
 		}
 
@@ -386,24 +355,93 @@
 			aboutImage.attr("src", aboutImage.attr("data-silly-img"));
 		}
 
-        function countdown() {
-            today = new Date();
+		function setHolidayImg() {
+			aboutImage.attr("src", aboutImage.attr("data-holiday-img"));
+		}
 
-			if (nextSeason === 0 && openDate < today) {
-				setOpen();
+		function init() {
+			String.prototype.formatUnicorn = String.prototype.formatUnicorn || function () {
+				"use strict";
+				var str = this.toString();
+				if (arguments.length) {
+					var t = typeof arguments[0];
+					var key;
+					var args = ("string" === t || "number" === t) ?
+							Array.prototype.slice.call(arguments)
+							: arguments[0];
+
+					for (key in args) {
+						str = str.replace(new RegExp("\\{" + key + "\\}", "gi"), args[key]);
+					}
+				}
+
+				return str;
+			};
+
+			today = new Date();
+			jan1 = new Date(Date.UTC(today.getFullYear(), 0, 1, 7));		//Dec 31 EOD/Jan 1 UTC-7
+			openDate = new Date(Date.UTC(today.getFullYear(), 1, 1, 7));	//Feb 1 UTC-7
+			closeDate = new Date(Date.UTC(today.getFullYear(), 2, 1, 7));	//Feb 28 EOD/Mar 1 UTC-7
+			apr1 = new Date(Date.UTC(today.getFullYear(), 3, 1, 6));		//Apr 1 UTC-6
+			apr2 = new Date(Date.UTC(today.getFullYear(), 3, 2, 6));		//Apr 1 EOD/Apr 2 UTC-6
+			dec1 = new Date(Date.UTC(today.getFullYear(), 11, 1, 7));		//Dec 1 UTC-7
+
+			if (today > jan1 && today < openDate) {
+				setDefaultImg();
 				nextSeason = 1;
-			} else if (nextSeason === 1 && closeDate < today) {
-				setClosed();
-				setFunnyImg();
+			} else if (today > openDate && today < closeDate) {
+				setOpen();
 				nextSeason = 2;
-			} else if (nextSeason === 2 && april2 < today) {
+			} else if (today > closeDate && today < apr1) {
 				setClosed();
+				nextSeason = 3;
+			} else if (today > apr1 && today < apr2) {
+				setFunnyImg();
+				nextSeason = 4;
+			} else if (today > apr2 && today < dec1) {
+				setDefaultImg();
+				nextSeason = 5;
+			} else {
+				setHolidayImg();
 				nextSeason = 0;
 			}
 
-			if (openDate < today) openDate.setFullYear(openDate.getFullYear() + 1); // Make sure people loading the page in December looking at next year's dates
+			if (jan1 < today) jan1.setFullYear(jan1.getFullYear() + 1);
+			if (openDate < today) openDate.setFullYear(openDate.getFullYear() + 1);
 			if (closeDate < today) closeDate.setFullYear(closeDate.getFullYear() + 1);
-			if (april2 < today) april2.setFullYear(april2.getFullYear() + 1);
+			if (apr1 < today) apr1.setFullYear(apr1.getFullYear() + 1);
+			if (apr2 < today) apr2.setFullYear(apr2.getFullYear() + 1);
+			if (dec1 < today) dec1.setFullYear(dec1.getFullYear() + 1);
+		}
+
+        function countdown() {
+            today = new Date();
+
+			if (nextSeason === 0 && jan1 < today) {	// merry-go-round of dates to prevent re-rendering too much
+				setDefaultImg();
+				jan1.setFullYear(jan1.getFullYear() + 1);
+				nextSeason = (nextSeason + 1) % 6;
+			} else if (nextSeason === 1 && openDate < today) {
+				setOpen();
+				openDate.setFullYear(openDate.getFullYear() + 1);
+				nextSeason = (nextSeason + 1) % 6;
+			} else if (nextSeason === 2 && closeDate < today) {
+				setClosed();
+				closeDate.setFullYear(closeDate.getFullYear() + 1);
+				nextSeason = (nextSeason + 1) % 6;
+			} else if (nextSeason === 3 && apr1 < today) {
+				setFunnyImg();
+				apr1.setFullYear(apr1.getFullYear() + 1);
+				nextSeason = (nextSeason + 1) % 6;
+			} else if (nextSeason === 4 && apr2 < today) {
+				setDefaultImg();
+				apr2.setFullYear(apr2.getFullYear() + 1);
+				nextSeason = (nextSeason + 1) % 6;
+			} else if (nextSeason === 5 && dec1 < today) {
+				setHolidayImg();
+				dec1.setFullYear(dec1.getFullYear() + 1);
+				nextSeason = (nextSeason + 1) % 6;
+			}
 
 			var delta;
 			if (openDate < closeDate) {
@@ -419,6 +457,8 @@
 
 			countdownValue.html("{0} days, {1} hours, {2} minutes, {3} seconds".formatUnicorn(days, hours, minutes, seconds));
         }
+
+        init();
         countdown(); //Display immediately, then schedule
         setInterval(countdown, 1000);
 
