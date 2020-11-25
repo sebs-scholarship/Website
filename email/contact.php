@@ -2,12 +2,11 @@
 // Salesforce REST API: https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_list.htm
 // Salesforce Cases API: https://developer.salesforce.com/docs/atlas.en-us.226.0.object_reference.meta/object_reference/sforce_api_objects_case.htm
 // Salesforce JWT OAuth: https://help.salesforce.com/articleView?id=remoteaccess_oauth_jwt_flow.htm&type=5
-// Firebase JWT: https://github.com/firebase/php-jwt
 // OAuth Authorization: https://login.salesforce.com/services/oauth2/authorize?response_type=token&client_id=3MVG9Kip4IKAZQEXRsS0YD5c1R6FtIVV6IrGlckdJRiGd.B0bIIxaFZ7m9BzSGlkpdTWKLeAz4fIkAlXM4bV7&redirect_uri=https://login.salesforce.com/services/oauth2/success
 
 use \Firebase\JWT\JWT;
 
-require('../../php-jwt/src/JWT.php');
+require('../vendor/firebase/php-jwt/src/JWT.php');
 
 function validate() {
     return isset($_POST["name"]) && strlen($_POST["name"]) > 0 && isset($_POST["email"])
