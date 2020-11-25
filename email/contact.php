@@ -6,7 +6,7 @@
 
 use \Firebase\JWT\JWT;
 
-require('vendor/firebase/php-jwt/src/JWT.php');
+require('../vendor/firebase/php-jwt/src/JWT.php');
 
 function validate() {
     return isset($_POST["name"]) && strlen($_POST["name"]) > 0 && isset($_POST["email"])
