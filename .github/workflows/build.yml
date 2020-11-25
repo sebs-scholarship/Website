@@ -33,6 +33,12 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Install dependencies
+        run: |
+          docker run --rm --interactive --tty \
+          -v ${{ github.workspace }}:/app \
+          composer:2 install
+
       - name: Build site
         run: |
           docker run \

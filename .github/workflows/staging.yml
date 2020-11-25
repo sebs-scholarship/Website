@@ -34,6 +34,12 @@ jobs:
           echo 'User-agent: * Disallow: /' > ${{ github.workspace }}/robots.txt
           sed -i 's_https://sebsscholarship.org_https://test.sebsscholarship.org_g' ${{ github.workspace }}/_config.yml
 
+      - name: Install dependencies
+        run: |
+          docker run --rm --interactive --tty \
+          -v ${{ github.workspace }}:/app \
+          composer:2 install
+
       - name: Build staging site
         run: |
           docker run \

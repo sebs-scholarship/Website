@@ -1,0 +1,5 @@
+{
+  "require": {
+    "firebase/php-jwt": "v5.2.0"
+  }
+}
