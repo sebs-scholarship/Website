@@ -36,9 +36,9 @@ jobs:
 
       - name: Install dependencies
         run: |
-          docker run --rm --interactive --tty \
+          docker run --rm \
           -v ${{ github.workspace }}:/app \
-          composer:2 install
+          composer:2 install -n
 
       - name: Build staging site
         run: |
