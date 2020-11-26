@@ -30,7 +30,7 @@ defaults:
     values:
       sitemap: false
 
-remote_theme: sebs-scholarship/SSF-Theme@main
+remote_theme: sebs-scholarship/Theme@main
 
 exclude:
   - README.md
