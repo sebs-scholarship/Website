@@ -44,7 +44,7 @@ jobs:
         run: |
           docker run \
           -v ${{ github.workspace }}:/srv/jekyll -v ${{ github.workspace }}/_site:/srv/jekyll/_site \
-          jekyll/builder:4 /bin/bash -c "chmod 777 /srv/jekyll && jekyll build --future --drafts"
+          jekyll/builder:4.1.0 /bin/bash -c "chmod 777 /srv/jekyll && jekyll build --future --drafts"
 
       - name: Upload artifact
         uses: actions/upload-artifact@v2.2.1
