@@ -6,7 +6,7 @@ sitemap: false
 <head>
     {% include analytics.html %}
     <!-- HTML meta refresh URL redirection -->
-    <meta http-equiv="refresh" content="0; url={{ site.url | append: page.location }}">
+    {{ content }}
     <title>{{ page.title }} - {{ site.title }}</title>
     <meta name="description" content="{{ page.description }}">
     <meta name="robots" content="noindex">
