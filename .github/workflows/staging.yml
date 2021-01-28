@@ -28,8 +28,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-        with:
-          ref: ${GITHUB_REF##*/}
 
       - name: Staging site configuration
         run: |
