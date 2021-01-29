@@ -6,30 +6,18 @@ on:
       - 'main'
 
 jobs:
-  lint:
-    name: Lint for errors
-    runs-on: ubuntu-latest
-    steps:
-      - name: Lint Code Base
-        uses: docker://ghcr.io/github/super-linter:v3
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          VALIDATE_YAML: true
-          VALIDATE_XML: true
-          VALIDATE_MD: true
-          VALIDATE_BASH: true
-          VALIDATE_PHP: true
-          VALIDATE_JAVASCRIPT_STANDARD: true
-          VALIDATE_CSS: true
-
   build:
     name: Build the site
     needs: [lint]
     runs-on: ubuntu-latest
     steps:
+      - run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+        shell: bash
+        id: extract_branch
+
       - uses: actions/checkout@v2
         with:
-          ref: ${GITHUB_REF##*/}
+          ref: ${{ steps.extract_branch.outputs.branch }}
 
       - name: Install dependencies
         run: |
