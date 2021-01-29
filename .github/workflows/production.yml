@@ -11,7 +11,8 @@ jobs:
     needs: [lint]
     runs-on: ubuntu-latest
     steps:
-      - run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+      - name: Extract branch
+        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
         shell: bash
         id: extract_branch
 
