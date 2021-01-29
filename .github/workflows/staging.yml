@@ -27,6 +27,11 @@ jobs:
     needs: [lint]
     runs-on: ubuntu-latest
     steps:
+      - name: Extract branch
+        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+        shell: bash
+        id: extract_branch
+
       - uses: actions/checkout@v2
 
       - name: Staging site configuration
