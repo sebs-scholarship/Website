@@ -332,9 +332,9 @@
 		var countdownLabel = $("#countdown_label");
 		var aboutImage = $("#about-image");
 		var today = new Date();
-		var openDate = new Date(today.getFullYear(), 1, 1);	//Feb 1
-		var closeDate = new Date(today.getFullYear(), 3, 1); //EOD Mar 31
-		var april2 = new Date(today.getFullYear(), 3, 2);
+		var openDate = new Date(Date.UTC(today.getFullYear(), 1, 1, 7));	//Feb 1 UTC-7
+		var closeDate = new Date(Date.UTC(today.getFullYear(), 3, 1, 6));	//Mar 31 EOD/Apr 1 UTC-6
+		var april2 = new Date(Date.UTC(today.getFullYear(), 3, 2, 6));		//Apr 1 EOD/Apr 2 UTC-6
 		var nextSeason = getNextSeason();
 
 		function getNextSeason() {
