@@ -58,7 +58,7 @@ jobs:
           path: Built Site
 
       - name: Install SSH key
-        uses: webfactory/ssh-agent@v0.4.1
+        uses: webfactory/ssh-agent@v0.5.0
         with:
           ssh-private-key: ${{ secrets.PROD_SSH_KEY }}
 
