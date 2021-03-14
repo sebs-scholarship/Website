@@ -6,10 +6,15 @@ on:
       - 'main'
 
 jobs:
-  lint:
-    name: Lint for errors
+  build-prod:
+    name: Build and Deploy Production
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
       - name: Lint Code Base
         uses: docker://ghcr.io/github/super-linter:v3
         env:
@@ -21,18 +26,6 @@ jobs:
           VALIDATE_PHP: true
           VALIDATE_JAVASCRIPT_STANDARD: true
           VALIDATE_CSS: true
-
-  build:
-    name: Build the site
-    needs: [lint]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Extract branch
-        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
-        shell: bash
-        id: extract_branch
-
-      - uses: actions/checkout@v2
 
       - name: Install dependencies
         run: |
@@ -52,16 +45,6 @@ jobs:
           name: Built Site
           path: ${{ github.workspace }}/_site/
 
-  deploy_production:
-    name: Deploy to production server
-    needs: [build]
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/download-artifact@v2
-        with:
-          name: Built Site
-          path: Built Site
-
       - name: Install SSH key
         uses: webfactory/ssh-agent@v0.5.1
         with:
@@ -70,8 +53,15 @@ jobs:
       - name: Trust SSH key
         run: ssh-keyscan sebsscholarship.org > ~/.ssh/known_hosts
 
+      - name: Turnstyle
+        uses: sebs-scholarship/turnstyle@v1
+        with:
+          abort-on-newer-run: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Deploy
         run: |
-          scp -r Built\ Site/* ${{ secrets.PROD_SSH_USER }}@sebsscholarship.org:~/staging/
+          scp -r ${{ github.workspace }}/_site/* ${{ secrets.PROD_SSH_USER }}@sebsscholarship.org:~/staging/
           ssh ${{ secrets.PROD_SSH_USER }}@sebsscholarship.org 'rm -rf ~/sebsscholarship.org/* \
           && mv ~/staging/* ~/sebsscholarship.org/'
