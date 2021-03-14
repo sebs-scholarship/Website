@@ -14,6 +14,11 @@ jobs:
     name: Lint for errors
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
       - name: Lint Code Base
         uses: docker://ghcr.io/github/super-linter:v3
         env:
@@ -25,13 +30,6 @@ jobs:
           VALIDATE_PHP: true
           VALIDATE_JAVASCRIPT_STANDARD: true
           VALIDATE_CSS: true
-
-  build:
-    name: Build the site
-    needs: [lint]
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
 
       - name: Install dependencies
         run: |

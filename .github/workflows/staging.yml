@@ -6,10 +6,15 @@ on:
       - 'staging'
 
 jobs:
-  lint:
-    name: Lint for errors
+  build-staging:
+    name: Build and Deploy Staging
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
       - name: Lint Code Base
         uses: docker://ghcr.io/github/super-linter:v3
         env:
@@ -21,13 +26,6 @@ jobs:
           VALIDATE_PHP: true
           VALIDATE_JAVASCRIPT_STANDARD: true
           VALIDATE_CSS: true
-
-  build:
-    name: Build the site
-    needs: [lint]
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
 
       - name: Staging site configuration
         run: |
@@ -52,16 +50,6 @@ jobs:
           name: Built Site
           path: ${{ github.workspace }}/_site/
 
-  deploy_staging:
-    name: Deploy to staging server
-    needs: [build]
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/download-artifact@v2
-        with:
-          name: Built Site
-          path: Built Site
-
       - name: Install SSH key
         uses: webfactory/ssh-agent@v0.5.1
         with:
@@ -70,8 +58,15 @@ jobs:
       - name: Trust SSH key
         run: ssh-keyscan sebsscholarship.org > ~/.ssh/known_hosts
 
+      - name: Turnstyle
+        uses: sebs-scholarship/turnstyle@v1
+        with:
+          abort-on-newer-run: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Deploy
         run: |
-          scp -r Built\ Site/* ${{ secrets.TEST_SSH_USER }}@sebsscholarship.org:~/staging/
+          scp -r ${{ github.workspace }}/_site/* ${{ secrets.TEST_SSH_USER }}@sebsscholarship.org:~/staging/
           ssh ${{ secrets.TEST_SSH_USER }}@sebsscholarship.org 'rm -rf ~/test.sebsscholarship.org/* \
           && mv ~/staging/* ~/test.sebsscholarship.org/'
