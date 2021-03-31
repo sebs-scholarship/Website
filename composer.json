@@ -1,5 +1,9 @@
 {
   "require": {
-    "firebase/php-jwt": "v5.2.0"
-  }
+    "firebase/php-jwt": "v5.2.0",
+    "ext-json": "*",
+    "ext-curl": "*"
+  },
+  "name": "sebs-scholarship/website",
+  "description": "Website for the SEBS Scholarship Foundation"
 }
