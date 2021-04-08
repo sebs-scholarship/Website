@@ -46,7 +46,7 @@ jobs:
           path: ${{ github.workspace }}/_site/
 
       - name: Install SSH key
-        uses: webfactory/ssh-agent@v0.5.1
+        uses: webfactory/ssh-agent@v0.5.2
         with:
           ssh-private-key: ${{ secrets.PROD_SSH_KEY }}
 
