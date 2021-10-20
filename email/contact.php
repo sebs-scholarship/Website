@@ -150,8 +150,8 @@ if (is_null($response)) {                      // Check if application is OAuth 
 }
 
 $token = $response["access_token"];
-$caseEndpoint = $response["instance_url"] . "/services/data/v48.0/sobjects/Case/"; // Authenticated Case API
-$notifyEndpoint = $response["instance_url"] . "/services/data/v48.0/actions/custom/emailAlert/Case/Auto_Response/";
+$caseEndpoint = $response["instance_url"] . "/services/data/v53.0/sobjects/Case/"; // Authenticated Case API
+$notifyEndpoint = $response["instance_url"] . "/services/data/v53.0/actions/custom/emailAlert/Case/Auto_Response/";
 
 $id = createCase($caseEndpoint, $token);     // Submit the case to Salesforce
 if (is_null($id)) {
