@@ -12,7 +12,7 @@ $config = include('../../config.php');  // Get config from on-server file
 $urlBase = "https://us4.api.mailchimp.com/3.0/lists/" . $config["listID"] . "/members/"; // API endpoint for our list
 
 // Function to help determine if a user is missing, subscribed, or not subscribed.
-function userExists($userHash) {
+function userExists($userHash): int {
     global $config, $urlBase;   // Use the global variables above
 
     $ch = curl_init($urlBase . $userHash);  // We use cURL to make HTTP requests
@@ -39,7 +39,7 @@ function userExists($userHash) {
 }
 
 // Updates the user's status to new status
-function updateUserStatus($userHash, $status) {
+function updateUserStatus($userHash, $status): bool {
     global $config, $urlBase;
 
     $data = array(  // This will be our payload to the server

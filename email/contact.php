@@ -4,17 +4,17 @@
 // Salesforce JWT OAuth: https://help.salesforce.com/articleView?id=remoteaccess_oauth_jwt_flow.htm&type=5
 // OAuth Authorization: https://login.salesforce.com/services/oauth2/authorize?response_type=token&client_id=3MVG9Kip4IKAZQEXRsS0YD5c1R6FtIVV6IrGlckdJRiGd.B0bIIxaFZ7m9BzSGlkpdTWKLeAz4fIkAlXM4bV7&redirect_uri=https://login.salesforce.com/services/oauth2/success
 
-use \Firebase\JWT\JWT;
+use Firebase\JWT\JWT;
 
 require('../vendor/firebase/php-jwt/src/JWT.php');
 
-function validate() {
+function validate(): bool {
     return isset($_POST["name"]) && strlen($_POST["name"]) > 0 && isset($_POST["email"])
         && strlen($_POST["email"]) > 0 && isset($_POST["message"]) && strlen($_POST["message"]) > 0
         && isset($_POST["token"]) && strlen($_POST["token"]) > 0;
 }
 
-function verifyRecaptcha($endpoint, $config) {
+function verifyRecaptcha($endpoint, $config): int {
     $data = "secret=" . $config["rc-key"] . "&response=" . $_POST["token"];
 
     $ch = curl_init($endpoint);
@@ -97,7 +97,7 @@ function createCase($endpoint, $token) {
     return $id;
 }
 
-function notifyRecipient($endpoint, $token, $id) {
+function notifyRecipient($endpoint, $token, $id): bool {
     $data = json_encode(array(
         'inputs' => array(
             array('SObjectRowId' => $id)
