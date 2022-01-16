@@ -6,7 +6,7 @@
 			<div class="col-md-9  order-md-1">
 				<h1 class="heading mb-3">SEBS Scholarship</h1>
 				<div class="sub-heading" style="float: none;">
-					<p id="countdown_label" data-open-text="Application Closes February 28th" data-closed-text="Application Opens February 1st">Application Opens February 1st</p>
+					<p id="countdown_label" data-closed-text="Application Opens February 1st">Application Opens February 1st</p>
 					<p class="mb-5" id="countdown_value"></p>
 					<a href="#section-details" role="button" class="btn btn-light smoothscroll pb_outline-light btn-xl pb_font-13 p-4 rounded-0 pb_letter-spacing-2 d-inline-block mb-1 no-nav-expand" id="actionButton">Learn More</a>
 					<a href="/email/subscribe.html" role="button" class="btn btn-light smoothscroll pb_outline-light btn-xl pb_font-13 p-4 rounded-0 pb_letter-spacing-2 d-inline-block mb-1">Join Our Newsletter</a>
@@ -92,7 +92,7 @@
 					<div class="icon d-block mr-3 display-4 mx-auto mb-4"><i class="fa fa-star"></i></div>
 					<div class="media-body">
 						<h3 class="mt-0 pb_font-20">Scholarship<br>Award</h3>
-						<p>One-time, merit-based scholarship and prizes worth <b>$1000</b>.</p>
+						<p>One-time, merit-based <b>$1000</b> scholarship.</p>
 					</div>
 				</div>
 			</div>
@@ -110,7 +110,7 @@
 					<div class="icon d-flex mr-3 display-4 mx-auto mb-4"><i class="fa fa-hourglass-end"></i></div>
 					<div class="media-body">
 						<h3 class="mt-0 pb_font-20">Application<br>Deadline</h3>
-						<p>The application will close at end of day February 28th.</p>
+						<p>The application will close at end of day February <span id="close-date">28</span>th.</p>
 					</div>
 				</div>
 			</div>
@@ -359,30 +359,36 @@
 </section>
 <script>
     $(document).ready(function ($) {
-		var jan1;
-		var openDate;
-		var closeDate;
-		var apr1;
-		var apr2;
-		var dec1;
-		var today;
-		var nextSeason;
+		let jan1;
+		let openDate;
+		let closeDate;
+		let friendlyCloseDate;
+		let apr1;
+		let apr2;
+		let dec1;
+		let today;
+		let nextSeason;
 
-		var button = $("#actionButton");
-		var countdownValue = $("#countdown_value");
-		var countdownLabel = $("#countdown_label");
-		var aboutImage = $("#about-image");
+		const button = $("#actionButton");
+		const countdownValue = $("#countdown_value");
+		const countdownLabel = $("#countdown_label");
+		const aboutImage = $("#about-image");
 
 		function setOpen() {
 			button.html("Apply Now");
 			button.attr("href", "/apply/index.html");
-			countdownLabel.text(countdownLabel.attr("data-open-text"));
+			countdownLabel.text(`Application Closes February ${friendlyCloseDate.getDate()}th`);
 		}
 
 		function setClosed() {
 			button.html("Learn More");
 			button.attr("href", "#section-details");
 			countdownLabel.text(countdownLabel.attr("data-closed-text"));
+			// Feb 28/29 BOD
+			friendlyCloseDate = new Date(closeDate.getTime());
+			if (friendlyCloseDate < today) friendlyCloseDate.setFullYear(friendlyCloseDate.getFullYear() + 1);
+			friendlyCloseDate.setDate(friendlyCloseDate.getDate() - 1);
+			$("#close-date").text(friendlyCloseDate.getDate());
 		}
 
 		function setDefaultImg() {
@@ -397,14 +403,15 @@
 			aboutImage.attr("src", aboutImage.attr("data-holiday-img"));
 		}
 
+		// On page load
 		function init() {
 			String.prototype.formatUnicorn = String.prototype.formatUnicorn || function () {
 				"use strict";
-				var str = this.toString();
+				let str = this.toString();
 				if (arguments.length) {
-					var t = typeof arguments[0];
-					var key;
-					var args = ("string" === t || "number" === t) ?
+					const t = typeof arguments[0];
+					let key;
+					const args = ("string" === t || "number" === t) ?
 							Array.prototype.slice.call(arguments)
 							: arguments[0];
 
@@ -417,33 +424,58 @@
 			};
 
 			today = new Date();
-			jan1 = new Date(Date.UTC(today.getFullYear(), 0, 1, 7));		//Dec 31 EOD/Jan 1 UTC-7
-			openDate = new Date(Date.UTC(today.getFullYear(), 1, 1, 7));	//Feb 1 UTC-7
-			closeDate = new Date(Date.UTC(today.getFullYear(), 2, 1, 7));	//Feb 28 EOD/Mar 1 UTC-7
-			apr1 = new Date(Date.UTC(today.getFullYear(), 3, 1, 6));		//Apr 1 UTC-6
-			apr2 = new Date(Date.UTC(today.getFullYear(), 3, 2, 6));		//Apr 1 EOD/Apr 2 UTC-6
-			dec1 = new Date(Date.UTC(today.getFullYear(), 11, 1, 7));		//Dec 1 UTC-7
 
+			// Dec 31 EOD / Jan 1 UTC-7 BOD
+			jan1 = new Date(Date.UTC(today.getFullYear(), 0, 1, 7));
+			// Feb 1 UTC-7 BOD
+			openDate = new Date(Date.UTC(today.getFullYear(), 1, 1, 7));
+			// Feb 28/29 EOD / Mar 1 UTC-7 BOD
+			closeDate = new Date(Date.UTC(today.getFullYear(), 2, 1, 7));
+			// Apr 1 UTC-6 BOD
+			apr1 = new Date(Date.UTC(today.getFullYear(), 3, 1, 6));
+			// Apr 1 EOD / Apr 2 UTC-6
+			apr2 = new Date(Date.UTC(today.getFullYear(), 3, 2, 6));
+			// Dec 1 UTC-7 BOD
+			dec1 = new Date(Date.UTC(today.getFullYear(), 11, 1, 7));
+
+			// Feb 28/29 BOD
+			friendlyCloseDate = new Date(closeDate.getTime());
+			if (friendlyCloseDate < today) friendlyCloseDate.setFullYear(friendlyCloseDate.getFullYear() + 1);
+			friendlyCloseDate.setDate(friendlyCloseDate.getDate() - 1);
+			$("#close-date").text(friendlyCloseDate.getDate());
+
+			// Remove holiday image
 			if (today > jan1 && today < openDate) {
 				setDefaultImg();
 				nextSeason = 1;
+
+			// Open scholarship
 			} else if (today > openDate && today < closeDate) {
 				setOpen();
 				nextSeason = 2;
+
+			// Close scholarship
 			} else if (today > closeDate && today < apr1) {
 				setClosed();
 				nextSeason = 3;
+
+			// Set April fool's image
 			} else if (today > apr1 && today < apr2) {
 				setFunnyImg();
 				nextSeason = 4;
+
+			// Remove April fool's image
 			} else if (today > apr2 && today < dec1) {
 				setDefaultImg();
 				nextSeason = 5;
+
+			// Set holiday image
 			} else {
 				setHolidayImg();
 				nextSeason = 0;
 			}
 
+			// Increment the year if the date has passed
 			if (jan1 < today) jan1.setFullYear(jan1.getFullYear() + 1);
 			if (openDate < today) openDate.setFullYear(openDate.getFullYear() + 1);
 			if (closeDate < today) closeDate.setFullYear(closeDate.getFullYear() + 1);
@@ -452,46 +484,59 @@
 			if (dec1 < today) dec1.setFullYear(dec1.getFullYear() + 1);
 		}
 
+		// Live updates
         function countdown() {
             today = new Date();
 
-			if (nextSeason === 0 && jan1 < today) {	// merry-go-round of dates to prevent re-rendering too much
+			// merry-go-round of dates to prevent re-rendering too much
+			// Remove holiday image
+			if (nextSeason === 0 && jan1 < today) {
 				setDefaultImg();
 				jan1.setFullYear(jan1.getFullYear() + 1);
 				nextSeason = (nextSeason + 1) % 6;
+
+			// Open scholarship
 			} else if (nextSeason === 1 && openDate < today) {
 				setOpen();
 				openDate.setFullYear(openDate.getFullYear() + 1);
 				nextSeason = (nextSeason + 1) % 6;
+
+			// Close scholarship
 			} else if (nextSeason === 2 && closeDate < today) {
 				setClosed();
 				closeDate.setFullYear(closeDate.getFullYear() + 1);
 				nextSeason = (nextSeason + 1) % 6;
+
+			// Set April fool's image
 			} else if (nextSeason === 3 && apr1 < today) {
 				setFunnyImg();
 				apr1.setFullYear(apr1.getFullYear() + 1);
 				nextSeason = (nextSeason + 1) % 6;
+
+			// Remove April fool's image
 			} else if (nextSeason === 4 && apr2 < today) {
 				setDefaultImg();
 				apr2.setFullYear(apr2.getFullYear() + 1);
 				nextSeason = (nextSeason + 1) % 6;
+
+			// Set holiday image
 			} else if (nextSeason === 5 && dec1 < today) {
 				setHolidayImg();
 				dec1.setFullYear(dec1.getFullYear() + 1);
 				nextSeason = (nextSeason + 1) % 6;
 			}
 
-			var delta;
+			let delta;
 			if (openDate < closeDate) {
 				delta = (openDate.getTime() - today.getTime()) / 1000;
 			} else {
 				delta = (closeDate.getTime() - today.getTime()) / 1000;
 			}
 
-            var days = Math.floor(delta / (3600 * 24));
-            var hours = Math.floor(delta % (3600 * 24) / 3600);
-            var minutes = Math.floor(delta % 3600 / 60);
-            var seconds = Math.floor(delta % 60);
+			const days = Math.floor(delta / (3600 * 24));
+			const hours = Math.floor(delta % (3600 * 24) / 3600);
+			const minutes = Math.floor(delta % 3600 / 60);
+			const seconds = Math.floor(delta % 60);
 
 			countdownValue.html("{0} days, {1} hours, {2} minutes, {3} seconds".formatUnicorn(days, hours, minutes, seconds));
         }
@@ -512,16 +557,16 @@
     }
 
     function contact(token) {
-        var name = document.getElementById("name").value;
-        var email = document.getElementById("email").value;
-        var message = document.getElementById("message").value;
-        document.getElementById("status").innerHTML = "";
-        var send = document.getElementById("send");
-        send.value = "Sending...";
+		const name = document.getElementById("name").value;
+		const email = document.getElementById("email").value;
+		const message = document.getElementById("message").value;
+		document.getElementById("status").innerHTML = "";
+		const send = document.getElementById("send");
+		send.value = "Sending...";
         send.disabled = true;
 
-        var xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function () {
+		const xhttp = new XMLHttpRequest();
+		xhttp.onreadystatechange = function () {
             if (this.readyState === 4) {
                 if (this.status === 200) {
                     document.getElementById("name").value = "";
@@ -532,8 +577,8 @@
                     document.getElementById("status").innerHTML = "There was an error sending your message. Please try again and email <a href=\"mailto:help@sebsscholarship.org\">help@sebsscholarship.org</a> directly if the issue persists.";
                 }
 
-                var send = document.getElementById("send");
-                send.value = "Send Message";
+				const send = document.getElementById("send");
+				send.value = "Send Message";
                 send.disabled = false;
             }
         };
