@@ -45,6 +45,13 @@ jobs:
           name: Built Site
           path: ${{ github.workspace }}/_site/
 
+      - name: Turnstyle
+        uses: sebs-scholarship/turnstyle@v1
+        with:
+          abort-on-newer-run: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Install SSH key
         uses: webfactory/ssh-agent@v0.5.4
         with:
@@ -52,13 +59,6 @@ jobs:
 
       - name: Trust SSH key
         run: ssh-keyscan sebsscholarship.org > ~/.ssh/known_hosts
-
-      - name: Turnstyle
-        uses: sebs-scholarship/turnstyle@v1
-        with:
-          abort-on-newer-run: true
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Deploy
         run: |
