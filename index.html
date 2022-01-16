@@ -6,7 +6,7 @@
 			<div class="col-md-9  order-md-1">
 				<h1 class="heading mb-3">SEBS Scholarship</h1>
 				<div class="sub-heading" style="float: none;">
-					<p id="countdown_label" data-open-text="Application Closes February 28th" data-closed-text="Application Opens February 1st">Application Opens February 1st</p>
+					<p id="countdown_label" data-closed-text="Application Opens February 1st">Application Opens February 1st</p>
 					<p class="mb-5" id="countdown_value"></p>
 					<a href="#section-details" role="button" class="btn btn-light smoothscroll pb_outline-light btn-xl pb_font-13 p-4 rounded-0 pb_letter-spacing-2 d-inline-block mb-1 no-nav-expand" id="actionButton">Learn More</a>
 					<a href="/email/subscribe.html" role="button" class="btn btn-light smoothscroll pb_outline-light btn-xl pb_font-13 p-4 rounded-0 pb_letter-spacing-2 d-inline-block mb-1">Join Our Newsletter</a>
@@ -110,7 +110,7 @@
 					<div class="icon d-flex mr-3 display-4 mx-auto mb-4"><i class="fa fa-hourglass-end"></i></div>
 					<div class="media-body">
 						<h3 class="mt-0 pb_font-20">Application<br>Deadline</h3>
-						<p>The application will close at end of day February 28th.</p>
+						<p>The application will close at end of day February <span id="close-date">28</span>th.</p>
 					</div>
 				</div>
 			</div>
@@ -362,6 +362,7 @@
 		let jan1;
 		let openDate;
 		let closeDate;
+		let friendlyCloseDate;
 		let apr1;
 		let apr2;
 		let dec1;
@@ -376,13 +377,18 @@
 		function setOpen() {
 			button.html("Apply Now");
 			button.attr("href", "/apply/index.html");
-			countdownLabel.text(countdownLabel.attr("data-open-text"));
+			countdownLabel.text(`Application Closes February ${friendlyCloseDate.getDate()}th`);
 		}
 
 		function setClosed() {
 			button.html("Learn More");
 			button.attr("href", "#section-details");
 			countdownLabel.text(countdownLabel.attr("data-closed-text"));
+			// Feb 28/29 BOD
+			friendlyCloseDate = new Date(closeDate.getTime());
+			if (friendlyCloseDate < today) friendlyCloseDate.setFullYear(friendlyCloseDate.getFullYear() + 1);
+			friendlyCloseDate.setDate(friendlyCloseDate.getDate() - 1);
+			$("#close-date").text(friendlyCloseDate.getDate());
 		}
 
 		function setDefaultImg() {
@@ -431,6 +437,12 @@
 			apr2 = new Date(Date.UTC(today.getFullYear(), 3, 2, 6));
 			// Dec 1 UTC-7 BOD
 			dec1 = new Date(Date.UTC(today.getFullYear(), 11, 1, 7));
+
+			// Feb 28/29 BOD
+			friendlyCloseDate = new Date(closeDate.getTime());
+			if (friendlyCloseDate < today) friendlyCloseDate.setFullYear(friendlyCloseDate.getFullYear() + 1);
+			friendlyCloseDate.setDate(friendlyCloseDate.getDate() - 1);
+			$("#close-date").text(friendlyCloseDate.getDate());
 
 			// Remove holiday image
 			if (today > jan1 && today < openDate) {
