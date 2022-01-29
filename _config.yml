@@ -30,7 +30,7 @@ defaults:
     values:
       sitemap: false
 
-remote_theme: sebs-scholarship/Theme@main
+remote_theme: sebs-scholarship/Theme@2022-01-28-1
 
 exclude:
   - README.md
