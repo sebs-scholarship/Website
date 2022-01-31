@@ -7,7 +7,8 @@
 				<h1 class="heading mb-3">SEBS Scholarship</h1>
 				<div class="sub-heading" style="float: none;">
 					<p id="countdown_label" data-closed-text="Application Opens February 1st">Application Opens February 1st</p>
-					<p class="mb-5" id="countdown_value"></p>
+					<p id="countdown_value"></p>
+					<div class="mb-5"></div>
 					<a href="#section-details" role="button" class="btn btn-light smoothscroll pb_outline-light btn-xl pb_font-13 p-4 rounded-0 pb_letter-spacing-2 d-inline-block mb-1 no-nav-expand" id="actionButton">Learn More</a>
 					<a href="/email/subscribe.html" role="button" class="btn btn-light smoothscroll pb_outline-light btn-xl pb_font-13 p-4 rounded-0 pb_letter-spacing-2 d-inline-block mb-1">Join Our Newsletter</a>
 				</div>
@@ -333,14 +334,17 @@
 		const countdownValue = $("#countdown_value");
 		const countdownLabel = $("#countdown_label");
 		const aboutImage = $("#about-image");
+		const textReminder = $("<p>Text <b>JOIN</b> to <b>(833) 314-2832</b> for text reminders!</p>");
 
 		function setOpen() {
 			button.html("Apply Now");
 			button.attr("href", "/apply/index.html");
 			countdownLabel.text(`Application Closes February ${friendlyCloseDate.getDate()}th`);
+			countdownValue.after(textReminder);
 		}
 
 		function setClosed() {
+			textReminder.remove();
 			button.html("Learn More");
 			button.attr("href", "#section-details");
 			countdownLabel.text(countdownLabel.attr("data-closed-text"));
