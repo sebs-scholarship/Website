@@ -339,6 +339,7 @@
 		function setOpen() {
 			button.html("Apply Now");
 			button.attr("href", "/apply/index.html");
+			button.attr("target", "_blank");
 			countdownLabel.text(`Application Closes February ${friendlyCloseDate.getDate()}th`);
 			countdownValue.after(textReminder);
 		}
@@ -347,6 +348,7 @@
 			textReminder.remove();
 			button.html("Learn More");
 			button.attr("href", "#section-details");
+			button.attr("target", "_self");
 			countdownLabel.text(countdownLabel.attr("data-closed-text"));
 			// Feb 28/29 BOD
 			friendlyCloseDate = new Date(closeDate.getTime());
