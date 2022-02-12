@@ -182,7 +182,7 @@
 			<div class="col-md-12">
 				<h2 class="heading mb-3">Apply Now</h2>
 				<p class="sub-heading mb-5 pb_color-light-opacity-8">Do you fit the requirements and are ready to apply?<br>Submit your application here!</p>
-				<p><a href="https://docs.google.com/forms/d/1lMx1zCNP9MOhQlvVTlK5XZC054IXAFUrGnHLdwu09AU/" role="button" class="btn btn-light smoothscroll pb_outline-light p-3 rounded-0 pb_font-13 pb_letter-spacing-2" target="_blank" rel="noopener">Apply Now</a></p>
+				<p><a id="applyButton" href="https://docs.google.com/forms/d/1lMx1zCNP9MOhQlvVTlK5XZC054IXAFUrGnHLdwu09AU/" role="button" class="btn btn-light smoothscroll pb_outline-light p-3 rounded-0 pb_font-13 pb_letter-spacing-2" target="_blank" rel="noopener">Apply Now</a></p>
 			</div>
 		</div>
 	</div>
@@ -330,25 +330,26 @@
 		let today;
 		let nextSeason;
 
-		const button = $("#actionButton");
+		const applyButtonLink = $("#applyButton").attr("href");
+		const actionButton = $("#actionButton");
 		const countdownValue = $("#countdown_value");
 		const countdownLabel = $("#countdown_label");
 		const aboutImage = $("#about-image");
 		const textReminder = $("<p>Text <b>JOIN</b> to <b>(833) 314-2832</b> for text reminders!</p>");
 
 		function setOpen() {
-			button.html("Apply Now");
-			button.attr("href", "https://docs.google.com/forms/d/1lMx1zCNP9MOhQlvVTlK5XZC054IXAFUrGnHLdwu09AU/");
-			button.attr("target", "_blank");
+			actionButton.html("Apply Now");
+			actionButton.attr("href", applyButtonLink);
+			actionButton.attr("target", "_blank");
 			countdownLabel.text(`Application Closes February ${friendlyCloseDate.getDate()}th`);
 			countdownValue.after(textReminder);
 		}
 
 		function setClosed() {
 			textReminder.remove();
-			button.html("Learn More");
-			button.attr("href", "#section-details");
-			button.attr("target", "_self");
+			actionButton.html("Learn More");
+			actionButton.attr("href", "#section-details");
+			actionButton.attr("target", "_self");
 			countdownLabel.text(countdownLabel.attr("data-closed-text"));
 			// Feb 28/29 BOD
 			friendlyCloseDate = new Date(closeDate.getTime());
