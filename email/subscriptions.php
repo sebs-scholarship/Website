@@ -115,7 +115,7 @@ if (isset($_POST["sub"]) && isset($_POST["name"]) && strlen($_POST["name"]) > 0 
         $jsonData = json_encode($data);
 
         $mcConn = curl_init($urlBase);
-        curl_setopt($mcConn, CURLOPT_USERPWD, "user:" . $config["key"]);
+        curl_setopt($mcConn, CURLOPT_USERPWD, "user:" . $config["mc-key"]);
         curl_setopt($mcConn, CURLOPT_CUSTOMREQUEST, "POST");    // POST request
         curl_setopt($mcConn, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($mcConn, CURLOPT_POSTFIELDS, $jsonData);
@@ -123,14 +123,13 @@ if (isset($_POST["sub"]) && isset($_POST["name"]) && strlen($_POST["name"]) > 0 
                 'Content-Type: application/json',
                 'Content-Length: ' . strlen($jsonData))
         );
-        curl_setopt($mcConn, CURLOPT_RETURNTRANSFER, "POST");
 
-        echo curl_exec($mcConn);
+        curl_exec($mcConn);
 
         if (!curl_errno($mcConn) && curl_getinfo($mcConn, CURLINFO_RESPONSE_CODE) === 200) {
-            // echo '<META HTTP-EQUIV="refresh" content="0;URL=confirm.html">';    // Tell them to check their email
+            echo '<META HTTP-EQUIV="refresh" content="0;URL=confirm.html">';    // Tell them to check their email
         } else {
-            // echo '<META HTTP-EQUIV="refresh" content="0;URL=invalid.html">';    // Probably invalid email address
+            echo '<META HTTP-EQUIV="refresh" content="0;URL=invalid.html">';    // Probably invalid email address
         }
 
         curl_close($mcConn);
