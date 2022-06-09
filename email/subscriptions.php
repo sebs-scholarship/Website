@@ -130,9 +130,9 @@ if (isset($_POST["sub"]) && isset($_POST["name"]) && strlen($_POST["name"]) > 0 
         curl_exec($mcConn);
 
         if (!curl_errno($mcConn) && curl_getinfo($mcConn, CURLINFO_RESPONSE_CODE) === 200) {
-            echo '<META HTTP-EQUIV="refresh" content="0;URL=confirm.html">';    // Tell them to check their email
+            // echo '<META HTTP-EQUIV="refresh" content="0;URL=confirm.html">';    // Tell them to check their email
         } else {
-            echo '<META HTTP-EQUIV="refresh" content="0;URL=invalid.html">';    // Probably invalid email address
+            // echo '<META HTTP-EQUIV="refresh" content="0;URL=invalid.html">';    // Probably invalid email address
         }
 
         curl_close($mcConn);
