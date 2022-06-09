@@ -124,6 +124,9 @@ if (isset($_POST["sub"]) && isset($_POST["name"]) && strlen($_POST["name"]) > 0 
                 'Content-Length: ' . strlen($jsonData))
         );
 
+        // TODO: Remove
+        curl_setopt($mcConn, CURLOPT_RETURNTRANSFER, true);
+
         curl_exec($mcConn);
 
         if (!curl_errno($mcConn) && curl_getinfo($mcConn, CURLINFO_RESPONSE_CODE) === 200) {
