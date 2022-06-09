@@ -115,7 +115,7 @@ if (isset($_POST["sub"]) && isset($_POST["name"]) && strlen($_POST["name"]) > 0 
         $jsonData = json_encode($data);
 
         $mcConn = curl_init($urlBase);
-        curl_setopt($mcConn, CURLOPT_USERPWD, "user:" . $config["key"]);
+        curl_setopt($mcConn, CURLOPT_USERPWD, "user:" . $config["mc-key"]);
         curl_setopt($mcConn, CURLOPT_CUSTOMREQUEST, "POST");    // POST request
         curl_setopt($mcConn, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($mcConn, CURLOPT_POSTFIELDS, $jsonData);
