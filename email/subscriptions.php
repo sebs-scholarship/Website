@@ -123,11 +123,9 @@ if (isset($_POST["sub"]) && isset($_POST["name"]) && strlen($_POST["name"]) > 0 
                 'Content-Type: application/json',
                 'Content-Length: ' . strlen($jsonData))
         );
+        curl_setopt($mcConn, CURLOPT_RETURNTRANSFER, "POST");
 
-        // TODO: Remove
-        curl_setopt($mcConn, CURLOPT_RETURNTRANSFER, true);
-
-        curl_exec($mcConn);
+        echo curl_exec($mcConn);
 
         if (!curl_errno($mcConn) && curl_getinfo($mcConn, CURLINFO_RESPONSE_CODE) === 200) {
             // echo '<META HTTP-EQUIV="refresh" content="0;URL=confirm.html">';    // Tell them to check their email
