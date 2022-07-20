@@ -100,17 +100,17 @@ if (isset($_POST["g-recaptcha-response"]) && strlen($_POST["g-recaptcha-response
 
 // Handle subscription request
 $email = (isset($_POST["email"])) ? strtolower($_POST["email"]) : "";
-$name = (isset($_POST["name"])) ? strtolower($_POST["name"]) : "";
-if (isset($_POST["sub"]) && strlen($_POST["name"]) > 0 && strlen($email) > 0) {
+$name = (isset($_POST["name"])) ? $_POST["name"] : "";
+if (isset($_POST["sub"]) && strlen($name) > 0 && strlen($email) > 0) {
     $userHash = md5($email);   // User ID for mailchimp
     $status = userExists($userHash);    // Check if user already exists or not
 
     if ($status === STATUS::MISSING) {  // If user does not exist
         // TODO: Could be made into a function
         $data = array(  // Build subscription payload
-            'email_address' => strtolower($email),
+            'email_address' => $email,
             'status' => 'pending',  // Send them an email to confirm
-            'merge_fields' => array('NAME' => $_POST["name"])
+            'merge_fields' => array('NAME' => $name)
         );
 
         $jsonData = json_encode($data);
