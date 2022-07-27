@@ -81,14 +81,16 @@ jobs:
         run: |
           echo "SITE_USER=${{ secrets.TEST_SSH_USER }}" >> $GITHUB_ENV
           echo "SITE_KEY=${{ secrets.TEST_SSH_KEY }}" >> $GITHUB_ENV
-          echo "SITE_DIR=test.blog.sebsscholarship.org" >> $GITHUB_ENV
+          echo "${{ secrets.TEST_SSH_KEY }}" >> $GITHUB_ENV
+          echo "SITE_DIR=test.sebsscholarship.org" >> $GITHUB_ENV
 
       - name: Set main environment
         if: github.ref_name == 'main'
         run: |
           echo "SITE_USER=${{ secrets.PROD_SSH_USER }}" >> $GITHUB_ENV
           echo "SITE_KEY=${{ secrets.PROD_SSH_KEY }}" >> $GITHUB_ENV
-          echo "SITE_DIR=blog.sebsscholarship.org" >> $GITHUB_ENV
+          echo "${{ secrets.PROD_SSH_KEY }}" >> $GITHUB_ENV
+          echo "SITE_DIR=sebsscholarship.org" >> $GITHUB_ENV
 
       - name: Download artifact
         uses: actions/download-artifact@v3
@@ -140,7 +142,7 @@ jobs:
           webhook_id: ${{ secrets.DISCORD_WEBHOOK_ID }}
           webhook_token: ${{ secrets.DISCORD_WEBHOOK_TOKEN }}
           color: "#800000"
-          username: "SSF Blog Status Bot"
+          username: "SSF Website Status Bot"
           message: >
             Updates were successfully pushed to ${{ env.SITE_NAME }} site:
             ${{ env.SITE_ADDR }}
@@ -153,7 +155,7 @@ jobs:
           webhook_id: ${{ secrets.DISCORD_WEBHOOK_ID }}
           webhook_token: ${{ secrets.DISCORD_WEBHOOK_TOKEN }}
           color: "#800000"
-          username: "SSF Blog Status Bot"
+          username: "SSF Website Status Bot"
           message: >
             Aborting ${{ env.SITE_NAME }} site deployment due to unexpected error:
-            https://github.com/sebs-scholarship/Blog/actions/runs/${{ github.run_id }}
+            https://github.com/sebs-scholarship/Website/actions/runs/${{ github.run_id }}
