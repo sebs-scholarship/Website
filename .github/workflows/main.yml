@@ -1,0 +1,159 @@
+name: Lint, Build, Deploy, and Index site
+
+on:
+  push:
+  pull_request:
+    branches:
+      - 'staging'
+      - 'main'
+
+jobs:
+  lint:
+    name: Lint the source
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Lint Code Base
+        uses: docker://ghcr.io/github/super-linter:slim-v4
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VALIDATE_YAML: true
+          VALIDATE_XML: true
+          VALIDATE_BASH: true
+          VALIDATE_PHP: true
+          VALIDATE_JAVASCRIPT_STANDARD: true
+          VALIDATE_CSS: true
+
+  build:
+    name: Build the site
+    runs-on: ubuntu-latest
+    needs:
+      - lint
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Staging site configuration
+        if: github.ref_name == 'staging'
+        run: |
+          echo 'User-agent: * Disallow: /' > ${{ github.workspace }}/robots.txt
+          sed -i 's_sebsscholarship.org_test.sebsscholarship.org_g' ${{ github.workspace }}/_config.yml
+
+      - name: Configure drafts
+        if: github.ref_name != 'main'
+        run: |
+          echo "XARGS=--drafts" >> $GITHUB_ENV
+
+      - name: Install Composer dependencies
+        run: |
+          docker run --rm \
+          -v ${{ github.workspace }}:/app \
+          composer:2 install -n
+
+      - name: Build site
+        run: |
+          docker run -v ${{ github.workspace }}:/srv/jekyll \
+          -v ${{ github.workspace }}/_site:/srv/jekyll/_site jekyll/builder:4.1.0 \
+          /bin/bash -c "chmod 777 /srv/jekyll && jekyll build --future ${{ env.XARGS }}"
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: Built Site
+          path: ${{ github.workspace }}/_site/
+
+  deploy:
+    name: Deploy the site
+    runs-on: ubuntu-latest
+    needs:
+      - build
+    # Only deploy if on the staging or main branch
+    if: github.ref_name == 'staging' || github.ref_name == 'main'
+    steps:
+      - name: Set test environment
+        if: github.ref_name == 'staging'
+        run: |
+          echo "SITE_USER=${{ secrets.TEST_SSH_USER }}" >> $GITHUB_ENV
+          echo "SITE_KEY=${{ secrets.TEST_SSH_KEY }}" >> $GITHUB_ENV
+          echo "SITE_DIR=test.blog.sebsscholarship.org" >> $GITHUB_ENV
+
+      - name: Set main environment
+        if: github.ref_name == 'main'
+        run: |
+          echo "SITE_USER=${{ secrets.PROD_SSH_USER }}" >> $GITHUB_ENV
+          echo "SITE_KEY=${{ secrets.PROD_SSH_KEY }}" >> $GITHUB_ENV
+          echo "SITE_DIR=blog.sebsscholarship.org" >> $GITHUB_ENV
+
+      - name: Download artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: Built Site
+          path: _site/
+
+      - name: Install SSH key
+        uses: webfactory/ssh-agent@v0.5.4
+        with:
+          ssh-private-key: ${{ env.SITE_KEY }}
+
+      - name: Trust SSH key
+        run: ssh-keyscan sebsscholarship.org > ~/.ssh/known_hosts
+
+      - name: Deploy
+        run: |
+          scp -r ${{ github.workspace }}/_site/* ${{ env.SITE_USER }}@sebsscholarship.org:~/staging/
+          ssh ${{ env.SITE_USER }}@sebsscholarship.org 'rm -rf ~/${{ env.SITE_DIR }}/* \
+          && mv ~/staging/* ~/${{ env.SITE_DIR }}/'
+
+  notify:
+    name: Send job complete notification
+    runs-on: ubuntu-latest
+    needs:
+      - lint
+      - build
+      - deploy
+    # Run if on staging or main
+    if: always() && (github.ref_name == 'staging' || github.ref_name == 'main')
+    steps:
+      - name: Set test environment
+        if: github.ref_name == 'staging'
+        run: |
+          echo "SITE_NAME=test" >> $GITHUB_ENV
+          echo "SITE_ADDR=https://test.sebsscholarship.org" >> $GITHUB_ENV
+
+      - name: Set main environment
+        if: github.ref_name == 'main'
+        run: |
+          echo "SITE_NAME=main" >> $GITHUB_ENV
+          echo "SITE_ADDR=https://sebsscholarship.org" >> $GITHUB_ENV
+
+      - name: Notify on success
+        # If the site was successfully built and indexed
+        if: needs.lint.result != 'failure' && needs.build.result != 'failure' && needs.deploy.result != 'failure'
+        uses: appleboy/discord-action@0.0.3
+        with:
+          webhook_id: ${{ secrets.DISCORD_WEBHOOK_ID }}
+          webhook_token: ${{ secrets.DISCORD_WEBHOOK_TOKEN }}
+          color: "#800000"
+          username: "SSF Blog Status Bot"
+          message: >
+            Updates were successfully pushed to ${{ env.SITE_NAME }} site:
+            ${{ env.SITE_ADDR }}
+
+      - name: Notify on failure
+        # If the site failed at any point
+        if: needs.lint.result == 'failure' || needs.build.result == 'failure' || needs.deploy.result == 'failure'
+        uses: appleboy/discord-action@0.0.3
+        with:
+          webhook_id: ${{ secrets.DISCORD_WEBHOOK_ID }}
+          webhook_token: ${{ secrets.DISCORD_WEBHOOK_TOKEN }}
+          color: "#800000"
+          username: "SSF Blog Status Bot"
+          message: >
+            Aborting ${{ env.SITE_NAME }} site deployment due to unexpected error:
+            https://github.com/sebs-scholarship/Blog/actions/runs/${{ github.run_id }}
