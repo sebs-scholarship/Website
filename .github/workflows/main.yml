@@ -80,16 +80,18 @@ jobs:
         if: github.ref_name == 'staging'
         run: |
           echo "SITE_USER=${{ secrets.TEST_SSH_USER }}" >> $GITHUB_ENV
-          echo "SITE_KEY=${{ secrets.TEST_SSH_KEY }}" >> $GITHUB_ENV
+          echo "SITE_KEY<<EOF" >> $GITHUB_ENV
           echo "${{ secrets.TEST_SSH_KEY }}" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
           echo "SITE_DIR=test.sebsscholarship.org" >> $GITHUB_ENV
 
       - name: Set main environment
         if: github.ref_name == 'main'
         run: |
           echo "SITE_USER=${{ secrets.PROD_SSH_USER }}" >> $GITHUB_ENV
-          echo "SITE_KEY=${{ secrets.PROD_SSH_KEY }}" >> $GITHUB_ENV
+          echo "SITE_KEY<<EOF" >> $GITHUB_ENV
           echo "${{ secrets.PROD_SSH_KEY }}" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
           echo "SITE_DIR=sebsscholarship.org" >> $GITHUB_ENV
 
       - name: Download artifact
