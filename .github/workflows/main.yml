@@ -7,6 +7,10 @@ on:
       - 'staging'
       - 'main'
 
+concurrency:
+  group: format('{0}-{1}', github.job, github.ref)
+  cancel-in-progress: true
+
 jobs:
   lint:
     name: Lint the source
@@ -138,7 +142,7 @@ jobs:
 
       - name: Notify on success
         # If the site was successfully built and indexed
-        if: needs.lint.result != 'failure' && needs.build.result != 'failure' && needs.deploy.result != 'failure'
+        if: needs.lint.result == 'success' && needs.build.result == 'success' && needs.deploy.result == 'success'
         uses: appleboy/discord-action@0.0.3
         with:
           webhook_id: ${{ secrets.DISCORD_WEBHOOK_ID }}
