@@ -32,7 +32,6 @@ keywords: newsletter, email, subscribe
                     </div>
                     <div class="form-group">
                         <input type="button" class="g-recaptcha btn pb_outline-dark pb_font-13 pb_letter-spacing-2 p-3 rounded-0" data-sitekey="6LdjYNwUAAAAAMFxSuVRyqUdg2ZqVQu1CYDCBljg" data-callback="onSubmit" value="Subscribe">
-                        <input type="submit" hidden>
                     </div>
                 </form>
             </div>
@@ -41,7 +40,12 @@ keywords: newsletter, email, subscribe
 </section>
 <script>
     function onSubmit() {
-        document.getElementById("sub-form").find(":submit").click();
+        const subForm = document.getElementById("sub-form");
+        if (subForm.checkValidity()) {
+            subForm.submit();
+        } else {
+            subForm.reportValidity();
+        }
     }
 </script>
 <script src="https://www.google.com/recaptcha/api.js" async defer></script>
