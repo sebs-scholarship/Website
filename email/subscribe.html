@@ -40,12 +40,7 @@ keywords: newsletter, email, subscribe
 </section>
 <script>
     function onSubmit() {
-        const subForm = document.getElementById("sub-form");
-        if (subForm.checkValidity()) {
-            subForm.submit();
-        } else {
-            subForm.reportValidity();
-        }
+        document.getElementById("sub-form").submit();
     }
 
     function validate() {
