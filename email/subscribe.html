@@ -12,7 +12,7 @@ keywords: newsletter, email, subscribe
         </div>
         <div class="row justify-content-md-center">
             <div class="col-md-7 mb-4">
-                <form id="sub-form" method="post" action="subscriptions.php">
+                <form id="sub-form" method="post" action="subscriptions.php" onsubmit="return validate();">
                     <input type="hidden" name="sub" value="true">
                     <div class="row">
                         <div class="col">
@@ -46,6 +46,10 @@ keywords: newsletter, email, subscribe
         } else {
             subForm.reportValidity();
         }
+    }
+
+    function validate() {
+        return document.getElementById("sub-form").reportValidity();
     }
 </script>
 <script src="https://www.google.com/recaptcha/api.js" async defer></script>
