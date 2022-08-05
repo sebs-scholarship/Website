@@ -21,8 +21,9 @@ title: Unsubscribe
                             </div>
                         </div>
                     </div>
+                    <div id='recaptcha' class="g-recaptcha" data-sitekey="6LdjYNwUAAAAAMFxSuVRyqUdg2ZqVQu1CYDCBljg" data-callback="submit" data-size="invisible"></div>
                     <div class="form-group">
-                        <input type="button" class="g-recaptcha btn pb_outline-dark pb_font-13 pb_letter-spacing-2 p-3 rounded-0" data-sitekey="6LdjYNwUAAAAAMFxSuVRyqUdg2ZqVQu1CYDCBljg" data-callback="onSubmit" value="Unsubscribe">
+                        <input type="button" class="btn pb_outline-dark pb_font-13 pb_letter-spacing-2 p-3 rounded-0" value="Unsubscribe" onclick="onSubmit()">
                     </div>
                 </form>
             </div>
@@ -30,8 +31,14 @@ title: Unsubscribe
     </div>
 </section>
 <script>
-    function onSubmit() {
+    function submit() {
         document.getElementById("unsub-form").submit();
+    }
+
+    function onSubmit(event) {
+        if (document.getElementById("unsub-form").reportValidity()) {
+            grecaptcha.execute();
+        }
     }
 </script>
 <script src="https://www.google.com/recaptcha/api.js" async defer></script>
