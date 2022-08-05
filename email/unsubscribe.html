@@ -32,11 +32,11 @@ title: Unsubscribe
 </section>
 <script>
     function submit() {
-        document.getElementById("sub-form").submit();
+        document.getElementById("unsub-form").submit();
     }
 
     function onSubmit(event) {
-        if (document.getElementById("sub-form").reportValidity()) {
+        if (document.getElementById("unsub-form").reportValidity()) {
             grecaptcha.execute();
         }
     }
