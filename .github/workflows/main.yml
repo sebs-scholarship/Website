@@ -8,7 +8,7 @@ on:
       - 'main'
 
 concurrency:
-  group: format('{0}-{1}', github.job, github.ref)
+  group: ${{ format('{0}-{1}', github.job, github.ref) }}
   cancel-in-progress: true
 
 jobs:
