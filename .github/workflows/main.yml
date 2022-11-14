@@ -44,15 +44,11 @@ jobs:
           fetch-depth: 0
 
       - name: Staging site configuration
-        if: github.ref_name == 'staging'
-        run: |
-          echo 'User-agent: * Disallow: /' > ${{ github.workspace }}/robots.txt
-          sed -i 's_sebsscholarship.org_test.sebsscholarship.org_g' ${{ github.workspace }}/_config.yml
-
-      - name: Configure drafts
         if: github.ref_name != 'main'
         run: |
           echo "XARGS=--drafts" >> $GITHUB_ENV
+          echo 'User-agent: * Disallow: /' > ${{ github.workspace }}/robots.txt
+          sed -i 's_sebsscholarship.org_test.sebsscholarship.org_g' ${{ github.workspace }}/_config.yml
 
       - name: Install Composer dependencies
         run: |
