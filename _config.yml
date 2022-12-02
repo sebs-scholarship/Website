@@ -36,6 +36,9 @@ defaults:
 remote_theme: sebs-scholarship/Theme@2022-06-07-1
 
 exclude:
+  - .github
+  - composer.*
   - README.md
   - Gemfile
   - Gemfile.lock
+  - scripts
