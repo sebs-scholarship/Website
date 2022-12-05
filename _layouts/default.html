@@ -5,7 +5,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    {% include analytics.html %}
+    {% include_cached analytics.html id="UA-153409218-1" %}
     <link rel="preconnect" href="https://stackpath.bootstrapcdn.com/" crossorigin>
     <link rel="preconnect" href="https://fonts.googleapis.com/" crossorigin>
     <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
@@ -67,6 +67,7 @@
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item"><a class="nav-link" href="{{ prefix | append: "#section-about" }}">About</a></li>
                 <li class="nav-item"><a class="nav-link" href="{{ prefix | append: "#section-details" }}">Scholarship</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ prefix | append: "#section-resumes" }}">Resume Workshop</a></li>
                 <li class="nav-item"><a class="nav-link" href="{{ prefix | append: "#section-donate" }}">Donate</a></li>
                 <li class="nav-item"><a class="nav-link" href="{{ prefix | append: "#section-volunteering" }}">Volunteering</a></li>
                 <li class="nav-item"><a class="nav-link" href="{{ prefix | append: "#section-contact" }}">Contact</a></li>

@@ -44,15 +44,11 @@ jobs:
           fetch-depth: 0
 
       - name: Staging site configuration
-        if: github.ref_name == 'staging'
-        run: |
-          echo 'User-agent: * Disallow: /' > ${{ github.workspace }}/robots.txt
-          sed -i 's_sebsscholarship.org_test.sebsscholarship.org_g' ${{ github.workspace }}/_config.yml
-
-      - name: Configure drafts
         if: github.ref_name != 'main'
         run: |
           echo "XARGS=--drafts" >> $GITHUB_ENV
+          echo 'User-agent: * Disallow: /' > ${{ github.workspace }}/robots.txt
+          sed -i 's_sebsscholarship.org_test.sebsscholarship.org_g' ${{ github.workspace }}/_config.yml
 
       - name: Install Composer dependencies
         run: |
@@ -62,9 +58,8 @@ jobs:
 
       - name: Build site
         run: |
-          docker run -v ${{ github.workspace }}:/srv/jekyll \
-          -v ${{ github.workspace }}/_site:/srv/jekyll/_site jekyll/builder:4.1.0 \
-          /bin/bash -c "chmod 777 /srv/jekyll && jekyll build --future ${{ env.XARGS }}"
+          docker run -v ${{ github.workspace }}:/srv/jekyll jekyll/builder:4.2.2 /bin/bash -c \
+          "bundle install && chmod 777 /srv/jekyll && bundle exec jekyll build --future ${{ env.XARGS }}"
 
       - name: Upload artifact
         uses: actions/upload-artifact@v3
@@ -105,7 +100,7 @@ jobs:
           path: _site/
 
       - name: Install SSH key
-        uses: webfactory/ssh-agent@v0.5.4
+        uses: webfactory/ssh-agent@v0.7.0
         with:
           ssh-private-key: ${{ env.SITE_KEY }}
 

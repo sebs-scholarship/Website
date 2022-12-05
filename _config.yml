@@ -11,6 +11,9 @@ url: "https://sebsscholarship.org"
 baseurl: ""
 
 plugins:
+  - jekyll-include-cache
+  - jekyll-relative-links
+  - jekyll-remote-theme
   - jekyll-sitemap
 
 defaults:
@@ -30,9 +33,12 @@ defaults:
     values:
       sitemap: false
 
-remote_theme: sebs-scholarship/Theme@2022-06-07-1
+remote_theme: sebs-scholarship/Theme@2022-12-02-1
 
 exclude:
+  - .github
+  - composer.*
   - README.md
   - Gemfile
   - Gemfile.lock
+  - scripts
