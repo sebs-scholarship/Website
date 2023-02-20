@@ -46,16 +46,16 @@
 </head>
 <body data-spy="scroll" data-target="#pb-navbar" data-offset="200">
 <!-- loader -->
-<div id="pb_loader" class="show fullscreen">
+<div id="pb-loader" class="show fullscreen">
     <svg class="circular" width="48px" height="48px">
         <circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/>
         <circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#800000"/>
     </svg>
 </div>
 {% if page.title %}
-<nav class="navbar navbar-expand-lg navbar-light pb_navbar light pb_scrolled-light" id="pb-navbar">
+<nav class="navbar navbar-expand-lg navbar-light pb-navbar light pb-scrolled-light" id="pb-navbar">
 {% else %}
-<nav class="navbar navbar-expand-lg navbar-dark pb_navbar pb_scrolled-light" id="pb-navbar">
+<nav class="navbar navbar-expand-lg navbar-dark pb-navbar pb-scrolled-light" id="pb-navbar">
 {% endif %}
     <div class="container">
         <a class="navbar-brand navbar-brand-lg smoothscroll no-nav-expand" href="{{ prefix | append: "#section-home" }}"><img src="/assets/images/logo-min.png" alt=""></a>
@@ -82,7 +82,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js" integrity="sha512-0QbL0ph8Tc8g5bLhfVzSqxe9GERORsKhIn1IrpxDAgUsbBGz/V7iSav2zzW325XGd1OMLdL4UiqRJj702IeqnQ==" crossorigin="anonymous"></script>
 {{ content }}
 <!-- END section -->
-<footer class="pb_footer bg-light" role="contentinfo">
+<footer class="pb-footer bg-light" role="contentinfo">
     <div class="container">
         <div class="row text-center">
             <div class="col">
@@ -118,7 +118,7 @@
                         <p><a href="/assets/documents/Rubric.pdf">Rubric</a></p>
                     </li>
                 </ul>
-                <p class="pb_font-14">Copyright &copy; 2019 - <span id="year">2022</span> <a class="smoothscroll no-nav-expand" href="{{ prefix | append: "#section-about" }}">SEBS Scholarship Foundation</a>. All Rights Reserved.</p>
+                <p>Copyright &copy; 2019 - <span id="year">2022</span> <a class="smoothscroll no-nav-expand" href="{{ prefix | append: "#section-about" }}">SEBS Scholarship Foundation</a>. All Rights Reserved.</p>
                 <p>Made with <i class="fa fa-heart" aria-hidden="true"></i><span class="sr-only">love</span> by <a href="https://github.com/leviem1">Levi Muniz </a> and <a href="https://github.com/KyleROlson">Kyle Olson</a>. Original design by <a href="https://uicookies.com/">uiCookies</a>.</p>
                 <hr>
                 <p>
