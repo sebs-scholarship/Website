@@ -1,4 +1,6 @@
 ---
 layout: null
 ---
+User-Agent: *
+Disallow: /vendor/
 Sitemap: {{ "sitemap.xml" | absolute_url }}
