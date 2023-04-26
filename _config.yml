@@ -33,7 +33,7 @@ defaults:
     values:
       sitemap: false
 
-remote_theme: sebs-scholarship/Theme@2023-02-19-1
+remote_theme: sebs-scholarship/Theme@2023-04-05-1
 
 exclude:
   - .github
