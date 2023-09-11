@@ -1,0 +1,51 @@
+<section class="pb-section" data-section="contact" id="section-contact">
+    <div class="container">
+        <div class="row justify-content-md-center text-center mb-5">
+            <div class="col-lg-7">
+                <h2 class="mt-0 heading-border-top font-weight-normal">Get In Touch</h2>
+                <p>If you have any questions, please use the form below to contact us. Someone should get back to you in a few business days.</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-8 pr-md-5 pr-sm-0 mb-4">
+                <form action="javascript:" onsubmit="contactSubmit()">
+                    <div class="row">
+                        <div class="col-md">
+                            <div class="form-group">
+                                <label for="name">Name</label>
+                                <input type="text" class="form-control p-3 rounded-0 form-input" id="name" required>
+                            </div>
+                        </div>
+                        <div class="col-md">
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="email" class="form-control p-3 rounded-0 form-input" id="email" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea cols="30" rows="10" class="form-control p-3 rounded-0 form-input" id="message" required></textarea>
+                    </div>
+                    <div id='recaptcha' class="g-recaptcha" data-sitekey="6LdjYNwUAAAAAMFxSuVRyqUdg2ZqVQu1CYDCBljg" data-callback="contact" data-size="invisible"></div>
+                    <div class="form-group">
+                        <input type="submit" id="send" class="btn pb-outline-dark p-3 rounded-0" value="Send Message">
+                    </div>
+                    <p id="status"></p>
+                </form>
+            </div>
+            <div class="col-md-4">
+                <ul class="pb-contact-details-v1">
+                    <li>
+                        <span class="text-uppercase">Email</span>
+                        <a href="mailto:help@sebsscholarship.org">help@sebsscholarship.org</a>
+                    </li>
+                    <li>
+                        <span class="text-uppercase">Phone</span>
+                        <a href="tel:719-582-8713">(719) 582-8713</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
