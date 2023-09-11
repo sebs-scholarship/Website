@@ -1,0 +1,239 @@
+<script>
+    $(document).ready(function ($) {
+        $("#donorbox").html(`<iframe className="mb-1" allowpaymentrequest="" frameBorder="0" name="donorbox" scrolling="no" seamless="seamless" src="https://donorbox.org/embed/sebs-scholarship-2022?show_content=true" style="min-width: 310px; max-height:none!important;" width="100%"></iframe>`)
+        $("#donorbox-comments").html(`<iframe className="mb-3" frameBorder="0" name="donorbox" scrolling="no" seamless="seamless" src="https://donorbox.org/embed/sebs-scholarship-2022?only_donor_wall=true" style="width: 100%; min-width:310px; max-height: none !important"></iframe>`)
+
+        let jan1;
+        let openDate;
+        let closeDate;
+        let friendlyCloseDate;
+        let apr1;
+        let apr2;
+        let dec1;
+        let today;
+        let nextSeason;
+
+        const applyButtonLink = $("#applyButton").attr("href");
+        const actionButton = $("#actionButton");
+        const countdownValue = $("#countdown_value");
+        const countdownLabel = $("#countdown_label");
+        const aboutImage = $("#about-image");
+        const textReminder = $("<p>Text <b>JOIN</b> to <b>(719) 401-6019</b> for text reminders!</p>");
+
+        function setOpen() {
+            actionButton.html("Apply Now");
+            actionButton.attr("href", applyButtonLink);
+            actionButton.attr("target", "_blank");
+            countdownLabel.text(`Application Closes February ${friendlyCloseDate.getDate()}th`);
+            countdownValue.after(textReminder);
+        }
+
+        function setClosed() {
+            textReminder.remove();
+            actionButton.html("Learn More");
+            actionButton.attr("href", "#section-details");
+            actionButton.attr("target", "_self");
+            countdownLabel.text(countdownLabel.attr("data-closed-text"));
+            // Feb 14/15 BOD
+            friendlyCloseDate = new Date(closeDate.getTime());
+            if (friendlyCloseDate < today) friendlyCloseDate.setFullYear(friendlyCloseDate.getFullYear() + 1);
+            friendlyCloseDate.setDate(friendlyCloseDate.getDate() - 1);
+            $("#close-date").text(friendlyCloseDate.getDate());
+        }
+
+        function setDefaultImg() {
+            aboutImage.attr("src", aboutImage.attr("data-default-img"));
+        }
+
+        function setFunnyImg() {
+            aboutImage.attr("src", aboutImage.attr("data-silly-img"));
+        }
+
+        function setHolidayImg() {
+            aboutImage.attr("src", aboutImage.attr("data-holiday-img"));
+        }
+
+        // On page load
+        function init() {
+            String.prototype.formatUnicorn = String.prototype.formatUnicorn || function () {
+                "use strict";
+                let str = this.toString();
+                if (arguments.length) {
+                    const t = typeof arguments[0];
+                    let key;
+                    const args = ("string" === t || "number" === t) ?
+                        Array.prototype.slice.call(arguments)
+                        : arguments[0];
+
+                    for (key in args) {
+                        str = str.replace(new RegExp("\\{" + key + "\\}", "gi"), args[key]);
+                    }
+                }
+
+                return str;
+            };
+
+            today = new Date();
+
+            // Dec 31/Jan 1 UTC-7 BOD
+            jan1 = new Date(Date.UTC(today.getFullYear(), 0, 1, 7));
+            // Jan 14/15 UTC-7 BOD
+            openDate = new Date(Date.UTC(today.getFullYear(), 0, 15, 7));
+            // Feb 14/15 UTC-7 BOD
+            closeDate = new Date(Date.UTC(today.getFullYear(), 1, 15, 7));
+            // Mar 31/Apr 1 UTC-6 BOD
+            apr1 = new Date(Date.UTC(today.getFullYear(), 3, 1, 6));
+            // Apr 1/2 UTC-6 BOD
+            apr2 = new Date(Date.UTC(today.getFullYear(), 3, 2, 6));
+            // Nov 30/Dec 1 UTC-7 BOD
+            dec1 = new Date(Date.UTC(today.getFullYear(), 11, 1, 7));
+
+            // Feb 14/15 BOD
+            friendlyCloseDate = new Date(closeDate.getTime());
+            if (friendlyCloseDate < today) friendlyCloseDate.setFullYear(friendlyCloseDate.getFullYear() + 1);
+            friendlyCloseDate.setDate(friendlyCloseDate.getDate() - 1);
+            $("#close-date").text(friendlyCloseDate.getDate());
+
+            // Remove holiday image
+            if (today > jan1 && today < openDate) {
+                setDefaultImg();
+                nextSeason = 1;
+
+                // Open scholarship
+            } else if (today > openDate && today < closeDate) {
+                setOpen();
+                nextSeason = 2;
+
+                // Close scholarship
+            } else if (today > closeDate && today < apr1) {
+                setClosed();
+                nextSeason = 3;
+
+                // Set April fool's image
+            } else if (today > apr1 && today < apr2) {
+                setFunnyImg();
+                nextSeason = 4;
+
+                // Remove April fool's image
+            } else if (today > apr2 && today < dec1) {
+                setDefaultImg();
+                nextSeason = 5;
+
+                // Set holiday image
+            } else {
+                setHolidayImg();
+                nextSeason = 0;
+            }
+
+            // Increment the year if the date has passed
+            if (jan1 < today) jan1.setFullYear(jan1.getFullYear() + 1);
+            if (openDate < today) openDate.setFullYear(openDate.getFullYear() + 1);
+            if (closeDate < today) closeDate.setFullYear(closeDate.getFullYear() + 1);
+            if (apr1 < today) apr1.setFullYear(apr1.getFullYear() + 1);
+            if (apr2 < today) apr2.setFullYear(apr2.getFullYear() + 1);
+            if (dec1 < today) dec1.setFullYear(dec1.getFullYear() + 1);
+        }
+
+        // Live updates
+        function countdown() {
+            today = new Date();
+
+            // merry-go-round of dates to prevent re-rendering too much
+            // Remove holiday image
+            if (nextSeason === 0 && jan1 < today) {
+                setDefaultImg();
+                jan1.setFullYear(jan1.getFullYear() + 1);
+                nextSeason = (nextSeason + 1) % 6;
+
+                // Open scholarship
+            } else if (nextSeason === 1 && openDate < today) {
+                setOpen();
+                openDate.setFullYear(openDate.getFullYear() + 1);
+                nextSeason = (nextSeason + 1) % 6;
+
+                // Close scholarship
+            } else if (nextSeason === 2 && closeDate < today) {
+                setClosed();
+                closeDate.setFullYear(closeDate.getFullYear() + 1);
+                nextSeason = (nextSeason + 1) % 6;
+
+                // Set April fool's image
+            } else if (nextSeason === 3 && apr1 < today) {
+                setFunnyImg();
+                apr1.setFullYear(apr1.getFullYear() + 1);
+                nextSeason = (nextSeason + 1) % 6;
+
+                // Remove April fool's image
+            } else if (nextSeason === 4 && apr2 < today) {
+                setDefaultImg();
+                apr2.setFullYear(apr2.getFullYear() + 1);
+                nextSeason = (nextSeason + 1) % 6;
+
+                // Set holiday image
+            } else if (nextSeason === 5 && dec1 < today) {
+                setHolidayImg();
+                dec1.setFullYear(dec1.getFullYear() + 1);
+                nextSeason = (nextSeason + 1) % 6;
+            }
+
+            let delta;
+            if (openDate < closeDate) {
+                delta = (openDate.getTime() - today.getTime()) / 1000;
+            } else {
+                delta = (closeDate.getTime() - today.getTime()) / 1000;
+            }
+
+            const days = Math.floor(delta / (3600 * 24));
+            const hours = Math.floor(delta % (3600 * 24) / 3600);
+            const minutes = Math.floor(delta % 3600 / 60);
+            const seconds = Math.floor(delta % 60);
+
+            countdownValue.html("{0} days, {1} hours, {2} minutes, {3} seconds".formatUnicorn(days, hours, minutes, seconds));
+        }
+
+        init();
+
+        // Display immediately, then schedule
+        countdown();
+        setInterval(countdown, 1000);
+
+        console.log("Are you a SEBS graduate interested in helping work on our website? Please visit the link below to fill out our interest form!");
+        console.log("https://forms.gle/r7PGCqciGPRyn2PA6");
+    });
+
+
+    function contactSubmit() {
+        grecaptcha.execute();
+    }
+
+    function contact(token) {
+        const name = document.getElementById("name").value;
+        const email = document.getElementById("email").value;
+        const message = document.getElementById("message").value;
+        document.getElementById("status").innerHTML = "";
+        const send = document.getElementById("send");
+        send.value = "Sending...";
+        send.disabled = true;
+
+        const xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState === 4) {
+                if (this.status === 200) {
+                    document.getElementById("name").value = "";
+                    document.getElementById("email").value = "";
+                    document.getElementById("message").value = "";
+                    document.getElementById("status").innerHTML = "Message has been sent!";
+                } else {
+                    document.getElementById("status").innerHTML = "There was an error sending your message. Please try again and email <a href=\"mailto:help@sebsscholarship.org\">help@sebsscholarship.org</a> directly if the issue persists.";
+                }
+
+                const send = document.getElementById("send");
+                send.value = "Send Message";
+                send.disabled = false;
+            }
+        };
+        xhttp.open("POST", "/email/contact.php", true);
+        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhttp.send("name=" + name + "&email=" + email + "&message=" + message + "&token=" + token);
+    }
+</script>

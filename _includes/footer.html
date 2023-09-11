@@ -1,0 +1,57 @@
+{% assign prefix = "/" %}
+{% unless page.title %}
+{% assign prefix = "" %}
+{% endunless %}
+    <footer class="pb-footer bg-light" role="contentinfo">
+        <div class="container">
+            <div class="row text-center">
+                <div class="col">
+                    <ul class="list-inline">
+                        <li class="list-inline-item">
+                            <a href="https://www.facebook.com/sebsscholarship" class="p-2" target="_blank" rel="noopener">
+                                <i aria-hidden="true" class="fa fa-facebook" title="Follow on Facebook"></i>
+                                <span class="sr-only">Follow on Facebook</span>
+                            </a>
+                        </li>
+                        <li class="list-inline-item">
+                            <a href="https://www.linkedin.com/company/sebs-scholarship-foundation" class="p-2" target="_blank" rel="noopener">
+                                <i aria-hidden="true" class="fa fa-linkedin" title="Follow on LinkedIn"></i>
+                                <span class="sr-only">Follow on LinkedIn</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col text-center">
+                    <ul class="list-inline mb-0">
+                        <li class="list-inline-item">
+                            <p><a href="/privacy_policy.html">Privacy Policy</a></p>
+                        </li>
+                        <li class="list-inline-item">
+                            <p><a href="/tax_documents.html">Tax Documents</a></p>
+                        </li>
+                        <li class="list-inline-item">
+                            <p><a href="/selection_process.html">Selection Process</a></p>
+                        </li>
+                        <li class="list-inline-item">
+                            <p><a href="/assets/documents/Rubric.pdf">Rubric</a></p>
+                        </li>
+                    </ul>
+                    <p>Copyright &copy; 2019 - <span id="year">2022</span> <a class="smoothscroll no-nav-expand" href="{{ prefix | append: "#section-about" }}">SEBS Scholarship Foundation</a>. All Rights Reserved.</p>
+                    <p>Made with <i class="fa fa-heart" aria-hidden="true"></i><span class="sr-only">love</span> by <a href="https://github.com/leviem1">Levi Muniz </a> and <a href="https://github.com/KyleROlson">Kyle Olson</a>. Original design by <a href="https://uicookies.com/">uiCookies</a>.</p>
+                    <hr>
+                    <p>
+                        SEBS Scholarship Foundation does not and shall not discriminate on the basis of race, color,
+                        religion (creed), gender, gender expression, age, national origin (ancestry), disability,
+                        marital status, sexual orientation, or military status, in any of its activities or
+                        operations. These activities include, but are not limited to, hiring and firing of staff,
+                        selection of volunteers and vendors, and provision of services. We are committed to
+                        providing an inclusive and welcoming environment for all members of our staff, clients,
+                        volunteers, subcontractors, vendors, and clients.
+                    </p>
+                    <p>Tax ID: 84-3017503</p>
+                </div>
+            </div>
+        </div>
+    </footer>

@@ -1,0 +1,20 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+{% if page.title %}
+<title>{{ page.title }} - {{ site.title }}</title>
+<meta property="og:title" content="{{ page.title }}" />
+<meta name="description" content="{{ page.content | strip_html | truncatewords:50 }}">
+<meta property="og:description" content="{{ page.content | strip_html | truncatewords:50 }}">
+{% else %}
+<title>{{ site.title }}</title>
+<meta property="og:title" content="{{ site.title }}" />
+<meta name="description" content="{{ site.description }}">
+<meta property="og:description" content="{{ site.description }}">
+{% endif %}
+<meta name="keywords" content="sebs scholarship, sebs scholarships, sebs, sebs school, school of engineering and biomedical science, sebs scholarship foundation, pueblo, charity, {{ page.keywords }}">
+<meta property="og:type" content="website" />
+<meta property="og:url" content="{{ site.url | append: page.url }}" />
+<meta property="og:image" content="{{ site.url | append: "/assets/images/logo-large-min.png" }}" />
+<meta name="msapplication-TileColor" content="#b91d47">
+<meta name="msapplication-config" content="/assets/images/browserconfig.xml">
+<meta name="theme-color" content="#800000">
