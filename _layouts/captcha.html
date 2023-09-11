@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
+        <link rel="preconnect" href="https://www.google.com/" crossorigin>
         {% include_cached preconnect.html %}
         {% include_cached analytics.html id="G-DCKNB7HP7R" %}
         {% include meta.html %}
@@ -12,5 +13,6 @@
         {{ content }}
         {% include footer.html %}
         {% include_cached common_js.html %}
+        <script src="https://www.google.com/recaptcha/api.js" defer></script>
     </body>
 </html>

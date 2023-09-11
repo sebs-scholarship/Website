@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="preconnect" href="https://donorbox.org/" crossorigin>
+    <link rel="preconnect" href="https://www.google.com/" crossorigin>
+    {% include_cached preconnect.html %}
+    {% include_cached analytics.html id="G-DCKNB7HP7R" %}
+    {% include meta.html %}
+    {% include links.html %}
+</head>
+<body data-spy="scroll" data-target="#pb-navbar" data-offset="200">
+    {% include_cached loader.html %}
+    {% include navbar.html %}
+    {{ content }}
+    {% include footer.html %}
+    {% include_cached common_js.html %}
+    {% include_cached home_js.html %}
+    <script src="https://donorbox.org/widget.js" paypalExpress="false" defer></script>
+    <script src="https://www.google.com/recaptcha/api.js" defer></script>
+</body>
+</html>
