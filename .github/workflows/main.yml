@@ -141,7 +141,7 @@ jobs:
       - name: Notify on success
         # If the site was successfully built and indexed
         if: needs.lint.result == 'success' && needs.build.result == 'success' && needs.deploy.result == 'success'
-        uses: appleboy/discord-action@0.0.3
+        uses: appleboy/discord-action@v1.0.0
         with:
           webhook_id: ${{ secrets.DISCORD_WEBHOOK_ID }}
           webhook_token: ${{ secrets.DISCORD_WEBHOOK_TOKEN }}
@@ -154,7 +154,7 @@ jobs:
       - name: Notify on failure
         # If the site failed at any point
         if: needs.lint.result == 'failure' || needs.build.result == 'failure' || needs.deploy.result == 'failure'
-        uses: appleboy/discord-action@0.0.3
+        uses: appleboy/discord-action@v1.0.0
         with:
           webhook_id: ${{ secrets.DISCORD_WEBHOOK_ID }}
           webhook_token: ${{ secrets.DISCORD_WEBHOOK_TOKEN }}
