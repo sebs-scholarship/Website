@@ -97,7 +97,7 @@ jobs:
           echo "SITE_DIR=sebsscholarship.org" >> $GITHUB_ENV
 
       - name: Download artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: Built Site
           path: _site/
