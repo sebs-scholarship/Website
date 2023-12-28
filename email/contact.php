@@ -42,7 +42,7 @@ function createCustomer($baseUrl, $token, $name, $email): bool {
     curl_exec($ch);
 
     $http_code = curl_getinfo($ch, CURLINFO_RESPONSE_CODE);
-    if (!curl_errno($ch) && ($http_code === 200 || $http_code === 409)) {
+    if (!curl_errno($ch) && ($http_code === 201 || $http_code === 409)) {
         return true;
     }
 
@@ -76,7 +76,7 @@ function createRequest($baseUrl, $token, $email, $message): bool {
     ));
     curl_exec($ch);
 
-    if (!curl_errno($ch) && curl_getinfo($ch, CURLINFO_RESPONSE_CODE) == 201) {
+    if (!curl_errno($ch) && curl_getinfo($ch, CURLINFO_RESPONSE_CODE) === 201) {
         return true;
     }
 
