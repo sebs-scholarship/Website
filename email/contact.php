@@ -31,7 +31,7 @@ function createCustomer($baseUrl, $token, $name, $email): bool {
         'email' => $email,
     ));
 
-    $ch = curl_init($baseUrl . '/customer');
+    $ch = curl_init($baseUrl . '/customer?strictConflictStatusCode=true');
     curl_setopt($ch, CURLOPT_POST, 1);
     curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
     curl_setopt($ch, CURLOPT_HTTPHEADER, array(
