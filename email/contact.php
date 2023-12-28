@@ -35,7 +35,7 @@ function createCustomer($baseUrl, $token, $name, $email): bool {
     curl_setopt($ch, CURLOPT_POST, 1);
     curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
     curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-        'Authorization: Bearer ' . $token,
+        'Authorization: Basic ' . $token,
         'Content-Type: application/json',
         'Content-Length: ' . strlen($data)
     ));
@@ -70,7 +70,7 @@ function createRequest($baseUrl, $token, $email, $message): bool {
     curl_setopt($ch, CURLOPT_POST, 1);
     curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
     curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-            'Authorization: Bearer ' . $token,
+            'Authorization: Basic ' . $token,
             'Content-Type: application/json',
             'Content-Length: ' . strlen($data)
     ));
