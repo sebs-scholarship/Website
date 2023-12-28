@@ -1,4 +1,8 @@
 {
   "name": "sebs-scholarship/website",
-  "description": "Website for the SEBS Scholarship Foundation"
+  "description": "Website for the SEBS Scholarship Foundation",
+  "require": {
+    "ext-curl": "*",
+    "ext-json": "*"
+  }
 }
