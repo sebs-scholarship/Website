@@ -11,7 +11,7 @@ function verifyRecaptcha($endpoint, $config): int {
     $ch = curl_init($endpoint);
     curl_setopt($ch, CURLOPT_POST, 1);
     curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
     $response = curl_exec($ch);
     $code = 0;
 
@@ -34,6 +34,7 @@ function createCustomer($baseUrl, $token, $name, $email): bool {
     $ch = curl_init($baseUrl . '/customer?strictConflictStatusCode=true');
     curl_setopt($ch, CURLOPT_POST, 1);
     curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
     curl_setopt($ch, CURLOPT_HTTPHEADER, array(
         'Authorization: Basic ' . $token,
         'Content-Type: application/json',
@@ -69,6 +70,7 @@ function createRequest($baseUrl, $token, $email, $message): bool {
     $ch = curl_init($baseUrl . '/request');
     curl_setopt($ch, CURLOPT_POST, 1);
     curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
     curl_setopt($ch, CURLOPT_HTTPHEADER, array(
             'Authorization: Basic ' . $token,
             'Content-Type: application/json',
