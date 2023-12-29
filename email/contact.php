@@ -1,11 +1,14 @@
 <?php
 function validate(): bool {
     return isset($_POST["name"]) && strlen($_POST["name"]) > 0 && isset($_POST["email"])
-        && strlen($_POST["email"]) > 0 && isset($_POST["message"]) && strlen($_POST["message"]) > 0
-        && isset($_POST["token"]) && strlen($_POST["token"]) > 0;
+        && strlen($_POST["email"]) > 0 && isset($_POST["message"]) && strlen($_POST["message"]) > 0;
 }
 
 function verifyRecaptcha($endpoint, $config): int {
+    if (!isset($_POST["token"]) || strlen($_POST["token"]) === 0) {
+        return 2;
+    }
+
     $data = "secret=" . $config["rc-key"] . "&response=" . $_POST["token"];
 
     $ch = curl_init($endpoint);
@@ -93,13 +96,15 @@ if (!validate()) {                                              // Check if requ
     exit('We\'re missing some required information! Please fill out all fields and email <a href="mailto:help@sebsscholarship.org">help@sebsscholarship.org</a> directly if the issue persists.');
 }
 
-$recaptcha = verifyRecaptcha($recaptchaEndpoint, $config);      // Check if reCAPTCHA verification passed
-if ($recaptcha === 1) {
-    http_response_code(500);
-    exit('There was an error verifying your request.');
-} elseif ($recaptcha === 2) {
-    http_response_code(401);
-    exit('reCAPTCHA verification failed. Are you a robot?');
+if ($config['verifyRecaptcha'] === true) {
+    $recaptcha = verifyRecaptcha($recaptchaEndpoint, $config);      // Check if reCAPTCHA verification passed
+    if ($recaptcha === 1) {
+        http_response_code(500);
+        exit('There was an error verifying your request.');
+    } elseif ($recaptcha === 2) {
+        http_response_code(401);
+        exit('reCAPTCHA verification failed. Are you a robot?');
+    }
 }
 
 $baseUrl = 'https://sebsscholarship.atlassian.net/rest/servicedeskapi';
