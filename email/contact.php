@@ -27,7 +27,6 @@ function verifyRecaptcha($endpoint, $config): int {
 function createCustomer($baseUrl, $token, $name, $email): bool {
     $data = json_encode(array(
         'displayName' => $name,
-        'fullName' => $name,
         'email' => $email,
     ));
 
