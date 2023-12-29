@@ -54,8 +54,8 @@ function createCustomer($baseUrl, $token, $name, $email): bool {
 
 function createRequest($baseUrl, $token, $email, $message): bool {
     $summary = $message;
-    if (strlen($summary) > 50) {
-        $summary = substr($summary, 0, 47) . "...";
+    if (strlen($summary) > 75) {
+        $summary = substr($summary, 0, 72) . "...";
     }
 
     $data = json_encode(array(
