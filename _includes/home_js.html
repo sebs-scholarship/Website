@@ -200,40 +200,4 @@
         console.log("Are you a SEBS graduate interested in helping work on our website? Please visit the link below to fill out our interest form!");
         console.log("https://forms.gle/r7PGCqciGPRyn2PA6");
     });
-
-
-    function contactSubmit() {
-        grecaptcha.execute();
-    }
-
-    function contact(token) {
-        const name = document.getElementById("name").value;
-        const email = document.getElementById("email").value;
-        const message = document.getElementById("message").value;
-        document.getElementById("status").innerHTML = "";
-        const send = document.getElementById("send");
-        send.value = "Sending...";
-        send.disabled = true;
-
-        const xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function () {
-            if (this.readyState === 4) {
-                if (this.status === 200) {
-                    document.getElementById("name").value = "";
-                    document.getElementById("email").value = "";
-                    document.getElementById("message").value = "";
-                    document.getElementById("status").innerHTML = "Message has been sent!";
-                } else {
-                    document.getElementById("status").innerHTML = "There was an error sending your message. Please try again and email <a href=\"mailto:help@sebsscholarship.org\">help@sebsscholarship.org</a> directly if the issue persists.";
-                }
-
-                const send = document.getElementById("send");
-                send.value = "Send Message";
-                send.disabled = false;
-            }
-        };
-        xhttp.open("POST", "/email/contact.php", true);
-        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        xhttp.send("name=" + name + "&email=" + email + "&message=" + message + "&token=" + token);
-    }
 </script>
