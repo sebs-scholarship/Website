@@ -8,6 +8,8 @@ description: >-
 
 url: "https://sebsscholarship.org"
 
+repo: sebs-scholarship/Website
+
 baseurl: ""
 
 plugins:
@@ -33,7 +35,7 @@ defaults:
     values:
       sitemap: false
 
-remote_theme: sebs-scholarship/Theme@2023-04-05-1
+remote_theme: sebs-scholarship/Theme@2024-01-04-1
 
 exclude:
   - .github

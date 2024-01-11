@@ -10,7 +10,7 @@
         {% include_cached loader.html %}
         {% include navbar.html %}
         {{ content }}
-        {% include footer.html %}
+        {% include_cached footer.html prefix="/" %}
         {% include_cached common_js.html %}
     </body>
 </html>
