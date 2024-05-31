@@ -35,7 +35,9 @@ defaults:
     values:
       sitemap: false
 
-remote_theme: sebs-scholarship/Theme@2024-05-17-1
+remote_theme: sebs-scholarship/Theme@2024-05-31-1
+
+analytics_id: G-DCKNB7HP7R
 
 exclude:
   - .github
