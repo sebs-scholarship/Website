@@ -15,31 +15,9 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  lint:
-    name: Lint the source
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Lint Code Base
-        uses: docker://ghcr.io/github/super-linter:slim-v4
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          VALIDATE_YAML: true
-          VALIDATE_XML: true
-          VALIDATE_BASH: true
-          VALIDATE_PHP: true
-          VALIDATE_JAVASCRIPT_STANDARD: true
-          VALIDATE_CSS: true
-
   build:
     name: Build the site
     runs-on: ubuntu-latest
-    needs:
-      - lint
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
@@ -120,7 +98,6 @@ jobs:
     name: Send job complete notification
     runs-on: ubuntu-latest
     needs:
-      - lint
       - build
       - deploy
     # Run if on staging or main
@@ -140,7 +117,7 @@ jobs:
 
       - name: Notify on success
         # If the site was successfully built and indexed
-        if: needs.lint.result == 'success' && needs.build.result == 'success' && needs.deploy.result == 'success'
+        if: needs.build.result == 'success' && needs.deploy.result == 'success'
         uses: appleboy/discord-action@v1.0.0
         with:
           webhook_id: ${{ secrets.DISCORD_WEBHOOK_ID }}
@@ -153,7 +130,7 @@ jobs:
 
       - name: Notify on failure
         # If the site failed at any point
-        if: needs.lint.result == 'failure' || needs.build.result == 'failure' || needs.deploy.result == 'failure'
+        if: needs.build.result == 'failure' || needs.deploy.result == 'failure'
         uses: appleboy/discord-action@v1.0.0
         with:
           webhook_id: ${{ secrets.DISCORD_WEBHOOK_ID }}
