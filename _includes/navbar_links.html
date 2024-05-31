@@ -1,0 +1,11 @@
+{% assign prefix = "/" %}
+{% unless page.title %}
+{% assign prefix = "" %}
+{% endunless %}
+<li class="nav-item"><a class="nav-link" href="{{ prefix | append: "#section-about" }}">About</a></li>
+<li class="nav-item"><a class="nav-link" href="{{ prefix | append: "#section-details" }}">Scholarship</a></li>
+<li class="nav-item"><a class="nav-link" href="{{ prefix | append: "#section-resumes" }}">Resume Workshop</a></li>
+<li class="nav-item"><a class="nav-link" href="{{ prefix | append: "#section-donate" }}">Donate</a></li>
+<li class="nav-item"><a class="nav-link" href="{{ prefix | append: "#section-volunteering" }}">Volunteering</a></li>
+<li class="nav-item"><a class="nav-link" href="{{ prefix | append: "#section-contact" }}">Contact</a></li>
+<li class="nav-item"><a class="nav-link" href="https://blog.sebsscholarship.org/">Blog</a></li>

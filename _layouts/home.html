@@ -1,19 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
+        {% include_cached analytics.html %}
+        {% include_cached theme_preconnect.html %}
         <link rel="preconnect" href="https://donorbox.org/" crossorigin>
         <link rel="preconnect" href="https://www.google.com/" crossorigin>
-        {% include_cached preconnect.html %}
-        {% include_cached analytics.html id="G-DCKNB7HP7R" %}
-        {% include meta.html %}
-        {% include links.html %}
+        {% include theme_meta.html %}
+        {% include_cached meta.html %}
+        {% include_cached theme_links.html %}
+        {% include_cached theme_styles.html %}
     </head>
     <body data-spy="scroll" data-target="#pb-navbar" data-offset="200">
         {% include_cached loader.html %}
-        {% include navbar.html %}
+        {% include navbar.html dark="true" %}
         {{ content }}
-        {% include footer.html prefix="" %}
-        {% include_cached common_js.html %}
+        {% include_cached footer.html prefix="" %} %}
+        {% include_cached theme_js.html %}
         {% include_cached home_js.html %}
         <script defer src="https://donorbox.org/widget.js" paypalExpress="false"></script>
         <script defer data-jsd-embedded data-key="cded3bfa-9345-4aa7-968f-1ce6ae6389da" data-base-url="https://jsd-widget.atlassian.com" src="https://jsd-widget.atlassian.com/assets/embed.js"></script>
