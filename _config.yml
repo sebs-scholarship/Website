@@ -35,7 +35,7 @@ defaults:
     values:
       sitemap: false
 
-remote_theme: sebs-scholarship/Theme@2024-05-31-2
+remote_theme: sebs-scholarship/Theme@c3b524
 
 analytics_id: G-DCKNB7HP7R
 
