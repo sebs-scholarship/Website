@@ -43,7 +43,7 @@ jobs:
           "bundle install && chmod 777 /srv/jekyll && bundle exec jekyll build --future ${{ env.XARGS }}"
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: Built Site
           path: ${{ github.workspace }}/_site/
