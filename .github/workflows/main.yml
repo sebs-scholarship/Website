@@ -1,4 +1,4 @@
-name: Lint, Build, Deploy, and Index site
+name: Lint, Build, and Deploy Site
 
 on:
   push:
@@ -20,7 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
@@ -38,12 +38,10 @@ jobs:
           composer:2 install -n
 
       - name: Build site
-        run: |
-          docker run -v ${{ github.workspace }}:/srv/jekyll jekyll/builder:4.2.2 /bin/bash -c \
-          "bundle install && chmod 777 /srv/jekyll && bundle exec jekyll build --future ${{ env.XARGS }}"
+        run: docker compose run build
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: Built Site
           path: ${{ github.workspace }}/_site/
@@ -75,7 +73,7 @@ jobs:
           echo "SITE_DIR=sebsscholarship.org" >> $GITHUB_ENV
 
       - name: Download artifact
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v7
         with:
           name: Built Site
           path: _site/
