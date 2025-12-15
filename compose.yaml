@@ -1,0 +1,61 @@
+name: sebs-website
+
+services:
+  serve:
+    command:
+      - /bin/bash
+      - -c
+      - |
+        set -e
+        chmod 777 /srv/jekyll
+        chmod 777 /srv/jekyll/assets/images
+        jekyll serve --future --drafts "$JEKYLL_XARGS"
+    environment:
+      JEKYLL_UID: 1001
+      JEKYLL_GID: 1001
+      JEKYLL_XARGS: ${XARGS:-}
+    image: jekyll/builder:4.2.2
+    ports:
+      - "4000:4000"
+    volumes:
+      - type: volume
+        source: gem-cache
+        target: /usr/gem
+      - type: volume
+        source: bundle-cache
+        target: /usr/local/bundle
+      - type: bind
+        source: ./
+        target: /srv/jekyll
+  build:
+    command:
+      - /bin/bash
+      - -c
+      - |
+        set -e
+        bundle install
+        chmod 777 /srv/jekyll
+        chmod 777 /srv/jekyll/assets/images
+        bundle exec jekyll build --future "$JEKYLL_XARGS"
+    environment:
+      JEKYLL_UID: 1001
+      JEKYLL_GID: 1001
+      JEKYLL_XARGS: ${XARGS:-}
+    image: jekyll/builder:4.2.2
+    ports:
+      - "4000:4000"
+    volumes:
+      - type: volume
+        source: gem-cache
+        target: /usr/gem
+      - type: volume
+        source: bundle-cache
+        target: /usr/local/bundle
+      - type: bind
+        source: ./
+        target: /srv/jekyll
+
+volumes:
+  build-cache:
+  bundle-cache:
+  gem-cache:
