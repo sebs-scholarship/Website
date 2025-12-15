@@ -1,4 +1,4 @@
-name: Lint, Build, Deploy, and Index site
+name: Lint, Build, and Deploy Site
 
 on:
   push:
@@ -38,9 +38,7 @@ jobs:
           composer:2 install -n
 
       - name: Build site
-        run: |
-          docker run -v ${{ github.workspace }}:/srv/jekyll jekyll/builder:4.2.2 /bin/bash -c \
-          "bundle install && chmod 777 /srv/jekyll && bundle exec jekyll build --future ${{ env.XARGS }}"
+        run: docker compose run build
 
       - name: Upload artifact
         uses: actions/upload-artifact@v6
