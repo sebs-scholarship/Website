@@ -79,7 +79,7 @@ jobs:
           path: _site/
 
       - name: Install SSH key
-        uses: webfactory/ssh-agent@v0.9.1
+        uses: webfactory/ssh-agent@v0.10.0
         with:
           ssh-private-key: ${{ env.SITE_KEY }}
 
