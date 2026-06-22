@@ -32,13 +32,10 @@ jobs:
           sed -i 's_sebsscholarship.org_test.sebsscholarship.org_g' ${{ github.workspace }}/_config.yml
 
       - name: Install Composer dependencies
-        run: |
-          docker run --rm \
-          -v ${{ github.workspace }}:/app \
-          composer:2 install -n
+        run: docker compose run --rm composer
 
       - name: Build site
-        run: docker compose run build
+        run: docker compose run --rm --build build
 
       - name: Upload artifact
         uses: actions/upload-artifact@v7

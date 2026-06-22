@@ -42,6 +42,8 @@ analytics_id: G-DCKNB7HP7R
 exclude:
   - .github
   - composer.*
+  - compose.yaml
+  - docker
   - README.md
   - Gemfile
   - Gemfile.lock
