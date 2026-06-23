@@ -4,6 +4,8 @@ gem "jekyll", ">= 4.3.1"
 gem "jekyll-sass-converter", "~> 3.1"
 gem "kramdown-parser-gfm", ">= 1.1.0"
 gem "webrick", ">= 1.7.0"
+# Ruby 4.0 dropped logger from the default gems; Jekyll requires it directly.
+gem "logger", ">= 1.7.0"
 
 # If you have any plugins, put them here!
 group :jekyll_plugins do
