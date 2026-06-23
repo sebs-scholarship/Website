@@ -7,7 +7,7 @@
 # cache volume. Jekyll is deliberately NOT installed here so that Dependabot's
 # daily Bundler updates take effect without rebuilding this image.
 
-FROM ruby:3.4-alpine
+FROM ruby:4.0-alpine
 
 # Build toolchain, native gem build deps, and runtime helpers. build-base,
 # cmake, linux-headers, openssl-dev, zlib-dev, yaml-dev and libffi-dev compile
