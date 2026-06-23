@@ -2,25 +2,22 @@ name: sebs-website
 
 services:
   serve:
+    build:
+      context: ./docker/jekyll
     command:
       - /bin/bash
       - -c
       - |
         set -e
-        chmod 777 /srv/jekyll
-        chmod 777 /srv/jekyll/assets/images
-        jekyll serve --future --drafts "$JEKYLL_XARGS"
+        bundle install
+        bundle exec jekyll serve --host 0.0.0.0 --future --drafts $${JEKYLL_XARGS}
     environment:
       JEKYLL_UID: 1001
       JEKYLL_GID: 1001
       JEKYLL_XARGS: ${XARGS:-}
-    image: jekyll/builder:4.2.2
     ports:
       - "4000:4000"
     volumes:
-      - type: volume
-        source: gem-cache
-        target: /usr/gem
       - type: volume
         source: bundle-cache
         target: /usr/local/bundle
@@ -28,34 +25,36 @@ services:
         source: ./
         target: /srv/jekyll
   build:
+    build:
+      context: ./docker/jekyll
     command:
       - /bin/bash
       - -c
       - |
         set -e
         bundle install
-        chmod 777 /srv/jekyll
-        chmod 777 /srv/jekyll/assets/images
-        bundle exec jekyll build --future "$JEKYLL_XARGS"
+        bundle exec jekyll build --future $${JEKYLL_XARGS}
     environment:
       JEKYLL_UID: 1001
       JEKYLL_GID: 1001
       JEKYLL_XARGS: ${XARGS:-}
-    image: jekyll/builder:4.2.2
-    ports:
-      - "4000:4000"
     volumes:
-      - type: volume
-        source: gem-cache
-        target: /usr/gem
       - type: volume
         source: bundle-cache
         target: /usr/local/bundle
       - type: bind
         source: ./
         target: /srv/jekyll
+  composer:
+    image: composer:2
+    working_dir: /app
+    command:
+      - install
+      - -n
+    volumes:
+      - type: bind
+        source: ./
+        target: /app
 
 volumes:
-  build-cache:
   bundle-cache:
-  gem-cache:
