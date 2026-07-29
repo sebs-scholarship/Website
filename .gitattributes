@@ -1,0 +1,10 @@
+# Let git normalize line endings by default.
+* text=auto
+
+# Shell scripts must always be LF — they run inside Linux containers and are
+# COPYed into the Jekyll image. CRLF here breaks the shebang (e.g. the Docker
+# entrypoint fails with "no such file or directory").
+*.sh text eol=lf
+
+# Windows batch files should stay CRLF.
+*.bat text eol=crlf

@@ -20,7 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
@@ -32,16 +32,13 @@ jobs:
           sed -i 's_sebsscholarship.org_test.sebsscholarship.org_g' ${{ github.workspace }}/_config.yml
 
       - name: Install Composer dependencies
-        run: |
-          docker run --rm \
-          -v ${{ github.workspace }}:/app \
-          composer:2 install -n
+        run: docker compose run --rm composer
 
       - name: Build site
-        run: docker compose run build
+        run: docker compose run --rm --build build
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: Built Site
           path: ${{ github.workspace }}/_site/
@@ -73,13 +70,13 @@ jobs:
           echo "SITE_DIR=sebsscholarship.org" >> $GITHUB_ENV
 
       - name: Download artifact
-        uses: actions/download-artifact@v7
+        uses: actions/download-artifact@v8
         with:
           name: Built Site
           path: _site/
 
       - name: Install SSH key
-        uses: webfactory/ssh-agent@v0.9.1
+        uses: webfactory/ssh-agent@v0.10.0
         with:
           ssh-private-key: ${{ env.SITE_KEY }}
 
