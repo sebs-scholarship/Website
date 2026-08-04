@@ -41,7 +41,7 @@ GEM
       webrick (~> 1.7)
     jekyll-include-cache (0.2.2)
       jekyll (>= 3.7, < 5.0)
-    jekyll-relative-links (0.7.0)
+    jekyll-relative-links (0.8.0)
       jekyll (>= 3.3, < 5.0)
     jekyll-remote-theme (0.5.1)
       addressable (~> 2.0)
